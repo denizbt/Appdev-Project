@@ -1,0 +1,6 @@
+version: '3'
+services:
+  hack-challenge:
+    image: denizbt/hack-challenge
+    ports:
+      - 8000:8000
