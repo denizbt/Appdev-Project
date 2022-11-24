@@ -1,6 +1,6 @@
 import json
 
-from db import db, Location, User, Comment
+from db import db, Location, User, Comment, Position
 import users_dao
 from flask import Flask, request
 import datetime
@@ -38,13 +38,47 @@ def extract_token(request):
 
     return True, bearer_token
 
+@app.route("/api/positions/<int:location_id>/")
+def get_active_users(location_id):
+    """
+    Endpoint for getting the number of active users in a given location.
+    ** need to get lat/longitude info for each location **
+    """
+    #positions = Position.query.filter_by()
+    
+
+
+@app.route("/api/positions/<int:user_id>/", methods=["POST"])
+def add_position(user_id):
+    """
+    Endpoint for adding positional data for a certain user
+    """
+    body = json.loads(request.data)
+    latitude = body.get("latitude")
+    longitude = body.get("longitude")
+
+    # checking if required fields were provided
+    if (user_id is None or latitude is None or longitude is None):
+        return failure_response({"error": "User did not provide all required fields!"}, 400)
+
+    user = User.query.filter_by(id=user_id).first()
+    # check if user exists
+    if (user is None):
+        return failure_response({"error": "This user does not exist."})
+
+    new_position = Position(user_id=user_id, latitude=latitude, longitude=longitude)
+    db.session.add(new_position)
+    db.session.commit()
+
+    return success_response(new_position.serialize(), 200)
+
 @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
 def update_busyness(location_id):
     """
     Endpoint for updating the busyness of given location
 
     **currently does not take location services into account**
-    **does not take expiration of busyness into account either**
+    **does not take expiration of busyness into account either [every two hours]**
     **we could require a valid log in to call this method? like secret message endpoint?**
     """
     # checking if location exists
@@ -65,13 +99,25 @@ def get_all_comments():
     """
     Endpoint for getting all comments (regardless of location and User)
     """
-    comments = [comment.serialize()for comment in Comment.query.all()]
+    comments = [comment.serialize() for comment in Comment.query.all()]
     return success_response({"comments": comments})
    
+@app.route("/api/comments/<int:location_id>/") 
+def get_comments_by_location(location_id):
+    """
+    Endpoint for getting all (unexpired) comments associated with a given location
+    """
+    comments = [comment.simple_serialize() for comment in Comment.query.all() if comment.simple_serialize() is not None]
+    return success_response({"comments": comments})
+
 @app.route("/api/comments/<int:location_id>/", methods=["POST"])
 def add_comment(location_id):
     """
     Endpoint for adding a comment for given location by given user
+
+    ** maybe add that User must be authenticated in order to add a comment [protected endpoint?] **
+    ** need to implement a check for making sure the User is at the correct
+    location before adding a commment **
     """
     # checking if location exists
     location = Location.query.filter_by(id=location_id).first()
@@ -173,6 +219,12 @@ def logout():
 
     return success_response({"message": "User has successfully logged out."})
 
+@app.route("/api/users/", methods=["DELETE"])
+def delete_user():
+    """
+    Protected endpoint which allows a user to delete their account
+    """
+    pass
 
 @app.route("/api/session/", methods=["POST"])
 def update_session():
@@ -219,12 +271,13 @@ def create_location():
     """
     body = json.loads(request.data)
     name = body.get("name")
+    address = body.get("address")
 
     # checking if required fields were provided
     if (name is None):
         return failure_response({"error": "User did not provide all required fields."}, 400)
 
-    new_location = Location(name=name)
+    new_location = Location(name=name, address=address)
     db.session.add(new_location)
     db.session.commit()
     return success_response(new_location.serialize(), 201)
