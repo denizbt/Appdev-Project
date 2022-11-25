@@ -21,8 +21,10 @@ with app.app_context():
 def success_response(data, code=200):
     return json.dumps(data), code
 
+
 def failure_response(data, code=404):
     return json.dumps(data), code
+
 
 def extract_token(request):
     """
@@ -38,6 +40,7 @@ def extract_token(request):
 
     return True, bearer_token
 
+
 @app.route("/api/positions/<int:location_id>/")
 def get_active_users(location_id):
     """
@@ -45,7 +48,6 @@ def get_active_users(location_id):
     ** need to get lat/longitude info for each location **
     """
     #positions = Position.query.filter_by()
-    
 
 
 @app.route("/api/positions/<int:user_id>/", methods=["POST"])
@@ -66,11 +68,13 @@ def add_position(user_id):
     if (user is None):
         return failure_response({"error": "This user does not exist."})
 
-    new_position = Position(user_id=user_id, latitude=latitude, longitude=longitude)
+    new_position = Position(
+        user_id=user_id, latitude=latitude, longitude=longitude)
     db.session.add(new_position)
     db.session.commit()
 
     return success_response(new_position.serialize(), 200)
+
 
 @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
 def update_busyness(location_id):
@@ -101,14 +105,17 @@ def get_all_comments():
     """
     comments = [comment.serialize() for comment in Comment.query.all()]
     return success_response({"comments": comments})
-   
-@app.route("/api/comments/<int:location_id>/") 
+
+
+@app.route("/api/comments/<int:location_id>/")
 def get_comments_by_location(location_id):
     """
     Endpoint for getting all (unexpired) comments associated with a given location
     """
-    comments = [comment.simple_serialize() for comment in Comment.query.all() if comment.simple_serialize() is not None]
+    comments = [comment.simple_serialize() for comment in Comment.query.all()
+                if comment.simple_serialize() is not None]
     return success_response({"comments": comments})
+
 
 @app.route("/api/comments/<int:location_id>/", methods=["POST"])
 def add_comment(location_id):
@@ -143,12 +150,28 @@ def add_comment(location_id):
 
     return success_response(new_comment.simple_serialize(), 200)
 
+
 @app.route("/api/users/", methods=["DELETE"])
 def delete_comment():
     """
     Protected endpoint which allows a user to delete a comment that they wrote
     """
-    pass
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
+    user_id = user.id
+    comment = Comment.query.filter_by(user_id=user_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+
+    return success_response(comment.simple_serialize(), 200)
+
 
 @app.route("/api/users/", methods=["POST"])
 def register_user():
@@ -164,8 +187,8 @@ def register_user():
     if (name is None or email is None or password is None):
         return failure_response({"error": "You did not provide all required fields!"}, 400)
 
-    success, user = users_dao.create_user(name,email,password)
-    
+    success, user = users_dao.create_user(name, email, password)
+
     if not success:
         return failure_response({"error": "User with this info already exists."}, 400)
 
@@ -174,6 +197,7 @@ def register_user():
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
+
 
 @app.route("/api/users/login/", methods=["POST"])
 def login():
@@ -186,17 +210,18 @@ def login():
 
     if email is None or password is None:
         return failure_response({"error": "User did not provide all required fields."}, 400)
-    
+
     success, user = users_dao.verify_credentials(email, password)
 
     if not success:
         return failure_response({"error": "Password or email is incorrect."}, 401)
-    
+
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
+
 
 @app.route("/api/users/logout/", methods=["POST"])
 def logout():
@@ -206,12 +231,12 @@ def logout():
     success, session_token = extract_token(request)
 
     if not success:
-        return failure_response({"error": "Update token could not be extracted."}, 400)
+        return failure_response({"error": "Session token could not be extracted."}, 400)
 
     user = users_dao.get_user_by_session_token(session_token)
     if user is None or not user.verify_session_token(session_token):
         return failure_response({"erorr": "Invalid session token."}, 400)
-    
+
     user.session_token = ""
     user.session_expiration = datetime.datetime.now()
     user.update_token = ""
@@ -219,12 +244,25 @@ def logout():
 
     return success_response({"message": "User has successfully logged out."})
 
+
 @app.route("/api/users/", methods=["DELETE"])
 def delete_user():
     """
     Protected endpoint which allows a user to delete their account
     """
-    pass
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
+    db.session.delete(user)
+    db.session.commit()
+    return success_response(user.simple_serialize())
+
 
 @app.route("/api/session/", methods=["POST"])
 def update_session():
@@ -240,12 +278,13 @@ def update_session():
 
     if not success_user:
         return failure_response({"error": "Invalid update token."}, 400)
-    
+
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
+
 
 @app.route("/api/users/<int:id>/")
 def get_user_by_id(id):
@@ -253,17 +292,20 @@ def get_user_by_id(id):
     Endpoint for getting the user with given id
     """
     user = User.query.filter_by(id=id).first()
-    
+
     # check if user exists
     if (user is None):
         return failure_response({"error": "This user does not exist."})
 
     return success_response(user.serialize())
 
+
 """
 need to keep the database prepopulated with locations during deployment
 this endpoint shouldn't be publically accessible
 """
+
+
 @app.route("/api/locations/", methods=["POST"])
 def create_location():
     """
