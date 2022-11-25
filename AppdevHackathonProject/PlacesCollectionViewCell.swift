@@ -12,29 +12,33 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     var placesName = UILabel()
     var placesCategory = UILabel()
     var placesCrowd = UILabel()
+    
+    //design
+    let cellBGcolor = UIColor(red: 204.0/255, green: 227.0/255, blue: 222.0/255, alpha: 1.0)
+    let textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
  
     override init(frame: CGRect) {
         super.init(frame: frame)
  
         contentView.layer.cornerRadius = 8
         contentView.clipsToBounds = true
-        contentView.backgroundColor = UIColor(red: 182.0/255, green: 166.0/255, blue: 202.0/255, alpha: 1.0)
+        contentView.backgroundColor = cellBGcolor
  
         placesImageView.contentMode = .scaleAspectFit
         placesImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesImageView)
         
         placesName.font = UIFont.boldSystemFont(ofSize: 18)
-        placesName.textColor = .white
+        placesName.textColor = textColor
         placesName.textAlignment = .center
         placesName.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesName)
         
-        placesCategory.textColor = .white
+        placesCategory.textColor = textColor
         placesCategory.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesCategory)
         
-        placesCrowd.textColor = .white
+        placesCrowd.textColor = textColor
         placesCrowd.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesCrowd)
  

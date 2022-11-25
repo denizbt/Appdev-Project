@@ -15,10 +15,10 @@ class ViewController: UIViewController {
     let cafes = Filter(filterName: "Cafés", selected: false)
     let serviceCenters = Filter(filterName: "Service Centers", selected: false)
     
-    let burgerking = Places(imageName: "library", name: "Burger King", category: "Library", crowded: 0.0, hours: "10-9")
-    let chipotle = Places(imageName: "dining", name: "Burger King", category: "Dining Hall", crowded: 0.0, hours: "10-9")
-    let mcdonalds = Places(imageName: "cafe", name: "Burger King", category: "Café", crowded: 0.0, hours: "10-9")
-    let pizza = Places(imageName: "service", name: "Burger King", category: "Service Center", crowded: 0.0, hours: "10-9")
+    let morrison = Places(imageName: "morrison", name: "Morrison Dining", category: "Dining Hall", crowded: 0.0, hours: "10-9")
+    let uris = Places(imageName: "uris", name: "Uris Library", category: "Library", crowded: 0.0, hours: "10-9")
+    let jenni = Places(imageName: "jennie", name: "Café Jennie", category: "Café", crowded: 0.0, hours: "10-9")
+    let rpcc = Places(imageName: "rpcc", name: "RPCC", category: "Service Center", crowded: 0.0, hours: "10-9")
     
     
     var placesCollectionView: UICollectionView!
@@ -38,10 +38,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Restaurants"
+        title = "CU After School"
         view.backgroundColor = .white
         
-        places = [burgerking, chipotle, mcdonalds, pizza, burgerking, chipotle, mcdonalds, pizza, burgerking, chipotle, mcdonalds, pizza]
+        places = [morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc]
             
         allPlaces = places
         
