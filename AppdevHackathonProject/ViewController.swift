@@ -78,6 +78,7 @@ class ViewController: UIViewController {
         placesCollectionView.delegate = self
         view.addSubview(placesCollectionView)
 
+        
         setUpConstraints()
     }
   
