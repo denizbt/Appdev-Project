@@ -81,7 +81,7 @@ class DetailViewController: UIViewController {
         crowdTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(crowdTextView)
         
-        hoursTextView.text = places.hours
+       // hoursTextView.text = places.hours
         hoursTextView.font = .systemFont(ofSize: textFont)
         hoursTextView.backgroundColor = textBGcolor
         hoursTextView.textColor = textColor

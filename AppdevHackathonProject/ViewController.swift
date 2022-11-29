@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     let diningHalls = Filter(filterName: "Dining Halls", selected: false)
     let libraries = Filter(filterName: "Libraries", selected: false)
     let cafes = Filter(filterName: "Cafés", selected: false)
+    let foodCourts = Filter(filterName: "Food Courts", selected: false)
     let serviceCenters = Filter(filterName: "Service Centers", selected: false)
     
     //Dining Halls
@@ -39,7 +40,7 @@ class ViewController: UIViewController {
     // Libraries
     let adelson = Places(imageName: "adelson", name: "Adelson Library", category: "Library", crowded: 0.0, mon: "10:00am - 5:00pm", tue: "10:00am - 5:00pm", wed: "10:00am - 5:00pm", thu: "10:00am - 5:00pm", fri: "10:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 5:00pm")
     
-    let ilr = Places(imageName: "ilr", name: "Industrial and Labor Relations Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let ilr = Places(imageName: "ilr", name: "ILR Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
     
     let physicalSciences = Places(imageName: "physicalSciences", name: "Clark Physical Sciences Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
     
@@ -67,6 +68,38 @@ class ViewController: UIViewController {
 
     let uris = Places(imageName: "uris", name: "Uris Library", category: "Library", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm")
 
+    
+    //Cafes
+    
+    let libe = Places(imageName: "libe", name: "Libe Café", category: "Café", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 10:00pm")
+
+    let atrium = Places(imageName: "atrium", name: "Atrium Café", category: "Café", crowded: 0.0, mon: "Closed", tue: "Closed", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed")
+    
+    let barn = Places(imageName: "barn", name: "Big Red Barn", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed")
+    
+    let jennie = Places(imageName: "jennie", name: "Café Jennie", category: "Café", crowded: 0.0, mon: "8:30am - 6:00pm", tue: "8:30am - 6:00pm", wed: "8:30am - 6:00pm", thu: "8:30am - 6:00pm", fri: "8:30am - 6:00pm", sat: "10:00am - 5:00pm", sun: "Closed")
+    
+    let crossings = Places(imageName: "crossings", name: "Crossings Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 6:00pm", sat: "8:00am - 6:00pm", sun: "8:00am - 6:00pm")
+    
+    let goldies = Places(imageName: "goldies", name: "Goldie's Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+
+    let greenDragon = Places(imageName: "greenDragon", name: "Green Dragon", category: "Café", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm")
+
+    let mannCafe = Places(imageName: "mannCafe", name: "Mann Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    
+    let martha = Places(imageName: "martha", name: "Martha's Café", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 3:00pm", sat: "Closed", sun: "Closed")
+
+    let mattin = Places(imageName: "mattin", name: "Mattin's Café", category: "Café", crowded: 0.0, mon: "7:00am - 10:00pm", tue: "7:00am - 10:00pm", wed: "7:00am - 10:00pm", thu: "7:00am - 10:00pm", fri: "7:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    
+    let novicks = Places(imageName: "novicks", name: "Novick's Café", category: "Café", crowded: 0.0, mon: "7:30am - 9:00pm", tue: "7:30am - 9:00pm", wed: "7:30am - 9:00pm", thu: "7:30am - 9:00pm", fri: "7:30am - 9:00pm", sat: "7:30am - 9:00pm", sun: "7:30am - 9:00pm")
+
+    let rusty = Places(imageName: "rusty", name: "Rusty's", category: "Café", crowded: 0.0, mon: "8:00am - 4:00pm", tue: "8:00am - 4:00pm", wed: "8:00am - 4:00pm", thu: "8:00am - 4:00pm", fri: "8:00am - 4:00pm", sat: "Closed", sun: "Closed")
+
+    
+    
+    //Food Court
+    
+    let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed")
 
     
     var placesCollectionView: UICollectionView!
@@ -89,11 +122,11 @@ class ViewController: UIViewController {
         title = "CU After School"
         view.backgroundColor = .white
         
-        places = [morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc, morrison, uris, jenni, rpcc]
+        places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris]
             
         allPlaces = places
         
-        filters = [diningHalls, libraries, cafes, serviceCenters]
+        filters = [diningHalls, libraries, cafes, foodCourts, serviceCenters]
         
         allFilters = filters
         
@@ -166,11 +199,16 @@ class ViewController: UIViewController {
         }
         if(filters[3].selected == true){
             places = places + allPlaces.filter({ places in
+                places.category == "Food Courts"
+            })
+        }
+        if(filters[4].selected == true){
+            places = places + allPlaces.filter({ places in
                 places.category == "Service Center"
             })
         }
         
-        if (filters[0].selected == filters[1].selected && filters[1].selected == filters[2].selected && filters[2].selected == filters[3].selected) {
+        if (filters[0].selected == filters[1].selected && filters[1].selected == filters[2].selected && filters[2].selected == filters[3].selected && filters[3].selected == filters[4].selected) {
             places = allPlaces
         }
         placesCollectionView.reloadData()
