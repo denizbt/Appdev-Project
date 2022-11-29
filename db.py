@@ -1,7 +1,7 @@
 import datetime
 import hashlib
 import os
-#import bcrypt
+import bcrypt
 
 from flask_sqlalchemy import SQLAlchemy
 from geopy.geocoders import Nominatim
@@ -107,8 +107,6 @@ class Location(db.Model):
     Location model (i.e. Morrison Dining, Uris Library)
 
     Has a one-to-many relationship with Comments
-
-    ** could implement session expiration for busyness counter for each location **
     """
     __tablename__ = "locations"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -117,6 +115,7 @@ class Location(db.Model):
     address = db.Column(db.String, nullable=False)
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
+    #busyness = db.Column(db.Integer, nullable=False) # might not need
 
     def __init__(self, **kwargs):
         """
@@ -149,9 +148,7 @@ class Location(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "address": self.address,
-            "latitude": self.latitude,
-            "longitude": self.longitude
+            "address": self.address
         }
 
 class Comment(db.Model):
@@ -163,9 +160,9 @@ class Comment(db.Model):
     """
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    type = db.Colulm(db.String, nullable=False)
-    text = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
+    text = db.Column(db.String)
+    number = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     location_id = db.Column(db.Integer, db.ForeignKey("locations.id"), nullable=False)
     timestamp = db.Column(db.String)
     expired = db.Column(db.Boolean)
@@ -178,9 +175,9 @@ class Comment(db.Model):
         Initializes Comment object
         """
         self.text = kwargs.get("text", "")
+        self.number = kwargs.get("number", -1)
         self.user_id = kwargs.get("user_id")
         self.location_id = kwargs.get("location_id")
-        self.type = kwargs.get("type") # can be either "quantitative" (drop down) or "qualitative" text commentary
         self.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=2)
         self.timestamp = datetime.datetime.now()
         self.expired = False
@@ -197,15 +194,15 @@ class Comment(db.Model):
                 "expired": True
             }
 
-        # don't print comments which have to do with drop-down business
-        if self.type == "quantitative":
+        # don't print comments which have to do with busyness number
+        if self.text is None:
             return None
 
         return {
                 "id": self.id,
                 "text": self.text,
-                "user_id":  User.query.filter_by(id=self.user_id).first().name,
-                "location_id": Location.query.filter_by(id=self.location_id).first().name,
+                "user_id":  User.query.filter_by(id=self.user_id).first().id,
+                "location_id": Location.query.filter_by(id=self.location_id).first().id,
                 "time_stamp": str(self.timestamp),
                 "expiration": str(self.session_expiration)
             }
@@ -220,8 +217,8 @@ class Comment(db.Model):
             self.expired = True
             return None
 
-        # don't print comments which have to do with drop-down business
-        if self.type == "quantitative":
+        # don't print comments which have to do with busyness number
+        if self.text is None:
             return None
         
         return {
@@ -241,7 +238,7 @@ class Position(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
-    timestamp = db.Column(db.String)
+    timestamp = db.Column(db.DateTime)
     
     def __init__(self, **kwargs):
         """
@@ -259,6 +256,16 @@ class Position(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "timestamp": str(self.timestamp)
+        }
+    
+    def simple_serialize(self):
+        """
+        Simply serializes Position object
+        """
+        return {
             "latitude": self.latitude,
             "longitude": self.longitude,
             "timestamp": str(self.timestamp)
