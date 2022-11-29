@@ -24,7 +24,6 @@ class PlacesCollectionViewCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         contentView.backgroundColor = cellBGcolor
  
-        placesImageView.contentMode = .scaleAspectFit
         placesImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesImageView)
         
@@ -49,7 +48,9 @@ class PlacesCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             placesImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             placesImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            placesImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5)
+            placesImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            placesImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            placesImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -64,7 +65,7 @@ class PlacesCollectionViewCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            placesCrowd.topAnchor.constraint(equalTo: placesCategory.bottomAnchor, constant: 5),
+            placesCrowd.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             placesCrowd.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5)
         ])
     }

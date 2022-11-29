@@ -14,16 +14,18 @@ class FilterCollectionViewCell: UICollectionViewCell {
     //design
     let filterColor = UIColor(red: 164/255, green: 195/255, blue: 178/255, alpha: 1)
     let selected_filterColor = UIColor(red: 107/255, green: 144/255, blue: 128/255, alpha: 1)
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.layer.cornerRadius = 30
+                
+        contentView.layer.cornerRadius = 26
         contentView.clipsToBounds = true
+        
         filterButton.backgroundColor = filterColor
         filterButton.contentMode = .scaleAspectFit
         filterButton.textAlignment = .center
         filterButton.translatesAutoresizingMaskIntoConstraints = false
-        filterButton.layer.cornerRadius = 15
         contentView.addSubview(filterButton)
         
         setUpConstraints()

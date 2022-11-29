@@ -155,12 +155,18 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout UICollectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = (placesCollectionView.frame.width - 10)/2.0
-        return CGSize(width: size, height: size)
+        if (collectionView == filterCollectionView) {
+            let size = (filterCollectionView.frame.width - 10)/2.5
+            return CGSize(width: size, height: 50)
+        }
+        else {
+            let size = (placesCollectionView.frame.width - 10)/2.0
+            return CGSize(width: size, height: size)
+        }
     }
+    
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -172,8 +178,6 @@ extension ViewController: UICollectionViewDelegate {
         else{
             let cell = placesCollectionView.cellForItem(at: indexPath) as! PlacesCollectionViewCell
             present(DetailViewController(places: places[indexPath.row], delegate: cell), animated: true)
-//            let cell = songTableView.cellForRow(at: indexPath) as! SongTableViewCell
-//            present(DetailViewController(song: songs[indexPath.row], delegate: cell), animated: true)
         }
     }
 }
