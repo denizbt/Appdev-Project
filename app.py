@@ -85,7 +85,6 @@ def get_user_positions(user_id):
     positions = [pos.simple_serialize() for pos in Position.query.filter_by(user_id=user_id)]
     return success_response({"positions": positions}, 200)
 
-
 @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
 def update_busyness(location_id):
     """    
@@ -101,7 +100,70 @@ def update_busyness(location_id):
 
     body = json.loads(request.data)
     
+@app.route("/api/favorites/<int:location_id>/", methods=["POST"])
+def add_favorite(location_id):
+    """
+    Endpoint for marking a Location as a favorite of given User
+    """
+    # check if location exists
+    location = Location.query.filter_by(id=location_id).first()
+    
+    if (location is None):
+        return failure_response({"error": "This location does not exist."})
 
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+
+    # checking if required fields were provided
+    if (user_id is None):
+        return failure_response({"error": "You did not provide all required fields!"}, 400)
+
+    user = User.query.filter_by(id=user_id).first()
+    # check if user exists
+    if (user is None):
+        return failure_response({"error": "This user does not exist."})
+
+    location.fav_users.append(user)
+    user.favorites.append(location)
+    db.session.commit()
+
+    return success_response(location.simple_serialize(), 200)
+
+@app.route("/api/favorites/<int:location_id>/drop/", methods=["POST"])
+def remove_favorite(location_id):
+    """
+    Endpoint which removes favorite marker of User and Location
+    """
+    # check if location exists
+    location = Location.query.filter_by(id=location_id).first()
+    if location is None:
+        return failure_response({"error": "This location does not exist."})
+
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+    # check if user_id is provided
+    if user_id is None:
+        return failure_response({"error": "You did not provide all required fields!"}, 400)
+
+    # check if user exists
+    user = User.query.filter_by(id=user_id).first()
+    if (user is None):
+        return failure_response({"error": "User not found."})
+
+    check = False
+    for f in user.favorites:
+        if f.id == location_id:
+            check = True
+            break
+    if not check:
+        return failure_response({"error": "User has not been added to this course."})
+
+    location.fav_users.remove(user)
+    db.session.commit()
+    return success_response(user.serialize())
+
+
+# get_all_comments() not necessary for frontend API specs
 @app.route("/api/comments/")
 def get_all_comments():
     """
@@ -113,9 +175,9 @@ def get_all_comments():
 @app.route("/api/comments/<int:location_id>/") 
 def get_comments_by_location(location_id):
     """
-    Endpoint for getting all (unexpired) comments associated with a given location
+    Endpoint for getting all comments associated with a given location
     """
-    comments = [comment.simple_serialize() for comment in Comment.query.all() if comment.simple_serialize() is not None]
+    comments = [comment.simple_serialize() for comment in Comment.query.all()]
     return success_response({"comments": comments})
 
 @app.route("/api/comments/<int:location_id>/", methods=["POST"])
@@ -276,6 +338,19 @@ def get_user_by_id(id):
         return failure_response({"error": "This user does not exist."})
 
     return success_response(user.serialize())
+
+@app.route("/api/locations/<int:id>/")
+def get_location_by_id(id):
+    """
+    Endpoint for getting the location with given id
+    """
+    location = Location.query.filter_by(id=id).first()
+    
+    # check if user exists
+    if (location is None):
+        return failure_response({"error": "This user does not exist."})
+
+    return success_response(location.serialize())
 
 """
 need to keep the database prepopulated with locations during deployment
