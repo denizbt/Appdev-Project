@@ -22,6 +22,7 @@ class DetailViewController: UIViewController {
     let textBGcolor = UIColor(red: 234.0/255, green: 244.0/255, blue: 244.0/255, alpha: 1.0)
     let textColor = UIColor(red: 107.0/255, green: 144.0/255, blue: 128.0/255, alpha: 1.0)
     let textFont = CGFloat(20)
+    let babyBlue = CGColor(red: 0/255, green: 191/255, blue: 255/255, alpha: 1.0)
  
     let places: Places
     weak var delegate: viewInfo?
@@ -33,7 +34,7 @@ class DetailViewController: UIViewController {
  
     //comments
     let commentTableView = UITableView()
-    let addCommentButton = UIBarButtonItem()
+    let addCommentButton = UIButton()
     let commentReuseIdentifier = "commentReuseIdentifier"
     
     let refreshControl = UIRefreshControl()
@@ -102,18 +103,22 @@ class DetailViewController: UIViewController {
         commentTableView.dataSource = self
         commentTableView.register(PostTableViewCell.self, forCellReuseIdentifier: commentReuseIdentifier)
         view.addSubview(commentTableView)
+        
+        addCommentButton.setBackgroundImage(UIImage(named: "comment"), for: .normal)
+        addCommentButton.layer.cornerRadius = 20
+        addCommentButton.layer.borderWidth = 4
+        addCommentButton.clipsToBounds = true
+        addCommentButton.layer.borderColor = babyBlue
+        addCommentButton.addTarget(self, action: #selector(pushCreateView), for: .touchUpInside)
+        addCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(addCommentButton)
 
         if #available(iOS 10.0, *) {
             commentTableView.refreshControl = refreshControl
         } else {
             commentTableView.addSubview(refreshControl)
         }
-
-        addCommentButton.image = UIImage(systemName: "plus.message")
-        addCommentButton.target = self
-        addCommentButton.action = #selector(pushCreateView)
-        navigationItem.rightBarButtonItem = addCommentButton
-
+        
         createDummyData()
 
         setupConstraints()
@@ -194,6 +199,14 @@ class DetailViewController: UIViewController {
             commentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             commentTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+        
+        NSLayoutConstraint.activate([
+            addCommentButton.widthAnchor.constraint(equalToConstant: 70),
+            addCommentButton.heightAnchor.constraint(equalToConstant: 70),
+            addCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            addCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -45),
+        ])
+        
     }
  
     required init?(coder: NSCoder) {

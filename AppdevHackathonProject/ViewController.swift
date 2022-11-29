@@ -15,11 +15,31 @@ class ViewController: UIViewController {
     let cafes = Filter(filterName: "Cafés", selected: false)
     let serviceCenters = Filter(filterName: "Service Centers", selected: false)
     
-    let morrison = Places(imageName: "morrison", name: "Morrison Dining", category: "Dining Hall", crowded: 0.0, hours: "10-9")
+    let morrison = Places(imageName: "morrison", name: "Morrison Dining", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 4:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "8:00am - 4:30pm , 5:00pm - 8:30pm", sun: "10:00am - 2:00pm , 5:00pm - 8:30pm")
+    
+    let northStar = Places(imageName: "northStar", name: "North Star", category: "Dining Hall", crowded: 0.0, mon: "5:00pm - 9:00pm", tue: "5:00pm - 9:00pm", wed: "5:00pm - 9:00pm", thu: "5:00pm - 9:00pm", fri: "5:00pm - 9:00pm", sat: "10:30am - 2:30pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm")
+    
+    let risley = Places(imageName: "risley", name: "Risley", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 4:30pm - 9:00pm", tue: "11:00am - 2:00pm , 4:30pm - 9:00pm", wed: "11:00am - 2:00pm , 4:30pm - 9:00pm", thu: "11:00am - 2:00pm , 4:30pm - 9:00pm", fri: "11:00am - 2:00pm , 4:30pm - 9:00pm", sat: "Closed", sun: "Closed")
+    
+    let okenshields = Places(imageName: "okenshields", name: "Okenshields", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "Closed", sun: "Closed")
+    
+    let becker = Places(imageName: "becker", name: "Becker House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 3:30pm , 5:00pm - 8:00pm", tue: "7:00am - 3:30pm , 5:00pm - 8:00pm", wed: "7:00am - 2:00pm , 6:00pm - 8:00pm", thu: "7:00am - 3:30pm , 5:00pm - 8:00pm", fri: "7:00am - 3:30pm , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm")
+    
+    let cook = Places(imageName: "cook", name: "Cook House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 9:00pm", tue: "7:30am - 10:00am , 5:00pm - 9:00pm", wed: "7:30am - 10:00am , 6:00pm - 9:00pm", thu: "7:30am - 10:00am , 5:00pm - 9:00pm", fri: "7:30am - 10:00am , 5:00pm - 9:00pm", sat: "10:30am - 2:00pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm")
+    
+    let bethe = Places(imageName: "bethe", name: "Bethe House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 2:00pm , 4:30pm - 7:30pm", tue: "7:00am - 2:00pm , 4:30pm - 7:30pm", wed: "7:00am - 2:00pm , 6:00pm - 7:30pm", thu: "7:00am - 2:00pm , 4:30pm - 7:30pm", fri: "7:00am - 2:00pm , 4:30pm - 7:30pm", sat: "10:30am - 2:00pm , 4:30pm - 7:30pm", sun: "10:00am - 2:00pm , 4:30pm - 7:30pm")
+    
+    let keeton = Places(imageName: "keeton", name: "Keeton House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 10:00am , 5:00pm - 8:00pm", tue: "7:00am - 10:00am , 5:00pm - 8:00pm", wed: "7:00am - 10:00am , 6:00pm - 8:00pm", thu: "7:00am - 10:00am , 5:00pm - 8:00pm", fri: "7:00am - 10:00am , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm")
+    
+    let rose = Places(imageName: "rose", name: "Rose House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 8:00pm", tue: "7:30am - 10:00am , 5:00pm - 8:00pm", wed: "7:30am - 10:00am , 6:00pm - 8:00pm", thu: "7:30am - 10:00am , 5:00pm - 8:00pm", fri: "7:30am - 10:00am , 5:00pm - 8:00pm", sat: "8:00am - 9:30am , 10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "8:00am - 9:30am , 10:00am - 2:00pm , 5:00pm - 8:00pm")
+    
+    let west = Places(imageName: "104west", name: "104West!", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 5:00pm - 7:00pm", tue: "11:00am - 2:00pm , 5:00pm - 7:00pm", wed: "11:00am - 2:00pm , 5:00pm - 7:00pm", thu: "11:00am - 2:00pm , 5:00pm - 7:00pm", fri: "11:00am - 2:00pm , 5:00pm - 7:00pm", sat: "12:30pm - 2:00pm , 4:20pm - 5:20pm", sun: "11:00am - 2:00pm , 5:00pm - 7:00pm")
+    
+    
+    
     let uris = Places(imageName: "uris", name: "Uris Library", category: "Library", crowded: 0.0, hours: "10-9")
     let jenni = Places(imageName: "jennie", name: "Café Jennie", category: "Café", crowded: 0.0, hours: "10-9")
     let rpcc = Places(imageName: "rpcc", name: "RPCC", category: "Service Center", crowded: 0.0, hours: "10-9")
-    
     
     var placesCollectionView: UICollectionView!
     var filterCollectionView: UICollectionView!
@@ -149,9 +169,13 @@ extension ViewController: UICollectionViewDataSource {
         }
         else {
             let placesCell = placesCollectionView.dequeueReusableCell(withReuseIdentifier: placesReuseIdentifier, for: indexPath) as! PlacesCollectionViewCell
+            placesCell.layer.shadowColor = UIColor.black.cgColor
+            placesCell.layer.shadowOffset = CGSize(width: 0, height: 0)
+            placesCell.layer.shadowRadius = 3.0
+            placesCell.layer.shadowOpacity = 1
+            placesCell.layer.masksToBounds = false
             placesCell.configure(places: places[indexPath.row])
             return placesCell
-
         }
     }
 }
