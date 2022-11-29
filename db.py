@@ -8,13 +8,12 @@ from geopy.geocoders import Nominatim
 
 db = SQLAlchemy()
 
-""" creating association tables (not currently being used - no many-to-many relationship)
+# association table for many-to-many relationship between User and Location
 association_table = db.Table(
     "association",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
 )
-"""
 
 class User(db.Model):
     """
@@ -22,16 +21,17 @@ class User(db.Model):
 
     Has a one-to-many relationship with Comment
     Has a one-to-many relationship with Position
+    Has a many-to-many relationship with Location (favorites)
     """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable = False)
     email = db.Column(db.String, nullable=False, unique=True)
     password_digest = db.Column(db.String, nullable=False)
-    #favorites = db.Column(db.JSON) # not sure how to store dictionary inside column of database?
     comments = db.relationship("Comment", cascade="delete")
     positions = db.relationship("Position", cascade="delete")
-
+    favorites = db.relationship("Location", secondary=association_table, back_populates="fav_users")
+    
     # session information
     session_token = db.Column(db.String, nullable=False, unique=True)
     session_expiration = db.Column(db.DateTime, nullable=False)
@@ -87,6 +87,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
+            "favorites": [f.simple_serialize() for f in self.favorites],
             "session_token": self.session_token,
             "session_expiration": str(self.session_expiration),
             "update_token": self.update_token
@@ -106,7 +107,8 @@ class Location(db.Model):
     """
     Location model (i.e. Morrison Dining, Uris Library)
 
-    Has a one-to-many relationship with Comments
+    Has a one-to-many relationship with Comment
+    Has a many-to-many relationship with User (favorites)
     """
     __tablename__ = "locations"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -116,6 +118,7 @@ class Location(db.Model):
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
     #busyness = db.Column(db.Integer, nullable=False) # might not need
+    fav_users = db.relationship("User", secondary=association_table, back_populates="favorites")
 
     def __init__(self, **kwargs):
         """
@@ -138,7 +141,8 @@ class Location(db.Model):
             "address": self.address,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "comments": [c.simple_serialize() for c in self.comments]
+            "comments": [c.simple_serialize() for c in self.comments],
+            "fav_users": [f.simple_serialize() for f in self.fav_users]
         }
     
     def simple_serialize(self):
@@ -165,7 +169,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     location_id = db.Column(db.Integer, db.ForeignKey("locations.id"), nullable=False)
     timestamp = db.Column(db.String)
-    expired = db.Column(db.Boolean)
+    expired = db.Column(db.Boolean) # remove completely and let frontend deal?
 
     # keeping track of expiration date
     session_expiration = db.Column(db.DateTime, nullable=False)
@@ -186,18 +190,6 @@ class Comment(db.Model):
         """
         Serializes a Comment object
         """
-        if self.expired or self.session_expiration < datetime.datetime.now():
-            self.expired = True
-            return {
-                "id": self.id,
-                "text": self.text,
-                "expired": True
-            }
-
-        # don't print comments which have to do with busyness number
-        if self.text is None:
-            return None
-
         return {
                 "id": self.id,
                 "text": self.text,
@@ -211,16 +203,6 @@ class Comment(db.Model):
         """
         Simply serializes a Comment object
         """
-
-        # don't print out expired comments when User is checking for comments associated with location
-        if self.expired or self.session_expiration < datetime.datetime.now():
-            self.expired = True
-            return None
-
-        # don't print comments which have to do with busyness number
-        if self.text is None:
-            return None
-        
         return {
             "id": self.id,
             "text": self.text,
