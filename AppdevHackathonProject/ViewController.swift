@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     
     let engineering = Places(imageName: "engineering", name: "Engineering Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
     
-    let vet = Places(imageName: "engineering", name: "Veterinary Library", category: "Library", crowded: 0.0, mon: "7:30am - 10:00pm", tue: "7:30am - 10:00pm", wed: "7:30am - 10:00pm", thu: "7:30am - 10:00pm", fri: "7:30am - 8:00pm", sat: "10:00am - 8:00pm", sun: "12:00pm - 10:00pm")
+    let vet = Places(imageName: "vet", name: "Veterinary Library", category: "Library", crowded: 0.0, mon: "7:30am - 10:00pm", tue: "7:30am - 10:00pm", wed: "7:30am - 10:00pm", thu: "7:30am - 10:00pm", fri: "7:30am - 8:00pm", sat: "10:00am - 8:00pm", sun: "12:00pm - 10:00pm")
     
     let africana = Places(imageName: "africana", name: "Africana Library", category: "Library", crowded: 0.0, mon: "9:00am - 9:00pm", tue: "9:00am - 9:00pm", wed: "9:00am - 9:00pm", thu: "9:00am - 9:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "Closed")
     
@@ -70,7 +70,6 @@ class ViewController: UIViewController {
 
     
     //Cafes
-    
     let libe = Places(imageName: "libe", name: "Libe Café", category: "Café", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 10:00pm")
 
     let atrium = Places(imageName: "atrium", name: "Atrium Café", category: "Café", crowded: 0.0, mon: "Closed", tue: "Closed", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed")
@@ -96,9 +95,7 @@ class ViewController: UIViewController {
     let rusty = Places(imageName: "rusty", name: "Rusty's", category: "Café", crowded: 0.0, mon: "8:00am - 4:00pm", tue: "8:00am - 4:00pm", wed: "8:00am - 4:00pm", thu: "8:00am - 4:00pm", fri: "8:00am - 4:00pm", sat: "Closed", sun: "Closed")
 
     
-    
     //Food Court
-    
     let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed")
     
     let bear = Places(imageName: "bear", name: "Bear Necessities Grill", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am")
@@ -122,10 +119,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.setHidesBackButton(true, animated: true)
         title = "CU After School"
         view.backgroundColor = .white
         
-        places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris]
+        places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris, libe, atrium, barn, jennie, crossings, goldies, greenDragon, mannCafe, martha, mattin, novicks, rusty, trillium, bear]
             
         allPlaces = places
         
