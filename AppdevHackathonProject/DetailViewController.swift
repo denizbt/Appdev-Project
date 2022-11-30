@@ -130,7 +130,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func pushCreateView() {
-        navigationController?.pushViewController(CreateCommentViewController(delegate: self), animated: true)
+        present(CreateCommentViewController(delegate: self), animated: true)
     }
  
     func sortCommentData() {

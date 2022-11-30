@@ -72,7 +72,6 @@ class PostTableViewCell: UITableViewCell {
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalPadding),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalPadding),
             stackView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 20),
-            stackView.heightAnchor.constraint(equalToConstant: 100),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }

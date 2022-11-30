@@ -122,7 +122,7 @@ class ViewController: UIViewController {
         self.navigationItem.setHidesBackButton(true, animated: true)
         title = "CU After School"
         view.backgroundColor = .white
-        
+                
         places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris, libe, atrium, barn, jennie, crossings, goldies, greenDragon, mannCafe, martha, mattin, novicks, rusty, trillium, bear]
             
         allPlaces = places
