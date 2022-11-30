@@ -11,6 +11,7 @@ class CreateCommentViewController: UIViewController {
 
     let headerLabel = UILabel()
     let textTextView = UITextView()
+    let titleTextView = UITextView()
     let posterTextField = UITextField()
     let saveButton = UIButton()
 
@@ -32,6 +33,14 @@ class CreateCommentViewController: UIViewController {
         headerLabel.font = .systemFont(ofSize: 20)
         view.addSubview(headerLabel)
 
+        titleTextView.text = "Insert Body"
+        titleTextView.translatesAutoresizingMaskIntoConstraints = false
+        titleTextView.clipsToBounds = true
+        titleTextView.layer.cornerRadius = 5
+        titleTextView.backgroundColor = .systemGray4
+        titleTextView.font = .systemFont(ofSize: 15)
+        view.addSubview(titleTextView)
+        
         textTextView.text = "Insert Body"
         textTextView.translatesAutoresizingMaskIntoConstraints = false
         textTextView.clipsToBounds = true
@@ -59,10 +68,11 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
-        let text = textTextView.text!
+        let title = titleTextView.text!
+        let body = textTextView.text!
         let poster = posterTextField.text!
 
-        delegate?.createComment(text: text, poster: poster)
+        delegate?.createComment(title: title, body: body, poster: poster)
 
         navigationController?.popViewController(animated: true)
     }
@@ -102,5 +112,5 @@ class CreateCommentViewController: UIViewController {
 }
 
 protocol CreateCommentDelegate: UIViewController {
-    func createComment(text: String, poster: String)
+    func createComment(title: String, body: String, poster: String)
 }

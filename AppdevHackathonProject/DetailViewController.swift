@@ -112,6 +112,8 @@ class DetailViewController: UIViewController {
         addCommentButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(addCommentButton)
 
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
         if #available(iOS 10.0, *) {
             commentTableView.refreshControl = refreshControl
         } else {
@@ -125,6 +127,10 @@ class DetailViewController: UIViewController {
     
     @objc func back() {
         dismiss(animated: true)
+    }
+    
+    @objc func pushCreateView() {
+        navigationController?.pushViewController(CreateCommentViewController(delegate: self), animated: true)
     }
  
     func sortCommentData() {
@@ -141,13 +147,14 @@ class DetailViewController: UIViewController {
          2) Update `postData` & `shownPostData` and reload `postTableView`
          */
 
-        NetworkManager.getAllPosts { comments in
+        NetworkManager.getAllComments { comments in
             self.commentData = comments
             self.sortCommentData()
             self.shownCommentData = self.commentData
             self.commentTableView.reloadData()
         }
     }
+    
     func setupConstraints() {
         let spacing = CGFloat(20)
         let labelHeight = CGFloat(30)
@@ -215,7 +222,7 @@ class DetailViewController: UIViewController {
     @objc func refreshData() {
 
         //TODO: #1.5 Implement Refresh
-        NetworkManager.getAllPosts { comments in
+        NetworkManager.getAllComments { comments in
             self.commentData = comments
             self.sortCommentData()
             self.shownCommentData = self.commentData
@@ -223,11 +230,6 @@ class DetailViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
     }
-
-    @objc func pushCreateView() {
-        navigationController?.pushViewController(CreateCommentViewController(delegate: self), animated: true)
-    }
-    
 }
 
 protocol viewInfo: UICollectionViewCell{
@@ -272,22 +274,17 @@ extension DetailViewController: UITableViewDataSource {
         cell.configure(commentObject: commentObject)
         return cell
     }
-
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
 }
 
 extension DetailViewController: CreateCommentDelegate {
 
-    func createComment(text: String, poster: String) {
+    func createComment(title: String, body: String, poster: String) {
 
         //TODO: #1 Create Post
-        NetworkManager.createComment(text: text, poster: poster) { comment in
+        NetworkManager.createComment(title: title, body: body, poster: poster) { comment in
             self.shownCommentData = [comment] + self.shownCommentData
             self.commentTableView.reloadData()
         }
-
     }
     
 }

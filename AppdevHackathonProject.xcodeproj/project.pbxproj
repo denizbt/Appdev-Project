@@ -161,8 +161,6 @@
 		FF4D7169292C44B0003BF000 /* AppdevHackathonProject */ = {
 			isa = PBXGroup;
 			children = (
-				FF4D71A42932D30E003BF000 /* LoginViewController.swift */,
-				FF4D71A829358BC2003BF000 /* SignUpViewController.swift */,
 				FF4D716A292C44B0003BF000 /* AppDelegate.swift */,
 				FF4D716C292C44B0003BF000 /* SceneDelegate.swift */,
 				FF4D716E292C44B0003BF000 /* ViewController.swift */,
@@ -170,6 +168,8 @@
 				FF4D71A2292C51E0003BF000 /* Filter.swift */,
 				FF4D719E292C4EA7003BF000 /* DetailViewController.swift */,
 				FF025B7C2935D54C00309FAE /* EditDetailViewController.swift */,
+				FF4D71A829358BC2003BF000 /* SignUpViewController.swift */,
+				FF4D71A42932D30E003BF000 /* LoginViewController.swift */,
 				FFC5E4B12935C91300BC5AA5 /* Comment.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
 				FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */,

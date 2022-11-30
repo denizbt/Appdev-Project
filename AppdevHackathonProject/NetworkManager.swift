@@ -12,7 +12,7 @@ class NetworkManager {
 
     static let host = "https://ios-course-message-board.herokuapp.com"
 
-    static func getAllPosts(completion: @escaping ([Comment]) -> Void) {
+    static func getAllComments(completion: @escaping ([Comment]) -> Void) {
         let endpoint = "\(host)/posts/all/"
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
@@ -31,12 +31,13 @@ class NetworkManager {
     }
 
 
-    static func createComment(text: String, poster: String, completion: @escaping (Comment) -> Void) {
+    static func createComment(title: String, body: String, poster: String, completion: @escaping (Comment) -> Void) {
         let endpoint = "\(host)/posts/"
         
         let params: Parameters = [
-            "poster": poster,
-            "text": text
+            "title": title,
+            "body": body,
+            "poster": poster
         ]
         
         AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in

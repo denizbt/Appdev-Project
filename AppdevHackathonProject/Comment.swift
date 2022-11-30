@@ -8,7 +8,7 @@
 import Foundation
 
 struct Comment: Codable {
-    let profilePic: String
+    let id: String
     var title: String
     var body: String
     let poster: String

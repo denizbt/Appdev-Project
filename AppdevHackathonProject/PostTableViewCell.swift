@@ -99,11 +99,11 @@ class PostTableViewCell: UITableViewCell {
 
 }
 
-extension PostTableViewCell: ChangeCommentInfoDelegate {
-
-    func changeCellInfo(comment: Comment) {
-        titleLabel.text = comment.title
-        bodyLabel.text = comment.body
-    }
-
-}
+//extension PostTableViewCell: ChangeCommentInfoDelegate {
+//
+//    func changeCellInfo(comment: Comment) {
+//        titleLabel.text = comment.title
+//        bodyLabel.text = comment.body
+//    }
+//
+//}

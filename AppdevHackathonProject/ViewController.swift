@@ -200,7 +200,7 @@ class ViewController: UIViewController {
         }
         if(filters[3].selected == true){
             places = places + allPlaces.filter({ places in
-                places.category == "Food Courts"
+                places.category == "Food Court"
             })
         }
         if(filters[4].selected == true){
