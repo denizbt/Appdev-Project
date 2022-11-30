@@ -40,14 +40,9 @@ def extract_token(request):
 
     return True, bearer_token
 
-@app.route("/api/positions/active/<int:location_id>/")
-def get_active_users(location_id):
-    """
-    Endpoint for getting the number of active users in a given location.
-    ** not priority **
-    """
-    #positions = Position.query.filter_by()
-
+"""
+POST requests
+"""
 @app.route("/api/positions/<int:user_id>/", methods=["POST"])
 def add_position(user_id):
     """
@@ -71,19 +66,6 @@ def add_position(user_id):
     db.session.commit()
 
     return success_response(new_position.serialize(), 200)
-
-@app.route("/api/positions/<int:user_id>/")
-def get_user_positions(user_id):
-    """
-    Endpoint for getting all positional data for a given user.
-    """
-    user = User.query.filter_by(id=user_id).first()
-    # check if user exists
-    if (user is None):
-        return failure_response({"error": "This user does not exist."})
-
-    positions = [pos.simple_serialize() for pos in Position.query.filter_by(user_id=user_id)]
-    return success_response({"positions": positions}, 200)
 
 @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
 def update_busyness(location_id):
@@ -129,7 +111,7 @@ def add_favorite(location_id):
 
     return success_response(location.simple_serialize(), 200)
 
-@app.route("/api/favorites/<int:location_id>/drop/", methods=["POST"])
+@app.route("/api/favorites/<int:location_id>/remove/", methods=["POST"])
 def remove_favorite(location_id):
     """
     Endpoint which removes favorite marker of User and Location
@@ -161,24 +143,6 @@ def remove_favorite(location_id):
     location.fav_users.remove(user)
     db.session.commit()
     return success_response(user.serialize())
-
-
-# get_all_comments() not necessary for frontend API specs
-@app.route("/api/comments/")
-def get_all_comments():
-    """
-    Endpoint for getting all comments (regardless of Location, User or expiration)
-    """
-    comments = [comment.serialize() for comment in Comment.query.all()]
-    return success_response({"comments": comments})
-
-@app.route("/api/comments/<int:location_id>/") 
-def get_comments_by_location(location_id):
-    """
-    Endpoint for getting all comments associated with a given location
-    """
-    comments = [comment.simple_serialize() for comment in Comment.query.all()]
-    return success_response({"comments": comments})
 
 @app.route("/api/comments/<int:location_id>/", methods=["POST"])
 def add_comment(location_id):
@@ -227,7 +191,21 @@ def delete_comment():
     """
     Protected endpoint which allows a user to delete a comment that they wrote
     """
-    pass
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
+    user_id = user.id
+    comment = Comment.query.filter_by(user_id=user_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+
+    return success_response(comment.simple_serialize(), 200)
 
 @app.route("/api/users/", methods=["POST"])
 def register_user():
@@ -292,7 +270,7 @@ def logout():
         return failure_response({"erorr": "Invalid session token."}, 400)
     
     user.session_token = ""
-    user.session_expiration = datetime.datetime.now()
+    user.session_expiration = datetime.now()
     user.update_token = ""
     db.session.commit()
 
@@ -303,8 +281,20 @@ def delete_user():
     """
     Protected endpoint which allows a user to delete their account
     """
-    pass
+    success, session_token = extract_token(request)
 
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
+    db.session.delete(user)
+    db.session.commit()
+    return success_response(user.simple_serialize())
+
+# is this necessary for front end?
 @app.route("/api/session/", methods=["POST"])
 def update_session():
     """
@@ -325,6 +315,13 @@ def update_session():
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
+
+"""
+GET requests
+"""
+@app.route("/")
+def hello_world():
+    print("hello world!!")
 
 @app.route("/api/users/<int:id>/")
 def get_user_by_id(id):
@@ -352,6 +349,38 @@ def get_location_by_id(id):
 
     return success_response(location.serialize())
 
+@app.route("/api/comments/<int:location_id>/") 
+def get_comments_by_location(location_id):
+    """
+    Endpoint for getting all comments associated with a given location
+    """
+    comments = [comment.simple_serialize() for comment in Comment.query.all()]
+    return success_response({"comments": comments})
+
+
+# not sure if this is necessary for frontend use...
+@app.route("/api/positions/<int:user_id>/")
+def get_user_positions(user_id):
+    """
+    Endpoint for getting all positional data for a given user.
+    """
+    user = User.query.filter_by(id=user_id).first()
+    # check if user exists
+    if (user is None):
+        return failure_response({"error": "This user does not exist."})
+
+    positions = [pos.simple_serialize() for pos in Position.query.filter_by(user_id=user_id)]
+    return success_response({"positions": positions}, 200)
+
+# not written yet
+@app.route("/api/positions/active/<int:location_id>/")
+def get_active_users(location_id):
+    """
+    Endpoint for getting the number of active users in a given location.
+    ** not priority **
+    """
+    #positions = Position.query.filter_by()
+
 """
 need to keep the database prepopulated with locations during deployment
 this endpoint shouldn't be publically accessible
@@ -373,6 +402,16 @@ def create_location():
     db.session.add(new_location)
     db.session.commit()
     return success_response(new_location.serialize(), 201)
+
+
+# get_all_comments() not necessary for frontend API specs
+@app.route("/api/comments/")
+def get_all_comments():
+    """
+    Endpoint for getting all comments (regardless of Location, User or expiration)
+    """
+    comments = [comment.serialize() for comment in Comment.query.all()]
+    return success_response({"comments": comments})
 
 
 if __name__ == "__main__":

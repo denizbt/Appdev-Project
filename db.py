@@ -182,7 +182,7 @@ class Comment(db.Model):
         self.number = kwargs.get("number", -1)
         self.user_id = kwargs.get("user_id")
         self.location_id = kwargs.get("location_id")
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=2)
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
         self.timestamp = datetime.datetime.now()
         self.expired = False
         
@@ -196,7 +196,8 @@ class Comment(db.Model):
                 "user_id":  User.query.filter_by(id=self.user_id).first().id,
                 "location_id": Location.query.filter_by(id=self.location_id).first().id,
                 "time_stamp": str(self.timestamp),
-                "expiration": str(self.session_expiration)
+                "expiration": str(self.session_expiration),
+                "expired": bool(self.session_expiration >= datetime.datetime.now())
             }
     
     def simple_serialize(self):
