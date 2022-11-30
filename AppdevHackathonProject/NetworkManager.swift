@@ -31,8 +31,29 @@ class NetworkManager {
     }
 
 
-    static func createPost(title: String, body: String, poster: String, completion: @escaping (Comment) -> Void) {
+    static func createComment(text: String, poster: String, completion: @escaping (Comment) -> Void) {
+        let endpoint = "\(host)/posts/"
         
+        let params: Parameters = [
+            "poster": poster,
+            "text": text
+        ]
+        
+        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+            switch response.result{
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let userResponse = try? jsonDecoder.decode(Comment.self, from: data) {
+                    completion(userResponse)
+                }
+                else {
+                    print("Failed to decode createPost")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     static func updatePost(id: String, body: String, poster: String, completion: @escaping (Comment) -> Void) {

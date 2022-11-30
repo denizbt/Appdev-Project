@@ -10,14 +10,13 @@ import UIKit
 class CreateCommentViewController: UIViewController {
 
     let headerLabel = UILabel()
-    let titleTextField = UITextField()
-    let bodyTextView = UITextView()
+    let textTextView = UITextView()
     let posterTextField = UITextField()
     let saveButton = UIButton()
 
-    weak var delegate: CreatePostDelegate?
+    weak var delegate: CreateCommentDelegate?
 
-    init(delegate: CreatePostDelegate) {
+    init(delegate: CreateCommentDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,21 +32,13 @@ class CreateCommentViewController: UIViewController {
         headerLabel.font = .systemFont(ofSize: 20)
         view.addSubview(headerLabel)
 
-        titleTextField.placeholder = "Post title"
-        titleTextField.translatesAutoresizingMaskIntoConstraints = false
-        titleTextField.clipsToBounds = true
-        titleTextField.layer.cornerRadius = 5
-        titleTextField.backgroundColor = .systemGray4
-        titleTextField.font = .systemFont(ofSize: 20)
-        view.addSubview(titleTextField)
-
-        bodyTextView.text = "Insert Body"
-        bodyTextView.translatesAutoresizingMaskIntoConstraints = false
-        bodyTextView.clipsToBounds = true
-        bodyTextView.layer.cornerRadius = 5
-        bodyTextView.backgroundColor = .systemGray4
-        bodyTextView.font = .systemFont(ofSize: 15)
-        view.addSubview(bodyTextView)
+        textTextView.text = "Insert Body"
+        textTextView.translatesAutoresizingMaskIntoConstraints = false
+        textTextView.clipsToBounds = true
+        textTextView.layer.cornerRadius = 5
+        textTextView.backgroundColor = .systemGray4
+        textTextView.font = .systemFont(ofSize: 15)
+        view.addSubview(textTextView)
 
         posterTextField.placeholder = "Who's creating this post?"
         posterTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -68,11 +59,10 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
-        let title = titleTextField.text!
-        let body = bodyTextView.text!
+        let text = textTextView.text!
         let poster = posterTextField.text!
 
-        delegate?.createPost(title: title, body: body, poster: poster)
+        delegate?.createComment(text: text, poster: poster)
 
         navigationController?.popViewController(animated: true)
     }
@@ -86,21 +76,15 @@ class CreateCommentViewController: UIViewController {
         ])
 
         NSLayoutConstraint.activate([
-            titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
-            titleTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier)
-        ])
-
-        NSLayoutConstraint.activate([
-            bodyTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bodyTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
-            bodyTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
-            bodyTextView.heightAnchor.constraint(equalTo: view.widthAnchor)
+            textTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textTextView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
+            textTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
+            textTextView.heightAnchor.constraint(equalTo: view.widthAnchor)
         ])
 
         NSLayoutConstraint.activate([
             posterTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            posterTextField.topAnchor.constraint(equalTo: bodyTextView.bottomAnchor, constant: 20),
+            posterTextField.topAnchor.constraint(equalTo: textTextView.bottomAnchor, constant: 20),
             posterTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier)
         ])
 
@@ -117,6 +101,6 @@ class CreateCommentViewController: UIViewController {
 
 }
 
-protocol CreatePostDelegate: UIViewController {
-    func createPost(title: String, body: String, poster: String)
+protocol CreateCommentDelegate: UIViewController {
+    func createComment(text: String, poster: String)
 }

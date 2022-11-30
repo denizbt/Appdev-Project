@@ -99,7 +99,6 @@ class DetailViewController: UIViewController {
         view.addSubview(backButton)
  
         commentTableView.translatesAutoresizingMaskIntoConstraints = false
-        commentTableView.delegate = self
         commentTableView.dataSource = self
         commentTableView.register(PostTableViewCell.self, forCellReuseIdentifier: commentReuseIdentifier)
         view.addSubview(commentTableView)
@@ -128,7 +127,7 @@ class DetailViewController: UIViewController {
         dismiss(animated: true)
     }
  
-    func sortPostData() {
+    func sortCommentData() {
         commentData.sort { comment1, comment2 in
             return comment1.timeStamp > comment2.timeStamp
         }
@@ -144,7 +143,7 @@ class DetailViewController: UIViewController {
 
         NetworkManager.getAllPosts { comments in
             self.commentData = comments
-            self.sortPostData()
+            self.sortCommentData()
             self.shownCommentData = self.commentData
             self.commentTableView.reloadData()
         }
@@ -216,6 +215,13 @@ class DetailViewController: UIViewController {
     @objc func refreshData() {
 
         //TODO: #1.5 Implement Refresh
+        NetworkManager.getAllPosts { comments in
+            self.commentData = comments
+            self.sortCommentData()
+            self.shownCommentData = self.commentData
+            self.commentTableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
     }
 
     @objc func pushCreateView() {
@@ -228,32 +234,31 @@ protocol viewInfo: UICollectionViewCell{
     
 }
     
-extension DetailViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = commentTableView.cellForRow(at: indexPath) as! PostTableViewCell
-        let editVC = EditDetailViewController(comment: shownCommentData[indexPath.row], delegate: cell)
-        editVC.title = "My Title"
-        
-        present(editVC, animated: true)
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = view.backgroundColor
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == UITableViewCell.EditingStyle.delete) {
-            let deletedComment = shownCommentData[indexPath.row]
-            shownCommentData.remove(at: indexPath.row)
-            commentTableView.deleteRows(at: [indexPath], with: .fade)
-
-            //TODO: #2 Delete Post
-        }
-    }
-}
+//extension DetailViewController: UITableViewDelegate {
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = commentTableView.cellForRow(at: indexPath) as! PostTableViewCell
+//        editVC.title = "My Title"
+//
+//        present(editVC, animated: true)
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//        headerView.backgroundColor = view.backgroundColor
+//        return headerView
+//    }
+//
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if(editingStyle == UITableViewCell.EditingStyle.delete) {
+//            let deletedComment = shownCommentData[indexPath.row]
+//            shownCommentData.remove(at: indexPath.row)
+//            commentTableView.deleteRows(at: [indexPath], with: .fade)
+//
+//            //TODO: #2 Delete Post
+//        }
+//    }
+//}
 
 extension DetailViewController: UITableViewDataSource {
 
@@ -273,11 +278,15 @@ extension DetailViewController: UITableViewDataSource {
     }
 }
 
-extension DetailViewController: CreatePostDelegate {
+extension DetailViewController: CreateCommentDelegate {
 
-    func createPost(title: String, body: String, poster: String) {
+    func createComment(text: String, poster: String) {
 
         //TODO: #1 Create Post
+        NetworkManager.createComment(text: text, poster: poster) { comment in
+            self.shownCommentData = [comment] + self.shownCommentData
+            self.commentTableView.reloadData()
+        }
 
     }
     
