@@ -15,6 +15,7 @@ association_table = db.Table(
     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
 )
 
+
 class User(db.Model):
     """
     User model
@@ -25,25 +26,27 @@ class User(db.Model):
     """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password_digest = db.Column(db.String, nullable=False)
     comments = db.relationship("Comment", cascade="delete")
     positions = db.relationship("Position", cascade="delete")
-    favorites = db.relationship("Location", secondary=association_table, back_populates="fav_users")
-    
+    favorites = db.relationship(
+        "Location", secondary=association_table, back_populates="fav_users")
+
     # session information
     session_token = db.Column(db.String, nullable=False, unique=True)
     session_expiration = db.Column(db.DateTime, nullable=False)
     update_token = db.Column(db.String, nullable=False, unique=True)
-    
+
     def __init__(self, **kwargs):
         """
         Initializes User object
         """
         self.name = kwargs.get("name")
         self.email = kwargs.get("email")
-        self.password_digest = bcrypt.hashpw(kwargs.get("password").encode("utf8"), bcrypt.gensalt(rounds=13))
+        self.password_digest = bcrypt.hashpw(kwargs.get(
+            "password").encode("utf8"), bcrypt.gensalt(rounds=13))
         self.renew_session()
 
     def _urlsafe_base_64(self):
@@ -92,7 +95,7 @@ class User(db.Model):
             "session_expiration": str(self.session_expiration),
             "update_token": self.update_token
         }
-    
+
     def simple_serialize(self):
         """
         Simply serializes User object
@@ -103,6 +106,7 @@ class User(db.Model):
             "email": self.email
         }
 
+
 class Location(db.Model):
     """
     Location model (i.e. Morrison Dining, Uris Library)
@@ -112,13 +116,14 @@ class Location(db.Model):
     """
     __tablename__ = "locations"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable=False)
     comments = db.relationship("Comment", cascade="delete")
     address = db.Column(db.String, nullable=False)
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
-    #busyness = db.Column(db.Integer, nullable=False) # might not need
-    fav_users = db.relationship("User", secondary=association_table, back_populates="favorites")
+    # busyness = db.Column(db.Integer, nullable=False) # might not need
+    fav_users = db.relationship(
+        "User", secondary=association_table, back_populates="favorites")
 
     def __init__(self, **kwargs):
         """
@@ -130,7 +135,7 @@ class Location(db.Model):
         region = geolocator.geocode(self.address)
         self.latitude = region.latitude
         self.longitude = region.longitude
-    
+
     def serialize(self):
         """
         Serializes a Location object
@@ -144,7 +149,7 @@ class Location(db.Model):
             "comments": [c.simple_serialize() for c in self.comments],
             "fav_users": [f.simple_serialize() for f in self.fav_users]
         }
-    
+
     def simple_serialize(self):
         """
         Simply serializes a Location object
@@ -154,6 +159,7 @@ class Location(db.Model):
             "name": self.name,
             "address": self.address
         }
+
 
 class Comment(db.Model):
     """
@@ -167,9 +173,10 @@ class Comment(db.Model):
     text = db.Column(db.String)
     number = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    location_id = db.Column(db.Integer, db.ForeignKey("locations.id"), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey(
+        "locations.id"), nullable=False)
     timestamp = db.Column(db.String)
-    expired = db.Column(db.Boolean) # remove completely and let frontend deal?
+    expired = db.Column(db.Boolean)  # remove completely and let frontend deal?
 
     # keeping track of expiration date
     session_expiration = db.Column(db.DateTime, nullable=False)
@@ -182,24 +189,24 @@ class Comment(db.Model):
         self.number = kwargs.get("number", -1)
         self.user_id = kwargs.get("user_id")
         self.location_id = kwargs.get("location_id")
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=3)
         self.timestamp = datetime.datetime.now()
         self.expired = False
-        
+
     def serialize(self):
         """
         Serializes a Comment object
         """
         return {
-                "id": self.id,
-                "text": self.text,
-                "user_id":  User.query.filter_by(id=self.user_id).first().id,
-                "location_id": Location.query.filter_by(id=self.location_id).first().id,
-                "time_stamp": str(self.timestamp),
-                "expiration": str(self.session_expiration),
-                "expired": bool(self.session_expiration >= datetime.datetime.now())
-            }
-    
+            "id": self.id,
+            "text": self.text,
+            "user_id":  User.query.filter_by(id=self.user_id).first().id,
+            "location_id": Location.query.filter_by(id=self.location_id).first().id,
+            "time_stamp": str(self.timestamp),
+            "expiration": str(self.session_expiration),
+            "expired": bool(self.session_expiration >= datetime.datetime.now())
+        }
+
     def simple_serialize(self):
         """
         Simply serializes a Comment object
@@ -210,6 +217,7 @@ class Comment(db.Model):
             "timestamp": str(self.timestamp)
         }
 
+
 class Position(db.Model):
     """
     Model for positional data of Users
@@ -218,11 +226,11 @@ class Position(db.Model):
     """
     __tablename__ = "positions"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.DateTime)
-    
+
     def __init__(self, **kwargs):
         """
         Initializes Position object
@@ -231,7 +239,7 @@ class Position(db.Model):
         self.latitude = kwargs.get("latitude")
         self.longitude = kwargs.get("longitude")
         self.timestamp = datetime.datetime.now()
-    
+
     def serialize(self):
         """
         Serializes Position object
@@ -243,7 +251,7 @@ class Position(db.Model):
             "longitude": self.longitude,
             "timestamp": str(self.timestamp)
         }
-    
+
     def simple_serialize(self):
         """
         Simply serializes Position object
