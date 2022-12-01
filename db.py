@@ -29,6 +29,12 @@ association_table = db.Table(
     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
 )
 
+# busyness_table = db.Table(
+#     "busyness",
+#     db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
+#     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
+# )
+
 
 class User(db.Model):
     """
@@ -123,11 +129,36 @@ class User(db.Model):
         }
 
 
+class Busyness(db.Model):
+    """
+    Busyness model
+
+    Has a many-to-one relationship with Location 
+    """
+    __tablename__ = "busynesses"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    level = db.Column(db.Integer, nullable=False)
+    creation_time = db.Column(db.DateTime, nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey(
+        "locations.id"), nullable=False)
+    expired = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, **kwargs):
+        """
+        Initializes Busyness object
+        """
+        self.level = kwargs.get("level")
+        self.creation_time = datetime.datetime.now()
+        self.location_id = kwargs.get("location_id")
+        self.expired = False
+
+
 class Location(db.Model):
     """
     Location model (i.e. Morrison Dining, Uris Library)
 
     Has a one-to-many relationship with Comment
+    Has a one-to-many relationship with Busyness
     Has a many-to-many relationship with User (favorites)
     """
     __tablename__ = "locations"
@@ -135,9 +166,16 @@ class Location(db.Model):
     name = db.Column(db.String, nullable=False)
     comments = db.relationship("Comment", cascade="delete")
     address = db.Column(db.String, nullable=False)
+
+    # Latitude and Longitude as float maybe?
     latitude = db.Column(db.Integer, nullable=False)
     longitude = db.Column(db.Integer, nullable=False)
-    # busyness = db.Column(db.Integer, nullable=False) # might not need
+
+    # Busy level attempt
+    busyness = db.relationship("Busyness", cascade="delete")
+    busy_level = db.Column(db.Integer, nullable=False)
+    # Ends attempt
+
     fav_users = db.relationship(
         "User", secondary=association_table, back_populates="favorites")
 
@@ -151,6 +189,9 @@ class Location(db.Model):
         region = geolocator.geocode(self.address)
         self.latitude = region.latitude
         self.longitude = region.longitude
+
+        # Added field
+        self.busy_level = 0
 
     def serialize(self):
         """
@@ -205,7 +246,10 @@ class Comment(db.Model):
         self.number = kwargs.get("number", -1)
         self.user_id = kwargs.get("user_id")
         self.location_id = kwargs.get("location_id")
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=3)
+
+        # Change Comment Session Expiration time?
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
+
         self.timestamp = datetime.datetime.now()
         self.expired = False
 

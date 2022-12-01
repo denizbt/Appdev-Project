@@ -1,6 +1,6 @@
 import json
 
-from db import db, Location, User, Comment, Position, Asset
+from db import db, Location, User, Comment, Position, Asset, Busyness
 import users_dao
 from flask import Flask, request
 import datetime
@@ -11,6 +11,9 @@ db_filename = "spaced_out.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+
+# busyness duration in hours
+busyness_duration = 2
 
 db.init_app(app)
 with app.app_context():
@@ -76,26 +79,48 @@ def add_position(user_id):
     return success_response(new_position.serialize(), 200)
 
 
-# @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
-# def update_busyness(location_id):
-#     """
-#     Endpoint for updating the busyness of given location
+@app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
+def update_busyness(location_id):
+    """
+    Endpoint for updating the busyness of given location
 
-#     **currently does not take location services into account**
-#     **does not take expiration of busyness into account either [every two hours]**
-#     **we could require a valid log in to call this method? like secret message endpoint?**
-#     """
-#     # checking if location exists
-#     location = Location.query.filter_by(id=location_id).first()
-#     if (location is None):
-#         return failure_response({"error": "This location does not exist."})
+    **currently does not take location services into account**
+    **does not take expiration of busyness into account either [every two hours]**
+    **we could require a valid log in to call this method? like secret message endpoint?**
+    """
+    # checking if location exists
+    location = Location.query.filter_by(id=location_id).first()
+    if (location is None):
+        return failure_response({"error": "This location does not exist."})
 
-#     body = json.loads(request.data)
-#     busyness = body.get("busyness")
-#     user_id = body.get("user_id")
+    body = json.loads(request.data)
+    busyness = body.get("busyness")
 
-#     # need to discuss best way to update this counter [this is not it]
-#     location.busyness = location.busyness+busyness
+    # checking if required fields were provided
+    if (busyness is None):
+        return failure_response({"error": "User did not provide all required fields!"}, 400)
+
+    # Do we need user_id for this?
+    # user_id = body.get("user_id")
+
+    old_busyness = 0
+    busyness_lst = Busyness.query.filter_by(location_id=location_id).all()
+
+    if busyness_lst is not None:
+        for busy in busyness_lst:
+            # For testing!!
+            if busy.creation_time + datetime.timedelta(minutes=busyness_duration) >= datetime.datetime.now():
+                old_busyness += busy.level
+
+    new_busyness = Busyness(level=busyness, location_id=location_id)
+    db.session.add(new_busyness)
+
+    cur_busyness = busyness + old_busyness
+
+    location.busy_level = cur_busyness
+    db.session.commit()
+
+    return success_response({"location_id": location_id, "busy_level": cur_busyness})
 
 
 @app.route("/api/comments/")
@@ -149,38 +174,6 @@ def add_comment(location_id):
     db.session.commit()
 
     return success_response(new_comment.simple_serialize(), 200)
-
-
-@app.route("/api/comments/<int:location_id>/", methods=["DELETE"])
-def delete_comment(location_id):
-    """
-    Protected endpoint which allows a user to delete a comment that they wrote
-    """
-    success, session_token = extract_token(request)
-
-    if not success:
-        return failure_response({"error": "Session token could not be extracted."}, 400)
-
-    user = users_dao.get_user_by_session_token(session_token)
-    if user is None or not user.verify_session_token(session_token):
-        return failure_response({"erorr": "Invalid session token."}, 400)
-
-    body = json.loads(request.data)
-    user_id = body.get("user_id")
-
-    if (user_id is None):
-        return failure_response({"error": "User did not provide all required fields!"}, 400)
-
-    # user_id = user.id
-    # print(user_id)
-
-    comment = Comment.query.filter_by(
-        user_id=user_id, location_id=location_id).first()
-    print(comment.simple_serialize())
-    db.session.delete(comment)
-    db.session.commit()
-
-    return success_response(comment.simple_serialize(), 200)
 
 
 @app.route("/api/users/", methods=["POST"])
@@ -282,6 +275,35 @@ def upload(user_id):
 """
 DELETE requests
 """
+
+
+@app.route("/api/comments/<int:location_id>/", methods=["DELETE"])
+def delete_comment(location_id):
+    """
+    Protected endpoint which allows a user to delete a comment that they wrote
+    """
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+
+    if (user_id is None):
+        return failure_response({"error": "User did not provide all required fields!"}, 400)
+
+    comment = Comment.query.filter_by(
+        user_id=user_id, location_id=location_id).first()
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    return success_response(comment.serialize(), 200)
 
 
 @app.route("/api/users/", methods=["DELETE"])
