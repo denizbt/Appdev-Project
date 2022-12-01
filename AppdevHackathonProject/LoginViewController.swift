@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
         view.backgroundColor = maroon
         
         welcome.text = "Welcome!"
-        welcome.font = .systemFont(ofSize: 32)
+        welcome.font = .boldSystemFont(ofSize: 32)
         welcome.textColor = .white
         welcome.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(welcome)
@@ -85,7 +85,7 @@ class LoginViewController: UIViewController {
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(passwordTextField)
         
-        let horzPasswordLine = CGRect(x: 54, y: 447, width: 281.5, height: 0.5) //TODO: Change
+        let horzPasswordLine = CGRect(x: 54, y: 454, width: 281.5, height: 0.5) //TODO: Change
         let view3 = UIView(frame: horzPasswordLine)
         view3.backgroundColor = .white
         self.view.addSubview(view3)
@@ -173,28 +173,28 @@ class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            passwordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 399),
+            passwordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 405),
             passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             passwordLabel.heightAnchor.constraint(equalToConstant: 14),
             passwordLabel.widthAnchor.constraint(equalToConstant: 117)
         ])
         
         NSLayoutConstraint.activate([
-            passwordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 447),
+            passwordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 454),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             passwordTextField.heightAnchor.constraint(equalToConstant: 20),
             passwordTextField.widthAnchor.constraint(equalToConstant: 281.5)
         ])
         
         NSLayoutConstraint.activate([
-            loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 492),
+            loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 503),
             loginButton.heightAnchor.constraint(equalToConstant: 38),
             loginButton.widthAnchor.constraint(equalToConstant: 284),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            noAccountLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 608),
+            noAccountLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 619),
             noAccountLabel.heightAnchor.constraint(equalToConstant: 18),
             noAccountLabel.widthAnchor.constraint(equalToConstant: 170),
             noAccountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -202,7 +202,7 @@ class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 633),
+            signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 644),
             signUpButton.heightAnchor.constraint(equalToConstant: 24),
             signUpButton.widthAnchor.constraint(equalToConstant: 176),
             signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -211,15 +211,4 @@ class LoginViewController: UIViewController {
     
     func loginButtonPressed (_sender: UIButton) {
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
