@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
     
@@ -99,8 +100,6 @@ class ViewController: UIViewController {
     let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed")
     
     let bear = Places(imageName: "bear", name: "Bear Necessities Grill", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am")
-
-
     
     var placesCollectionView: UICollectionView!
     var filterCollectionView: UICollectionView!
@@ -116,13 +115,18 @@ class ViewController: UIViewController {
     let placesReuseIdentifier: String = "placesReuseIdentifier"
     let filterReuseIdentifier: String = "filterReuseIdentifier"
 
+    //location
+    private let map: MKMapView = {
+        let map = MKMapView()
+        return map
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
         title = "CU After School"
         view.backgroundColor = .white
-                
+        
         places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris, libe, atrium, barn, jennie, crossings, goldies, greenDragon, mannCafe, martha, mattin, novicks, rusty, trillium, bear]
             
         allPlaces = places
@@ -162,8 +166,26 @@ class ViewController: UIViewController {
 
         
         setUpConstraints()
+        
+        LocationManager.shared.getUserLocation { [weak self] location in
+            DispatchQueue.main.async {
+                guard let strongSelf = self else {
+                    return
+                }
+                let pin = MKPointAnnotation()
+                pin.coordinate = location.coordinate
+                strongSelf.map.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.7, longitudeDelta: 0.7)), animated: true)
+                strongSelf.map.addAnnotation(pin)
+            }
+        }
+
     }
   
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        map.frame = view.bounds
+    }
+    
     func setUpConstraints() {
         let collectionViewPadding: CGFloat = 10
         NSLayoutConstraint.activate([
@@ -215,6 +237,8 @@ class ViewController: UIViewController {
         placesCollectionView.reloadData()
         filterCollectionView.reloadData()
         }
+    
+    
         
     }
 
