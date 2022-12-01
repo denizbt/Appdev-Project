@@ -2,11 +2,25 @@ import datetime
 import hashlib
 import os
 import bcrypt
+import base64
+import boto3
+import io
+from io import BytesIO
+from mimetypes import guess_type, guess_extension
+from PIL import Image
+import random
+import re
+import string
 
 from flask_sqlalchemy import SQLAlchemy
 from geopy.geocoders import Nominatim
 
 db = SQLAlchemy()
+
+EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
+BASE_DIR = os.getcwd()
+S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
+S3_BASE_URL = f"https://{S3_BUCKET_NAME}.s3.us-east-1.amazonaws.com"
 
 # association table for many-to-many relationship between User and Location
 association_table = db.Table(
@@ -23,6 +37,7 @@ class User(db.Model):
     Has a one-to-many relationship with Comment
     Has a one-to-many relationship with Position
     Has a many-to-many relationship with Location (favorites)
+    Has a one-to-one relationship with Asset (profile pic)
     """
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -33,6 +48,7 @@ class User(db.Model):
     positions = db.relationship("Position", cascade="delete")
     favorites = db.relationship(
         "Location", secondary=association_table, back_populates="fav_users")
+    profile_pic = db.relationship("Asset")  # check if this works!
 
     # session information
     session_token = db.Column(db.String, nullable=False, unique=True)
@@ -259,5 +275,101 @@ class Position(db.Model):
         return {
             "latitude": self.latitude,
             "longitude": self.longitude,
+            "timestamp": str(self.timestamp)
+        }
+
+
+class Asset(db.Model):
+    """
+    Model for Assets (images)
+
+    Has a one-to-one relationship with User (profile picture)
+    """
+    __tablename__ = "asset"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    base_url = db.Column(db.String, nullable=False)
+    salt = db.Column(db.String, nullable=False)
+    extension = db.Column(db.String, nullable=False)
+    width = db.Column(db.Integer, nullable=False)
+    height = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+
+    # relationship with User (profile_pic)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    def __init__(self, **kwargs):
+        """
+        Initializes Asset object
+        """
+        self.user_id = kwargs.get("user_id")
+        self.create(kwargs.get("image_data"))
+
+    def create(self, image_data):
+        """
+        Given image in base64 encoding
+        1. Rejects the image if not supported file name
+        2. Generates random string for image file name
+        3. Decodes image and attempts to upload to AWS
+        """
+        try:
+            ext = guess_extension(guess_type(image_data)[0])[1:]
+
+            # check if extension filetype is supported
+            if ext not in EXTENSIONS:
+                raise Exception(f"Extension {ext} is not valid.")
+
+            salt = "".join(
+                random.SystemRandom().choice(
+                    string.ascii_uppercase + string.digits
+                )
+                for _ in range(16)
+            )
+
+            img_str = re.sub("^data:image/.+;base64,", "", image_data)
+            img_data = base64.b64decode(img_str)
+            img = Image.open(BytesIO(img_data))
+
+            self.base_url = S3_BASE_URL
+            self.salt = salt
+            self.extension = ext
+            self.width = img.width
+            self.height = img.height
+            self.timestamp = datetime.datetime.now()
+
+            img_filename = f"{self.salt}.{self.extension}"
+            self.upload(img, img_filename)
+        except Exception as e:
+            print(f"Error when creating image: {e}")
+
+    def upload(self, img, img_filename):
+        """
+        Attempts to upload the image into specified S3 bucket
+        """
+        try:
+            # put image in temp location
+            img_temp_loc = f"{BASE_DIR}/{img_filename}"
+            img.save(img_temp_loc)
+
+            # upload image into S3 bucket
+            s3_client = boto3.client("s3")
+            s3_client.upload_file(img_temp_loc, S3_BUCKET_NAME, img_filename)
+
+            s3_resource = boto3.resource("s3")
+            object_acl = s3_resource.ObjectAcl(S3_BUCKET_NAME, img_filename)
+            object_acl.put(ACL="public-read")
+
+            # remove image from temp location
+            os.remove(img_temp_loc)
+        except Exception as e:
+            print(f"Error when uploading image: {e}")
+
+    def serialize(self):
+        """
+        Serializes an Asset object
+        """
+        return {
+            "user_id": self.user_id,
+            "url": f"{self.base_url}/{self.salt}.{self.extension}",
+            "bucket name": S3_BUCKET_NAME,
             "timestamp": str(self.timestamp)
         }

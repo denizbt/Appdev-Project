@@ -1,6 +1,6 @@
 import json
 
-from db import db, Location, User, Comment, Position
+from db import db, Location, User, Comment, Position, Asset
 import users_dao
 from flask import Flask, request
 import datetime
@@ -253,6 +253,35 @@ def logout():
     db.session.commit()
 
     return success_response({"message": "User has successfully logged out."})
+
+
+@app.route("/api/users/upload/<int:user_id>/", methods=["POST"])
+def upload(user_id):
+    """
+    Endpoint which allows Users to upload image for their profile picture
+    Uploads image to AWS given base64 form, stores URL of image in AWS
+    """
+    body = json.loads(request.data)
+    image_data = body.get("image_data")
+
+    if image_data is None:
+        return failure_response({"error": "No base64 image is found."})
+
+    user = User.query.filter_by(id=user_id).first()
+    # check if user exists
+    if (user is None):
+        return failure_response({"error": "This user does not exist."})
+
+    asset = Asset(image_data=image_data, user_id=user_id)
+    db.session.add(asset)
+    db.session.commit()
+
+    return success_response(asset.serialize(), 201)
+
+
+"""
+DELETE requests
+"""
 
 
 @app.route("/api/users/", methods=["DELETE"])
