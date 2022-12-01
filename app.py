@@ -1,11 +1,9 @@
 import json
 
-from db import db, Location, User, Comment, Position
+from db import db, Location, User, Comment, Position, Asset
 import users_dao
 from flask import Flask, request
-from datetime import datetime
-from geopy import distance
-from geopy.geocoders import Nominatim
+import datetime
 
 app = Flask(__name__)
 db_filename = "spaced_out.db"
@@ -23,8 +21,10 @@ with app.app_context():
 def success_response(data, code=200):
     return json.dumps(data), code
 
+
 def failure_response(data, code=404):
     return json.dumps(data), code
+
 
 def extract_token(request):
     """
@@ -40,9 +40,16 @@ def extract_token(request):
 
     return True, bearer_token
 
-"""
-POST requests
-"""
+
+@app.route("/api/positions/<int:location_id>/")
+def get_active_users(location_id):
+    """
+    Endpoint for getting the number of active users in a given location.
+    ** need to get lat/longitude info for each location **
+    """
+    #positions = Position.query.filter_by()
+
+
 @app.route("/api/positions/<int:user_id>/", methods=["POST"])
 def add_position(user_id):
     """
@@ -61,88 +68,54 @@ def add_position(user_id):
     if (user is None):
         return failure_response({"error": "This user does not exist."})
 
-    new_position = Position(user_id=user_id, latitude=latitude, longitude=longitude)
+    new_position = Position(
+        user_id=user_id, latitude=latitude, longitude=longitude)
     db.session.add(new_position)
     db.session.commit()
 
     return success_response(new_position.serialize(), 200)
 
-@app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
-def update_busyness(location_id):
-    """    
-    Endpoint for updating the busyness of given location
 
-    ** querying Comment database to calculate aggregate busyness for a location ** 
+# @app.route("/api/locations/busyness/<int:location_id>/", methods=["POST"])
+# def update_busyness(location_id):
+#     """
+#     Endpoint for updating the busyness of given location
+
+#     **currently does not take location services into account**
+#     **does not take expiration of busyness into account either [every two hours]**
+#     **we could require a valid log in to call this method? like secret message endpoint?**
+#     """
+#     # checking if location exists
+#     location = Location.query.filter_by(id=location_id).first()
+#     if (location is None):
+#         return failure_response({"error": "This location does not exist."})
+
+#     body = json.loads(request.data)
+#     busyness = body.get("busyness")
+#     user_id = body.get("user_id")
+
+#     # need to discuss best way to update this counter [this is not it]
+#     location.busyness = location.busyness+busyness
+
+
+@app.route("/api/comments/")
+def get_all_comments():
     """
-
-    # checking if location exists
-    location = Location.query.filter_by(id=location_id).first()
-    if (location is None):
-        return failure_response({"error": "This location does not exist."})
-
-    body = json.loads(request.data)
-    
-@app.route("/api/favorites/<int:location_id>/", methods=["POST"])
-def add_favorite(location_id):
+    Endpoint for getting all comments (regardless of location and User)
     """
-    Endpoint for marking a Location as a favorite of given User
+    comments = [comment.serialize() for comment in Comment.query.all()]
+    return success_response({"comments": comments})
+
+
+@app.route("/api/comments/<int:location_id>/")
+def get_comments_by_location(location_id):
     """
-    # check if location exists
-    location = Location.query.filter_by(id=location_id).first()
-    
-    if (location is None):
-        return failure_response({"error": "This location does not exist."})
-
-    body = json.loads(request.data)
-    user_id = body.get("user_id")
-
-    # checking if required fields were provided
-    if (user_id is None):
-        return failure_response({"error": "You did not provide all required fields!"}, 400)
-
-    user = User.query.filter_by(id=user_id).first()
-    # check if user exists
-    if (user is None):
-        return failure_response({"error": "This user does not exist."})
-
-    location.fav_users.append(user)
-    user.favorites.append(location)
-    db.session.commit()
-
-    return success_response(location.simple_serialize(), 200)
-
-@app.route("/api/favorites/<int:location_id>/remove/", methods=["POST"])
-def remove_favorite(location_id):
+    Endpoint for getting all (unexpired) comments associated with a given location
     """
-    Endpoint which removes favorite marker of User and Location
-    """
-    # check if location exists
-    location = Location.query.filter_by(id=location_id).first()
-    if location is None:
-        return failure_response({"error": "This location does not exist."})
+    comments = [comment.simple_serialize() for comment in Comment.query.all()
+                if comment.simple_serialize() is not None]
+    return success_response({"comments": comments})
 
-    body = json.loads(request.data)
-    user_id = body.get("user_id")
-    # check if user_id is provided
-    if user_id is None:
-        return failure_response({"error": "You did not provide all required fields!"}, 400)
-
-    # check if user exists
-    user = User.query.filter_by(id=user_id).first()
-    if (user is None):
-        return failure_response({"error": "User not found."})
-
-    check = False
-    for f in user.favorites:
-        if f.id == location_id:
-            check = True
-            break
-    if not check:
-        return failure_response({"error": "User has not been added to this course."})
-
-    location.fav_users.remove(user)
-    db.session.commit()
-    return success_response(user.serialize())
 
 @app.route("/api/comments/<int:location_id>/", methods=["POST"])
 def add_comment(location_id):
@@ -150,6 +123,8 @@ def add_comment(location_id):
     Endpoint for adding a comment for given location by given user
 
     ** maybe add that User must be authenticated in order to add a comment [protected endpoint?] **
+    ** need to implement a check for making sure the User is at the correct
+    location before adding a commment **
     """
     # checking if location exists
     location = Location.query.filter_by(id=location_id).first()
@@ -159,10 +134,9 @@ def add_comment(location_id):
     body = json.loads(request.data)
     user_id = body.get("user_id")
     text = body.get("text")
-    number = body.get("number")
 
     # checking if required fields were provided
-    if (user_id is None or (text is None and number is None)):
+    if (user_id is None or text is None):
         return failure_response({"error": "User did not provide all required fields!"}, 400)
 
     user = User.query.filter_by(id=user_id).first()
@@ -170,24 +144,15 @@ def add_comment(location_id):
     if (user is None):
         return failure_response({"error": "This user does not exist."})
 
-    # check if User is at the location that they say they are
-    now = datetime.now()
-    positions = [pos.serialize() for pos in Position.query.filter_by(user_id=user_id)]
-    for pos in positions:
-        user_loc = (pos.get("latitude"),pos.get("longitude"))
-        loc_loc = (location.latitude, location.longitude)
-        dist = distance.distance(user_loc, loc_loc).km
-        date = pos.get("timestamp").split()
-        if (int(date[1][:2]) >= now.hour-1 and int(date[1][:2]) <= now.hour+1) and dist <= 2:
-            new_comment = Comment(text=text, number=number, user_id=user_id, location_id=location_id)
-            db.session.add(new_comment)
-            db.session.commit()
-            return success_response(new_comment.simple_serialize(), 200)
-        
-    return failure_response({"error": "User can't leave comment on location they are not recently at."})
+    new_comment = Comment(text=text, user_id=user_id, location_id=location_id)
+    db.session.add(new_comment)
+    db.session.commit()
 
-@app.route("/api/users/", methods=["DELETE"])
-def delete_comment():
+    return success_response(new_comment.simple_serialize(), 200)
+
+
+@app.route("/api/comments/<int:location_id>/", methods=["DELETE"])
+def delete_comment(location_id):
     """
     Protected endpoint which allows a user to delete a comment that they wrote
     """
@@ -200,12 +165,23 @@ def delete_comment():
     if user is None or not user.verify_session_token(session_token):
         return failure_response({"erorr": "Invalid session token."}, 400)
 
-    user_id = user.id
-    comment = Comment.query.filter_by(user_id=user_id).first()
+    body = json.loads(request.data)
+    user_id = body.get("user_id")
+
+    if (user_id is None):
+        return failure_response({"error": "User did not provide all required fields!"}, 400)
+
+    # user_id = user.id
+    # print(user_id)
+
+    comment = Comment.query.filter_by(
+        user_id=user_id, location_id=location_id).first()
+    print(comment.simple_serialize())
     db.session.delete(comment)
     db.session.commit()
 
     return success_response(comment.simple_serialize(), 200)
+
 
 @app.route("/api/users/", methods=["POST"])
 def register_user():
@@ -221,8 +197,8 @@ def register_user():
     if (name is None or email is None or password is None):
         return failure_response({"error": "You did not provide all required fields!"}, 400)
 
-    success, user = users_dao.create_user(name,email,password)
-    
+    success, user = users_dao.create_user(name, email, password)
+
     if not success:
         return failure_response({"error": "User with this info already exists."}, 400)
 
@@ -231,6 +207,7 @@ def register_user():
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
+
 
 @app.route("/api/users/login/", methods=["POST"])
 def login():
@@ -243,43 +220,23 @@ def login():
 
     if email is None or password is None:
         return failure_response({"error": "User did not provide all required fields."}, 400)
-    
+
     success, user = users_dao.verify_credentials(email, password)
 
     if not success:
         return failure_response({"error": "Password or email is incorrect."}, 401)
-    
+
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
 
+
 @app.route("/api/users/logout/", methods=["POST"])
 def logout():
     """
     Endpoint which allows user to logout (pass in session token)
-    """
-    success, session_token = extract_token(request)
-
-    if not success:
-        return failure_response({"error": "Update token could not be extracted."}, 400)
-
-    user = users_dao.get_user_by_session_token(session_token)
-    if user is None or not user.verify_session_token(session_token):
-        return failure_response({"erorr": "Invalid session token."}, 400)
-    
-    user.session_token = ""
-    user.session_expiration = datetime.now()
-    user.update_token = ""
-    db.session.commit()
-
-    return success_response({"message": "User has successfully logged out."})
-
-@app.route("/api/users/", methods=["DELETE"])
-def delete_user():
-    """
-    Protected endpoint which allows a user to delete their account
     """
     success, session_token = extract_token(request)
 
@@ -290,11 +247,64 @@ def delete_user():
     if user is None or not user.verify_session_token(session_token):
         return failure_response({"erorr": "Invalid session token."}, 400)
 
+    user.session_token = ""
+    user.session_expiration = datetime.datetime.now()
+    user.update_token = ""
+    db.session.commit()
+
+    return success_response({"message": "User has successfully logged out."})
+
+
+@app.route("/api/users/upload/<int:user_id>/", methods=["POST"])
+def upload(user_id):
+    """
+    Endpoint which allows Users to upload image for their profile picture
+    Uploads image to AWS given base64 form, stores URL of image in AWS
+    """
+    body = json.loads(request.data)
+    image_data = body.get("image_data")
+
+    if image_data is None:
+        return failure_response({"error": "No base64 image is found."})
+
+    user = User.query.filter_by(id=user_id).first()
+    # check if user exists
+    if (user is None):
+        return failure_response({"error": "This user does not exist."})
+
+    asset = Asset(image_data=image_data, user_id=user_id)
+    db.session.add(asset)
+    db.session.commit()
+
+    return success_response(asset.serialize(), 201)
+
+
+"""
+DELETE requests
+"""
+
+
+@app.route("/api/users/", methods=["DELETE"])
+def delete_user():
+    """
+    Protected endpoint which allows a user to delete their account
+    """
+
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response({"error": "Session token could not be extracted."}, 400)
+
+    user = users_dao.get_user_by_session_token(session_token)
+
+    if user is None or not user.verify_session_token(session_token):
+        return failure_response({"erorr": "Invalid session token."}, 400)
+
     db.session.delete(user)
     db.session.commit()
     return success_response(user.simple_serialize())
 
-# is this necessary for front end?
+
 @app.route("/api/session/", methods=["POST"])
 def update_session():
     """
@@ -309,19 +319,13 @@ def update_session():
 
     if not success_user:
         return failure_response({"error": "Invalid update token."}, 400)
-    
+
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     })
 
-"""
-GET requests
-"""
-@app.route("/")
-def hello_world():
-    print("hello world!!")
 
 @app.route("/api/users/<int:id>/")
 def get_user_by_id(id):
@@ -329,62 +333,20 @@ def get_user_by_id(id):
     Endpoint for getting the user with given id
     """
     user = User.query.filter_by(id=id).first()
-    
+
     # check if user exists
     if (user is None):
         return failure_response({"error": "This user does not exist."})
 
     return success_response(user.serialize())
 
-@app.route("/api/locations/<int:id>/")
-def get_location_by_id(id):
-    """
-    Endpoint for getting the location with given id
-    """
-    location = Location.query.filter_by(id=id).first()
-    
-    # check if user exists
-    if (location is None):
-        return failure_response({"error": "This user does not exist."})
-
-    return success_response(location.serialize())
-
-@app.route("/api/comments/<int:location_id>/") 
-def get_comments_by_location(location_id):
-    """
-    Endpoint for getting all comments associated with a given location
-    """
-    comments = [comment.simple_serialize() for comment in Comment.query.all()]
-    return success_response({"comments": comments})
-
-
-# not sure if this is necessary for frontend use...
-@app.route("/api/positions/<int:user_id>/")
-def get_user_positions(user_id):
-    """
-    Endpoint for getting all positional data for a given user.
-    """
-    user = User.query.filter_by(id=user_id).first()
-    # check if user exists
-    if (user is None):
-        return failure_response({"error": "This user does not exist."})
-
-    positions = [pos.simple_serialize() for pos in Position.query.filter_by(user_id=user_id)]
-    return success_response({"positions": positions}, 200)
-
-# not written yet
-@app.route("/api/positions/active/<int:location_id>/")
-def get_active_users(location_id):
-    """
-    Endpoint for getting the number of active users in a given location.
-    ** not priority **
-    """
-    #positions = Position.query.filter_by()
 
 """
 need to keep the database prepopulated with locations during deployment
 this endpoint shouldn't be publically accessible
 """
+
+
 @app.route("/api/locations/", methods=["POST"])
 def create_location():
     """
@@ -402,16 +364,6 @@ def create_location():
     db.session.add(new_location)
     db.session.commit()
     return success_response(new_location.serialize(), 201)
-
-
-# get_all_comments() not necessary for frontend API specs
-@app.route("/api/comments/")
-def get_all_comments():
-    """
-    Endpoint for getting all comments (regardless of Location, User or expiration)
-    """
-    comments = [comment.serialize() for comment in Comment.query.all()]
-    return success_response({"comments": comments})
 
 
 if __name__ == "__main__":
