@@ -6,32 +6,44 @@
 //
 
 import UIKit
+import Foundation
 
 class LoginViewController: UIViewController {
     
-    let loginLabel = UILabel()
+    let welcome = UILabel()
     let usernameTextField = UITextField()
+    let usernameUILabel = UILabel()
     let passwordTextField = UITextField()
     let signUpButton = UIButton()
     let loginButton = UIButton()
     let height = CGFloat(40)
 
     let urlBlue = UIColor(red: 51/255, green: 102/255, blue: 204/255, alpha: 1.0)
-
+    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        view.backgroundColor = .white
+        view.backgroundColor = maroon
         
-        loginLabel.text = "Login"
-        loginLabel.font = .systemFont(ofSize: 50)
-        loginLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loginLabel)
+        welcome.text = "Welcome!"
+        welcome.font = .systemFont(ofSize: 32)
+        welcome.textAlignment = .center
+        welcome.textColor = .white
+        welcome.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(welcome)
+        
+        usernameUILabel.text = "USERNAME"
+        usernameUILabel.font = .systemFont(ofSize: 15)
+        usernameUILabel.textAlignment = .center
+        usernameUILabel.textColor = .white
+        usernameUILabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(usernameUILabel)
 
         usernameTextField.placeholder = "Username"
         usernameTextField.backgroundColor = .white
         usernameTextField.borderStyle = .roundedRect
+        //usernameTextField.delegate = self
         usernameTextField.layer.borderWidth = 3
         usernameTextField.layer.cornerRadius = 10
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +52,7 @@ class LoginViewController: UIViewController {
         passwordTextField.placeholder = "Password"
         passwordTextField.backgroundColor = .white
         passwordTextField.borderStyle = .roundedRect
+        //passwordTextField.delegate = self
         passwordTextField.layer.borderWidth = 3
         passwordTextField.layer.cornerRadius = 10
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -75,15 +88,24 @@ class LoginViewController: UIViewController {
     func setUpConstraints() {
         
         NSLayoutConstraint.activate([
-            loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            loginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            welcome.topAnchor.constraint(equalTo: view.topAnchor, constant: 207),
+            welcome.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            welcome.heightAnchor.constraint(equalToConstant: 39),
+            welcome.widthAnchor.constraint(equalToConstant: 157)
         ])
         
         NSLayoutConstraint.activate([
-            usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -15),
-            usernameTextField.heightAnchor.constraint(equalToConstant: height),
-            usernameTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            usernameUILabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 282),
+            usernameUILabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            usernameUILabel.heightAnchor.constraint(equalToConstant: 14),
+            usernameUILabel.widthAnchor.constraint(equalToConstant: 117)
+        ])
+        
+        NSLayoutConstraint.activate([
+            usernameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 207),
+            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            usernameTextField.heightAnchor.constraint(equalToConstant: 39),
+            usernameTextField.widthAnchor.constraint(equalToConstant: 157)
         ])
         
         NSLayoutConstraint.activate([
@@ -108,6 +130,8 @@ class LoginViewController: UIViewController {
         ])
     }
     
+    func loginButtonPressed (_sender: UIButton) {
+    }
 
     /*
     // MARK: - Navigation

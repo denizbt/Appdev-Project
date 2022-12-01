@@ -14,30 +14,31 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     var placesCrowd = UILabel()
     
     //design
-    let cellBGcolor = UIColor(red: 204.0/255, green: 227.0/255, blue: 222.0/255, alpha: 1.0)
     let textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
  
     override init(frame: CGRect) {
         super.init(frame: frame)
- 
-        contentView.layer.cornerRadius = 8
+        contentView.layer.cornerRadius = 15
         contentView.clipsToBounds = true
-        contentView.backgroundColor = cellBGcolor
+        contentView.backgroundColor = maroon
  
         placesImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesImageView)
         
-        placesName.font = UIFont.boldSystemFont(ofSize: 18)
-        placesName.textColor = textColor
+        placesName.font = .systemFont(ofSize: 16, weight: UIFont.Weight(rawValue: 600))
+        placesName.textColor = .white
         placesName.textAlignment = .center
         placesName.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesName)
         
-        placesCategory.textColor = textColor
+        placesCategory.font = .systemFont(ofSize: 16, weight: .medium)
+        placesCategory.textColor = .white
         placesCategory.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesCategory)
         
-        placesCrowd.textColor = textColor
+        placesCrowd.font = .systemFont(ofSize: 16, weight: .medium)
+        placesCrowd.textColor = .white
         placesCrowd.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesCrowd)
  
@@ -48,25 +49,23 @@ class PlacesCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             placesImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             placesImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            placesImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
-            placesImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            placesImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            placesImageView.heightAnchor.constraint(equalToConstant: 85),
+            placesImageView.widthAnchor.constraint(equalToConstant: 168),
         ])
         
         NSLayoutConstraint.activate([
-            placesName.topAnchor.constraint(equalTo: placesImageView.bottomAnchor, constant: 10),
-            placesName.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            placesName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            placesName.topAnchor.constraint(equalTo: placesImageView.bottomAnchor, constant: 9),
+            placesName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13),
         ])
         
         NSLayoutConstraint.activate([
-            placesCategory.topAnchor.constraint(equalTo: placesName.bottomAnchor,constant: 5),
-            placesCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5)
+            placesCategory.topAnchor.constraint(equalTo: placesName.bottomAnchor, constant: 5),
+            placesCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13)
         ])
         
         NSLayoutConstraint.activate([
-            placesCrowd.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            placesCrowd.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5)
+            placesCrowd.topAnchor.constraint(equalTo: placesCategory.bottomAnchor),
+            placesCrowd.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13)
         ])
     }
  

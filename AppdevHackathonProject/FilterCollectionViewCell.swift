@@ -12,24 +12,27 @@ class FilterCollectionViewCell: UICollectionViewCell {
     var filterButton = UILabel()
     
     //design
-    let filterColor = UIColor(red: 164/255, green: 195/255, blue: 178/255, alpha: 1)
-    let selected_filterColor = UIColor(red: 107/255, green: 144/255, blue: 128/255, alpha: 1)
-
+    let selected_filterColor = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
-        contentView.layer.cornerRadius = 26
+        
+        contentView.layer.cornerRadius = 15
         contentView.clipsToBounds = true
         
-        filterButton.backgroundColor = filterColor
+        filterButton.font = .systemFont(ofSize: 16, weight: .semibold)
+        filterButton.backgroundColor = .white
         filterButton.contentMode = .scaleAspectFit
         filterButton.textAlignment = .center
         filterButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(filterButton)
         
         setUpConstraints()
+        
     }
+    
+
     
     func setUpConstraints(){
         NSLayoutConstraint.activate([
@@ -40,18 +43,22 @@ class FilterCollectionViewCell: UICollectionViewCell {
             ])
     }
     
+    
     func configure(filters: Filter) {
         filterButton.text = filters.filterName
+        filterButton.sizeToFit()
         if filters.selected == true {
             filterButton.backgroundColor = selected_filterColor
+            filterButton.textColor = .white
         }
         else {
-            filterButton.backgroundColor = filterColor
+            filterButton.backgroundColor = .white
+            filterButton.textColor = selected_filterColor
         }
     }
     
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

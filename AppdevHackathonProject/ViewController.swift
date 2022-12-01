@@ -10,6 +10,7 @@ import MapKit
 
 class ViewController: UIViewController {
     
+    let all = Filter(filterName: "All", selected: false)
     let diningHalls = Filter(filterName: "Dining Halls", selected: false)
     let libraries = Filter(filterName: "Libraries", selected: false)
     let cafes = Filter(filterName: "Cafés", selected: false)
@@ -43,7 +44,7 @@ class ViewController: UIViewController {
     
     let ilr = Places(imageName: "ilr", name: "ILR Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
     
-    let physicalSciences = Places(imageName: "physicalSciences", name: "Clark Physical Sciences Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
+    let physicalSciences = Places(imageName: "physicalSciences", name: "Physical Sciences Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
     
     let engineering = Places(imageName: "engineering", name: "Engineering Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
     
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
 
     let mann = Places(imageName: "mann", name: "Mann Library", category: "Library", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 6:00pm", sat: "12:00pm - 6:00pm", sun: "12:00pm - 6:00pm")
     
-    let math = Places(imageName: "math", name: "Mathematics Library", category: "Library", crowded: 0.0, mon: "9:00am - 8:00pm", tue: "9:00am - 8:00pm", wed: "9:00am - 8:00pm", thu: "9:00am - 8:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "12:00pm - 8:00pm")
+    let math = Places(imageName: "math", name: "Math Library", category: "Library", crowded: 0.0, mon: "9:00am - 8:00pm", tue: "9:00am - 8:00pm", wed: "9:00am - 8:00pm", thu: "9:00am - 8:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "12:00pm - 8:00pm")
     
     let arts = Places(imageName: "arts", name: "Fine Arts Library", category: "Library", crowded: 0.0, mon: "9:00am - 10:00pm", tue: "9:00am - 10:00pm", wed: "9:00am - 10:00pm", thu: "9:00am - 10:00pm", fri: "9:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "Closed")
     
@@ -99,10 +100,11 @@ class ViewController: UIViewController {
     //Food Court
     let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed")
     
-    let bear = Places(imageName: "bear", name: "Bear Necessities Grill", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am")
+    let bear = Places(imageName: "bear", name: "Bear Necessities", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am")
     
     var placesCollectionView: UICollectionView!
     var filterCollectionView: UICollectionView!
+    let afterSchoolLabel = UILabel()
     let spacing: CGFloat = 10
     
     var places: [Places] = []
@@ -114,7 +116,14 @@ class ViewController: UIViewController {
     var filterSelected: [Bool] = [false, false]
     let placesReuseIdentifier: String = "placesReuseIdentifier"
     let filterReuseIdentifier: String = "filterReuseIdentifier"
-
+    
+    let homeButton = UIButton()
+    var home = UIImage(named: "home")
+    let profileButton = UIButton()
+    let profile = UIImage(named: "profile")
+    
+    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
+    
     //location
     private let map: MKMapView = {
         let map = MKMapView()
@@ -124,14 +133,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: true)
-        title = "CU After School"
         view.backgroundColor = .white
+
         
         places = [morrison, northStar, risley, okenshields, becker, cook, bethe, keeton, rose, west, adelson, ilr, physicalSciences, engineering, vet, africana, olin, kroch, law, management, mann, math, arts, hotel, uris, libe, atrium, barn, jennie, crossings, goldies, greenDragon, mannCafe, martha, mattin, novicks, rusty, trillium, bear]
             
         allPlaces = places
         
-        filters = [diningHalls, libraries, cafes, foodCourts, serviceCenters]
+        filters = [all, diningHalls, libraries, cafes, foodCourts, serviceCenters]
         
         allFilters = filters
         
@@ -163,23 +172,51 @@ class ViewController: UIViewController {
         placesCollectionView.dataSource = self
         placesCollectionView.delegate = self
         view.addSubview(placesCollectionView)
+        
+        //shapes
+        let rectangle1 = CGRect(x: 0, y: 0, width: 400, height: 116)
+        let view1 = UIView(frame: rectangle1)
+        view1.backgroundColor = maroon
+        self.view.addSubview(view1)
+        
+        let rectangle2 = CGRect(x: 0, y: 773, width: 400, height: 71)
+        let view2 = UIView(frame: rectangle2)
+        view2.backgroundColor = .white
+        self.view.addSubview(view2)
+        
+        afterSchoolLabel.text = "CU After School"
+        afterSchoolLabel.font = .systemFont(ofSize: 32)
+        afterSchoolLabel.textAlignment = .center
+        afterSchoolLabel.textColor = .white
+        afterSchoolLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(afterSchoolLabel)
+        
+        let vertLine = CGRect(x: 196, y: 785, width: 2, height: 47)
+        let view3 = UIView(frame: vertLine)
+        view3.backgroundColor = maroon
+        self.view.addSubview(view3)
 
+        homeButton.setBackgroundImage(home, for: .normal)
+        homeButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(homeButton)
+        
+        profileButton.setBackgroundImage(profile, for: .normal)
+        profileButton.addTarget(self, action: #selector(pushProfile), for: .touchUpInside)
+        profileButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(profileButton)
         
         setUpConstraints()
         
-        LocationManager.shared.getUserLocation { [weak self] location in
-            DispatchQueue.main.async {
-                guard let strongSelf = self else {
-                    return
-                }
-                let pin = MKPointAnnotation()
-                pin.coordinate = location.coordinate
-                strongSelf.map.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.7, longitudeDelta: 0.7)), animated: true)
-                strongSelf.map.addAnnotation(pin)
-            }
+        LocationManager.shared.getUserLocation { location in
+
         }
 
     }
+    
+    @objc func pushProfile() {
+        navigationController?.pushViewController(ProfileViewController(), animated: true)
+    }
+    
   
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -187,11 +224,33 @@ class ViewController: UIViewController {
     }
     
     func setUpConstraints() {
-        let collectionViewPadding: CGFloat = 10
+        let collectionViewPadding: CGFloat = 18
+        
         NSLayoutConstraint.activate([
-            filterCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: collectionViewPadding),
+            afterSchoolLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 68),
+            afterSchoolLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            afterSchoolLabel.heightAnchor.constraint(equalToConstant: 39),
+            afterSchoolLabel.widthAnchor.constraint(equalToConstant: 251)
+        ])
+        
+        NSLayoutConstraint.activate([
+            homeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 780),
+            homeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            homeButton.heightAnchor.constraint(equalToConstant: 60),
+            homeButton.widthAnchor.constraint(equalToConstant: 60)
+        ])
+        
+        NSLayoutConstraint.activate([
+            profileButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 780),
+            profileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 260),
+            profileButton.heightAnchor.constraint(equalToConstant: 60),
+            profileButton.widthAnchor.constraint(equalToConstant: 60)
+        ])
+        
+        NSLayoutConstraint.activate([
+            filterCollectionView.topAnchor.constraint(equalTo: afterSchoolLabel.bottomAnchor, constant: 23),
             filterCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: collectionViewPadding),
-            filterCollectionView.heightAnchor.constraint(equalToConstant: 50),
+            filterCollectionView.heightAnchor.constraint(equalToConstant: 31),
             filterCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -collectionViewPadding)
         ])
         NSLayoutConstraint.activate([
@@ -205,42 +264,46 @@ class ViewController: UIViewController {
     func filterRestaurants() {
         places = []
         
-        if(filters[0].selected == true){
+        if(filters[1].selected == true){
             places = places + allPlaces.filter({ places in
                 places.category == "Dining Hall"
             })
         }
-        if(filters[1].selected == true){
+        if(filters[2].selected == true){
             places = places + allPlaces.filter({ places in
                 places.category == "Library"
             })
         }
-        if(filters[2].selected == true){
+        if(filters[3].selected == true){
             places = places + allPlaces.filter({ places in
                 places.category == "Café"
             })
         }
-        if(filters[3].selected == true){
+        if(filters[4].selected == true){
             places = places + allPlaces.filter({ places in
                 places.category == "Food Court"
             })
         }
-        if(filters[4].selected == true){
+        if(filters[5].selected == true){
             places = places + allPlaces.filter({ places in
                 places.category == "Service Center"
             })
         }
         
-        if (filters[0].selected == filters[1].selected && filters[1].selected == filters[2].selected && filters[2].selected == filters[3].selected && filters[3].selected == filters[4].selected) {
+        if(filters[0].selected == true){
+            places = allPlaces
+            }
+        else if (filters[1].selected == filters[2].selected && filters[2].selected == filters[3].selected && filters[3].selected == filters[4].selected && filters[4].selected == filters[5].selected) {
+            places = allPlaces
+        }
+        else if (filters[0].selected == filters[1].selected && filters[1].selected == filters[2].selected && filters[2].selected == filters[3].selected && filters[3].selected == filters[4].selected && filters[4].selected == filters[5].selected) {
             places = allPlaces
         }
         placesCollectionView.reloadData()
         filterCollectionView.reloadData()
         }
-    
-    
         
-    }
+}
 
 
 extension ViewController: UICollectionViewDataSource {
@@ -274,12 +337,10 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout UICollectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (collectionView == filterCollectionView) {
-            let size = (filterCollectionView.frame.width - 10)/2.5
-            return CGSize(width: size, height: 50)
+                return CGSize(width: 140, height: 31)
         }
         else {
-            let size = (placesCollectionView.frame.width - 10)/2.0
-            return CGSize(width: size, height: size)
+            return CGSize(width: 168, height: 166)
         }
     }
     
@@ -297,7 +358,3 @@ extension ViewController: UICollectionViewDelegate {
         }
     }
 }
-
-
-
-

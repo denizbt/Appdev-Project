@@ -17,11 +17,9 @@ class DetailViewController: UIViewController {
     let backButton = UIButton()
     
     //design
-    let labelCornerRadius = CGFloat(10)
-    let viewBGcolor = UIColor(red: 204.0/255, green: 227.0/255, blue: 222.0/255, alpha: 1.0)
-    let textBGcolor = UIColor(red: 234.0/255, green: 244.0/255, blue: 244.0/255, alpha: 1.0)
-    let textColor = UIColor(red: 107.0/255, green: 144.0/255, blue: 128.0/255, alpha: 1.0)
-    let textFont = CGFloat(20)
+    let labelCornerRadius = CGFloat(15)
+    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
+    let textFont = CGFloat(16)
     let babyBlue = CGColor(red: 0/255, green: 191/255, blue: 255/255, alpha: 1.0)
  
     let places: Places
@@ -45,16 +43,18 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = viewBGcolor
+        view.backgroundColor = maroon
  
         imageView.image = UIImage(named:places.imageName)
+        imageView.sizeToFit()
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
         nameTextView.text = places.name
         nameTextView.font = .systemFont(ofSize: textFont)
-        nameTextView.backgroundColor = textBGcolor
-        nameTextView.textColor = textColor
+        nameTextView.backgroundColor = .white
+        nameTextView.textColor = maroon
         nameTextView.layer.cornerRadius = labelCornerRadius
         nameTextView.clipsToBounds = true
         nameTextView.textAlignment = .center
@@ -63,8 +63,8 @@ class DetailViewController: UIViewController {
         
         categoryTextView.text = places.category
         categoryTextView.font = .systemFont(ofSize: textFont)
-        categoryTextView.backgroundColor = textBGcolor
-        categoryTextView.textColor = textColor
+        categoryTextView.backgroundColor = .white
+        categoryTextView.textColor = maroon
         categoryTextView.layer.cornerRadius = labelCornerRadius
         categoryTextView.clipsToBounds = true
         categoryTextView.textAlignment = .center
@@ -73,8 +73,8 @@ class DetailViewController: UIViewController {
         
         crowdTextView.text = String(places.crowded)
         crowdTextView.font = .systemFont(ofSize: textFont)
-        crowdTextView.backgroundColor = textBGcolor
-        crowdTextView.textColor = textColor
+        crowdTextView.backgroundColor = .white
+        crowdTextView.textColor = maroon
         crowdTextView.layer.cornerRadius = labelCornerRadius
         crowdTextView.clipsToBounds = true
         crowdTextView.textAlignment = .center
@@ -83,8 +83,8 @@ class DetailViewController: UIViewController {
         
         // hoursTextView.text = places.hours
         hoursTextView.font = .systemFont(ofSize: textFont)
-        hoursTextView.backgroundColor = textBGcolor
-        hoursTextView.textColor = textColor
+        hoursTextView.backgroundColor = .white
+        hoursTextView.textColor = maroon
         hoursTextView.layer.cornerRadius = labelCornerRadius
         hoursTextView.clipsToBounds = true
         hoursTextView.textAlignment = .center
@@ -92,7 +92,7 @@ class DetailViewController: UIViewController {
         view.addSubview(hoursTextView)
         
         backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(textColor, for: .normal)
+        backButton.setTitleColor(.white, for: .normal)
         backButton.titleLabel?.font = UIFont.systemFont(ofSize: textFont, weight: .bold)
         backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -160,24 +160,25 @@ class DetailViewController: UIViewController {
         let labelHeight = CGFloat(30)
         
         NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacing),
-            imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            imageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 350)
         ])
         
         NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
+            nameTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 274),
             nameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameTextView.heightAnchor.constraint(equalToConstant: labelHeight),
-            nameTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6)
+            nameTextView.widthAnchor.constraint(equalToConstant: 148),
+            nameTextView.heightAnchor.constraint(equalToConstant: 31)
         ])
         
         NSLayoutConstraint.activate([
-            categoryTextView.topAnchor.constraint(equalTo: nameTextView.bottomAnchor, constant: spacing),
+            categoryTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 312),
             categoryTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            categoryTextView.heightAnchor.constraint(equalToConstant: labelHeight),
-            categoryTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            categoryTextView.widthAnchor.constraint(equalToConstant: 104),
+            categoryTextView.heightAnchor.constraint(equalToConstant: 31)
         ])
         
         NSLayoutConstraint.activate([
@@ -235,32 +236,6 @@ class DetailViewController: UIViewController {
 protocol viewInfo: UICollectionViewCell{
     
 }
-    
-//extension DetailViewController: UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = commentTableView.cellForRow(at: indexPath) as! PostTableViewCell
-//        editVC.title = "My Title"
-//
-//        present(editVC, animated: true)
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UIView()
-//        headerView.backgroundColor = view.backgroundColor
-//        return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if(editingStyle == UITableViewCell.EditingStyle.delete) {
-//            let deletedComment = shownCommentData[indexPath.row]
-//            shownCommentData.remove(at: indexPath.row)
-//            commentTableView.deleteRows(at: [indexPath], with: .fade)
-//
-//            //TODO: #2 Delete Post
-//        }
-//    }
-//}
 
 extension DetailViewController: UITableViewDataSource {
 
