@@ -195,6 +195,11 @@ class ViewController: UIViewController {
         let view3 = UIView(frame: vertLine)
         view3.backgroundColor = maroon
         self.view.addSubview(view3)
+        
+        let horzLine = CGRect(x: 0, y: 773, width: 400, height: 1)
+        let view4 = UIView(frame: horzLine)
+        view4.backgroundColor = maroon
+        self.view.addSubview(view4)
 
         homeButton.setBackgroundImage(home, for: .normal)
         homeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -210,7 +215,6 @@ class ViewController: UIViewController {
         LocationManager.shared.getUserLocation { location in
 
         }
-
     }
     
     @objc func pushProfile() {

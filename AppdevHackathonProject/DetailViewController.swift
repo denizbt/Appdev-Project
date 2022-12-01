@@ -41,6 +41,9 @@ class DetailViewController: UIViewController {
     var commentData: [Comment] = []
     var shownCommentData: [Comment] = []
     
+    //favorites
+    let favoritesButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = maroon
@@ -51,12 +54,15 @@ class DetailViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
+        //add star
+        //TODO: ADD STAR FOR FAVORITE
+        
         nameTextView.text = places.name
         nameTextView.font = .systemFont(ofSize: textFont)
-        nameTextView.backgroundColor = .white
+        //nameTextView.backgroundColor = .white
         nameTextView.textColor = maroon
-        nameTextView.layer.cornerRadius = labelCornerRadius
-        nameTextView.clipsToBounds = true
+        //nameTextView.layer.cornerRadius = labelCornerRadius
+        //nameTextView.clipsToBounds = true
         nameTextView.textAlignment = .center
         nameTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameTextView)
@@ -105,9 +111,7 @@ class DetailViewController: UIViewController {
         
         addCommentButton.setBackgroundImage(UIImage(named: "comment"), for: .normal)
         addCommentButton.layer.cornerRadius = 20
-        addCommentButton.layer.borderWidth = 4
         addCommentButton.clipsToBounds = true
-        addCommentButton.layer.borderColor = babyBlue
         addCommentButton.addTarget(self, action: #selector(pushCreateView), for: .touchUpInside)
         addCommentButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(addCommentButton)
@@ -263,5 +267,4 @@ extension DetailViewController: CreateCommentDelegate {
     }
     
 }
-
 

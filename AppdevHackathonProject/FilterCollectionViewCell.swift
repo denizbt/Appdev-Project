@@ -52,7 +52,7 @@ class FilterCollectionViewCell: UICollectionViewCell {
             filterButton.textColor = .white
         }
         else {
-            filterButton.backgroundColor = .white
+            filterButton.backgroundColor = .systemGray6
             filterButton.textColor = selected_filterColor
         }
     }
