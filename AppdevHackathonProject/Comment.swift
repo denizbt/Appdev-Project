@@ -18,6 +18,5 @@ struct Comment: Codable {
 }
 
 struct CommentResponse: Codable {
-    let success: Bool
-    let data: [Comment]
+    let comments: [Comment]
 }

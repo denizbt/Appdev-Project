@@ -165,8 +165,9 @@ class LoginViewController: UIViewController {
             
             NetworkManager.login(email: emailTextField.text!, password: passwordTextField.text!){ [self] id in
                 NetworkManager.getUserID(id: id.user_id){user in
-                    self.navigationController?.pushViewController(ViewController(user: user), animated: true)
+                    self.navigationController?.pushViewController(ViewController(login: id, user: user), animated: true)
                 }
+
             }
         }
     }

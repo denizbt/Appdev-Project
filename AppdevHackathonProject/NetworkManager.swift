@@ -12,14 +12,14 @@ class NetworkManager {
     
     static let host = "http://35.194.81.8"
     
-    static func getCommentsByLocation(location_id: Int, completion: @escaping ([Comment]) -> Void) {
+    static func getCommentsByLocation(location_id: Int, completion: @escaping (CommentResponse) -> Void) {
         let endpoint = "\(host)/api/comments/\(location_id)/"
         AF.request(endpoint, method: .get, encoding: JSONEncoding.default).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.dateDecodingStrategy = .iso8601
-                if let userResponse = try? jsonDecoder.decode([Comment].self, from: data) {
+                if let userResponse = try? jsonDecoder.decode(CommentResponse.self, from: data) {
                     completion(userResponse)
                 } else {
                     print("Failed to decode getAllComments")
@@ -172,8 +172,8 @@ class NetworkManager {
     }
     
     
-    static func createComment(user_id: Int, number: Int, text: String?, latitude: Float, longitude: Float, completion: @escaping (CreateComment) -> Void) {
-        let endpoint = "\(host)/api/comments/1/"
+    static func createComment(location_id: Int, user_id: Int, number: Int, text: String?, latitude: Double, longitude: Double, completion: @escaping (CreateComment) -> Void) {
+        let endpoint = "\(host)/api/comments/\(location_id)/"
         
         let params: Parameters = [
             "text": text!,
