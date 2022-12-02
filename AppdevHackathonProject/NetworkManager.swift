@@ -10,7 +10,7 @@ import Foundation
 
 class NetworkManager {
 
-    static let host = "https://35.194.81.8"
+    static let host = "http://35.194.81.8"
 
     static func getCommentsByLocation(location_id: Int, completion: @escaping ([Comment]) -> Void) {
         let endpoint = "\(host)/api/comments/\(location_id)/"
@@ -49,22 +49,25 @@ class NetworkManager {
     }
     
     static func login(email: String, password: String, completion: @escaping (LoginSession) -> Void) {
-        let endpoint = "\(host)/api/users/logout/"
+        let endpoint = "\(host)/api/users/login/"
         
         let params: Parameters = [
             "email": email,
             "password": password
         ]
+        print(email)
+        print(password)
         
-        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
+                //print(String(data: data, encoding: .utf8))
                 if let userResponse = try? jsonDecoder.decode(LoginSession.self, from: data) {
                     completion(userResponse)
                 }
                 else {
-                    print("Failed to decode createPost")
+                    //print("Failed to decode login")
                 }
                 
             case .failure(let error):
@@ -83,7 +86,7 @@ class NetworkManager {
             "password": password
         ]
         
-        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()

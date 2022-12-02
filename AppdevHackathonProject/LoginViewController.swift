@@ -25,9 +25,14 @@ class LoginViewController: UIViewController {
 
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
     
-    let registerUser: RegisterUser?
+    let registerUser: Int?
     
-    init(registerUser: RegisterUser) {
+    init() {
+        self.registerUser = nil
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(registerUser: Int) {
         self.registerUser = registerUser
         super.init(nibName: nil, bundle: nil)
     }
@@ -151,11 +156,11 @@ class LoginViewController: UIViewController {
         else{
             //TODO: post info to database
             NetworkManager.login(email: emailTextField.text!, password: passwordTextField.text!){ id in
-                NetworkManager.getUserID(id: id.id){user in
+                NetworkManager.getUserID(id: id.user_id){user in
                     self.navigationController?.pushViewController(ViewController(user: user), animated: true)
                 }
+                print("hi")
             }
-
         }
         
 
