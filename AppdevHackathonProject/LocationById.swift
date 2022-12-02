@@ -14,5 +14,5 @@ struct LocationById: Codable {
     var latitude: Float
     var longitude: Float
     var busyness: Float
-    var comments: [Int]
+    var comments: [CreateComment]
 }

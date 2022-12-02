@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DropDown
  
 class DetailViewController: UIViewController {
     
@@ -21,6 +22,7 @@ class DetailViewController: UIViewController {
     let sat = UILabel()
     let sun = UILabel()
     let backButton = UIButton()
+    let dropDown = DropDown()
     
     //design
     let labelCornerRadius = CGFloat(15)

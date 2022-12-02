@@ -28,7 +28,6 @@ class SignUpViewController: UIViewController {
         super.viewDidLoad()
                 
         view.backgroundColor = maroon
-        emailTextField.becomeFirstResponder()
         
         signUpLabel.text = "Create an account"
         signUpLabel.font = .boldSystemFont(ofSize: 32)

@@ -7,16 +7,14 @@
 
 import UIKit
 import CoreLocation
-import DropDown
 
 class CreateCommentViewController: UIViewController {
 
     let headerLabel = UILabel()
     let textTextView = UITextView()
-    let dropDown = DropDown()
-    let dropButton = UIButton()
+    let titleTextView = UITextView()
+    let userIdTextField = UITextField()
     let saveButton = UIButton()
-    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
     var latitude: Double?
     var longitude: Double?
 
@@ -37,45 +35,41 @@ class CreateCommentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = maroon
+        view.backgroundColor = .white
 
-        headerLabel.text = "Add Comment"
+        headerLabel.text = "Create Post"
         headerLabel.font = .boldSystemFont(ofSize: 20)
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.font = .systemFont(ofSize: 20)
-        headerLabel.textColor = .white
         view.addSubview(headerLabel)
+
+        titleTextView.text = "Insert Body"
+        titleTextView.translatesAutoresizingMaskIntoConstraints = false
+        titleTextView.clipsToBounds = true
+        titleTextView.layer.cornerRadius = 5
+        titleTextView.backgroundColor = .systemGray4
+        titleTextView.font = .systemFont(ofSize: 15)
+        view.addSubview(titleTextView)
         
-        textTextView.text = "Insert Comment"
+        textTextView.text = "Insert Body"
         textTextView.translatesAutoresizingMaskIntoConstraints = false
         textTextView.clipsToBounds = true
         textTextView.layer.cornerRadius = 5
-        textTextView.backgroundColor = .white
+        textTextView.backgroundColor = .systemGray4
         textTextView.font = .systemFont(ofSize: 15)
-        dropDown.show();
         view.addSubview(textTextView)
-        
-        dropDown.anchorView = dropButton
-        dropDown.dataSource = ["1","2","3","4","5"]
-        dropDown.backgroundColor = .white
-        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("Selected item: \(item) at index: \(index)")
-            dropButton.setTitle(item + "/5", for: .normal)
-        }
-        view.addSubview(dropDown)
 
-        dropButton.setTitle("Rate Busyness", for: .normal)
-        dropButton.translatesAutoresizingMaskIntoConstraints = false
-        dropButton.setTitleColor(maroon, for: .normal)
-        dropButton.backgroundColor = .white
-        dropButton.layer.cornerRadius = 15
-        dropButton.addTarget(self, action: #selector(showList), for: .touchUpInside)
-        view.addSubview(dropButton)
-        
-        saveButton.setTitle("Post", for: .normal)
+        userIdTextField.placeholder = "Who's creating this post?"
+        userIdTextField.translatesAutoresizingMaskIntoConstraints = false
+        userIdTextField.clipsToBounds = true
+        userIdTextField.layer.cornerRadius = 5
+        userIdTextField.backgroundColor = .systemGray4
+        userIdTextField.font = .systemFont(ofSize: 20)
+        view.addSubview(userIdTextField)
+
+        saveButton.setTitle("Save", for: .normal)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setTitleColor(maroon, for: .normal)
-        saveButton.backgroundColor = .white
+        saveButton.backgroundColor = .systemBlue
         saveButton.layer.cornerRadius = 15
         saveButton.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
         view.addSubview(saveButton)
@@ -84,28 +78,6 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
-        //alert message if no rating
-        let ratingTitle=String(dropButton.currentTitle!)
-        
-        if(ratingTitle == "Rate Busyness"){
-            let invalidInputAlert = UIAlertController(title: "No Rating", message: "Please submit a busyness rating", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                print("Invalid input alert invoked, user should submit rating")})
-            invalidInputAlert.addAction(ok)
-            self.present(invalidInputAlert, animated: true, completion: nil)
-        }
-        else{
-            let rating = ratingTitle.prefix(1)
-            //TODO: send rating to backend
-            
-        }
-        
-//        LocationManager.shared.getUserLocation { location in
-//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
-//            //var latitude = location.latitude
-//            //var longitude = location.longitude
-//        }
-        
         
         LocationManager.shared.getUserLocation { location in
             self.latitude = location.coordinate.latitude
@@ -113,14 +85,6 @@ class CreateCommentViewController: UIViewController {
         }
         
         let text = textTextView.text!
-        //let user_id = id?.user_id
-        
-        //TODO: Uncomment
-//        if let unwrappedUserId = user_id {
-//            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
-//        }
-
-        navigationController?.popViewController(animated: true)
         
         
         if let new_id = id {
@@ -131,10 +95,6 @@ class CreateCommentViewController: UIViewController {
             
             navigationController?.popViewController(animated: true)
         }
-    }
-    
-    @objc func showList() {
-        dropDown.show()
     }
 
     func setupConstraints() {
@@ -149,26 +109,14 @@ class CreateCommentViewController: UIViewController {
             textTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textTextView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
             textTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier),
-            textTextView.heightAnchor.constraint(equalToConstant: 300)
+            textTextView.heightAnchor.constraint(equalTo: view.widthAnchor)
         ])
-        
-        NSLayoutConstraint.activate([
-            dropButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dropButton.topAnchor.constraint(equalTo: textTextView.bottomAnchor, constant: 20),
-            dropButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
-        ])
-        
-        NSLayoutConstraint.activate([
-            dropDown.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dropDown.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            dropDown.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            dropDown.heightAnchor.constraint(equalToConstant: 40)
-        ])
+
 
         NSLayoutConstraint.activate([
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier)
+            saveButton.topAnchor.constraint(equalTo: textTextView.bottomAnchor, constant: 20),
+            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
         ])
     }
 
