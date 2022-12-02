@@ -56,13 +56,16 @@ class DetailViewController: UIViewController {
         
         //add star
         //TODO: ADD STAR FOR FAVORITE
+        favoritesButton.addTarget(self, action: #selector(favorite), for: .touchUpInside)
+        favoritesButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(favoritesButton)
         
         nameTextView.text = places.name
         nameTextView.font = .systemFont(ofSize: textFont)
-        //nameTextView.backgroundColor = .white
+        nameTextView.backgroundColor = .white
         nameTextView.textColor = maroon
-        //nameTextView.layer.cornerRadius = labelCornerRadius
-        //nameTextView.clipsToBounds = true
+        nameTextView.layer.cornerRadius = labelCornerRadius
+        nameTextView.clipsToBounds = true
         nameTextView.textAlignment = .center
         nameTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameTextView)
@@ -133,6 +136,10 @@ class DetailViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    @objc func favorite() {
+        
+    }
+    
     @objc func pushCreateView() {
         present(CreateCommentViewController(delegate: self), animated: true)
     }
@@ -168,7 +175,7 @@ class DetailViewController: UIViewController {
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 350)
+            imageView.heightAnchor.constraint(equalToConstant: 250)
         ])
         
         NSLayoutConstraint.activate([
@@ -179,7 +186,7 @@ class DetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            categoryTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 312),
+            categoryTextView.topAnchor.constraint(equalTo: nameTextView.bottomAnchor, constant: spacing),
             categoryTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             categoryTextView.widthAnchor.constraint(equalToConstant: 104),
             categoryTextView.heightAnchor.constraint(equalToConstant: 31)
