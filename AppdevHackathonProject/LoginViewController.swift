@@ -126,7 +126,22 @@ class LoginViewController: UIViewController {
     }
     
     @objc func login() {
-        navigationController?.pushViewController(ViewController(), animated: true)
+        let password=passwordTextField.text ?? ""
+        let email=emailTextField.text ?? ""
+        let username=usernameTextField.text ?? ""
+
+        if(password.isEmpty || (email.isEmpty && username.isEmpty)){
+            let invalidInputAlert = UIAlertController(title: "Empty Field(s)", message: "Please make sure all text fields are completed", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                print("Invalid input alert invoked, user should check empty text fields")})
+            invalidInputAlert.addAction(ok)
+            self.present(invalidInputAlert, animated: true, completion: nil)
+        }
+        else{
+            //TODO: post info to database
+            navigationController?.pushViewController(ViewController(), animated: true)
+
+        }
     }
     
     func setUpConstraints() {

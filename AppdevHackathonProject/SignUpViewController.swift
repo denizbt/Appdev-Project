@@ -14,10 +14,8 @@ class SignUpViewController: UIViewController {
     let emailTextField = UITextField()
     let usernameLabel = UILabel()
     let usernameTextField = UITextField()
-    let firstNameLabel = UILabel()
-    let firstNameTextField = UITextField()
-    let lastNameLabel = UILabel()
-    let lastNameTextField = UITextField()
+    let fullNameLabel = UILabel()
+    let fullNameTextField = UITextField()
     let passwordLabel = UILabel()
     let passwordTextField = UITextField()
     let confirmPasswordLabel = UILabel()
@@ -69,33 +67,22 @@ class SignUpViewController: UIViewController {
         let view2 = UIView(frame: horzUsernameLine)
         view2.backgroundColor = .white
         self.view.addSubview(view2)
-
-        firstNameLabel.text = "FIRST NAME"
-        firstNameLabel.font = .systemFont(ofSize: 15)
-        firstNameLabel.textColor = .white
-        firstNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(firstNameLabel)
-        
-        firstNameTextField.backgroundColor = maroon
-        firstNameTextField.textColor = .white
-        firstNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(firstNameTextField)
         
         let horzFirstNameLine = CGRect(x: 54, y: 388, width: 281.5, height: 0.5) //TODO: Change
         let view3 = UIView(frame: horzFirstNameLine)
         view3.backgroundColor = .white
         self.view.addSubview(view3)
         
-        lastNameLabel.text = "LAST NAME"
-        lastNameLabel.font = .systemFont(ofSize: 15)
-        lastNameLabel.textColor = .white
-        lastNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(lastNameLabel)
+        fullNameLabel.text = "FULL NAME"
+        fullNameLabel.font = .systemFont(ofSize: 15)
+        fullNameLabel.textColor = .white
+        fullNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fullNameLabel)
         
-        lastNameTextField.backgroundColor = maroon
-        lastNameTextField.textColor = .white
-        lastNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(lastNameTextField)
+        fullNameTextField.backgroundColor = maroon
+        fullNameTextField.textColor = .white
+        fullNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fullNameTextField)
         
         let horzLastNameLine = CGRect(x: 54, y: 462, width: 281.5, height: 0.5) //TODO: Change
         let view4 = UIView(frame: horzLastNameLine)
@@ -128,11 +115,6 @@ class SignUpViewController: UIViewController {
         confirmPasswordTextField.textColor = .white
         confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(confirmPasswordTextField)
-        
-        let horzConfirmPasswaordLine = CGRect(x: 54, y: 610, width: 281.5, height: 0.5) //TODO: Change
-        let view6 = UIView(frame: horzConfirmPasswaordLine)
-        view6.backgroundColor = .white
-        self.view.addSubview(view6)
 
         signUpButton.setTitle("Signup", for: .normal)
         signUpButton.setTitleColor(maroon, for: .normal)
@@ -211,63 +193,49 @@ class SignUpViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            firstNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 339),
-            firstNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
-            firstNameLabel.heightAnchor.constraint(equalToConstant: 14),
-            firstNameLabel.widthAnchor.constraint(equalToConstant: 117)
+            fullNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 339),
+            fullNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            fullNameLabel.heightAnchor.constraint(equalToConstant: 14),
+            fullNameLabel.widthAnchor.constraint(equalToConstant: 117)
         ])
         
         NSLayoutConstraint.activate([
-            firstNameTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 388),
-            firstNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
-            firstNameTextField.heightAnchor.constraint(equalToConstant: 20),
-            firstNameTextField.widthAnchor.constraint(equalToConstant: 281.5)
+            fullNameTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 388),
+            fullNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            fullNameTextField.heightAnchor.constraint(equalToConstant: 20),
+            fullNameTextField.widthAnchor.constraint(equalToConstant: 281.5)
         ])
         
         NSLayoutConstraint.activate([
-            lastNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 413),
-            lastNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
-            lastNameLabel.heightAnchor.constraint(equalToConstant: 14),
-            lastNameLabel.widthAnchor.constraint(equalToConstant: 117)
-        ])
-        
-        NSLayoutConstraint.activate([
-            lastNameTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 462),
-            lastNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
-            lastNameTextField.heightAnchor.constraint(equalToConstant: 20),
-            lastNameTextField.widthAnchor.constraint(equalToConstant: 281.5)
-        ])
-        
-        NSLayoutConstraint.activate([
-            passwordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 487),
+            passwordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 413),
             passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             passwordLabel.heightAnchor.constraint(equalToConstant: 14),
             passwordLabel.widthAnchor.constraint(equalToConstant: 117)
         ])
         
         NSLayoutConstraint.activate([
-            passwordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 536),
+            passwordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 462),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             passwordTextField.heightAnchor.constraint(equalToConstant: 20),
             passwordTextField.widthAnchor.constraint(equalToConstant: 281.5)
         ])
         
         NSLayoutConstraint.activate([
-            confirmPasswordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 561),
+            confirmPasswordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 487),
             confirmPasswordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             confirmPasswordLabel.heightAnchor.constraint(equalToConstant: 14),
             confirmPasswordLabel.widthAnchor.constraint(equalToConstant: 185)
         ])
         
         NSLayoutConstraint.activate([
-            confirmPasswordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 610),
+            confirmPasswordTextField.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 536),
             confirmPasswordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 20),
             confirmPasswordTextField.widthAnchor.constraint(equalToConstant: 281.5)
         ])
         
         NSLayoutConstraint.activate([
-            signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 659),
+            signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 561),
             signUpButton.heightAnchor.constraint(equalToConstant: 38),
             signUpButton.widthAnchor.constraint(equalToConstant: 284),
             signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
