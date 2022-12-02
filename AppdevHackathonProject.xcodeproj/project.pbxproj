@@ -12,11 +12,12 @@
 		529A392329399A9D00336301 /* RecentCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529A392229399A9D00336301 /* RecentCommentTableViewCell.swift */; };
 		529A39252939A36300336301 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529A39242939A36300336301 /* Favorite.swift */; };
 		529A39272939B33300336301 /* ImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529A39262939B33300336301 /* ImagePickerManager.swift */; };
+		529BAAEA2939C53700034AF8 /* UserID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BAAE72939C53700034AF8 /* UserID.swift */; };
+		529BAAEB2939C53700034AF8 /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BAAE82939C53700034AF8 /* RegisterUser.swift */; };
+		529BAAEC2939C53700034AF8 /* LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BAAE92939C53700034AF8 /* LoginSession.swift */; };
 		8ED78486840B76C9038E0141 /* Pods_AppdevHackathonProject_AppdevHackathonProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DF6D865C7455D8F217E2179 /* Pods_AppdevHackathonProject_AppdevHackathonProjectUITests.framework */; };
 		9748630540E8B23A1F53E9F5 /* Pods_AppdevHackathonProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F9DD292F38609062D1B2E8 /* Pods_AppdevHackathonProject.framework */; };
 		FF2F575C293848EB00B0B9A6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F575B293848EB00B0B9A6 /* LocationManager.swift */; };
-		FF2F57622938EB3B00B0B9A6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F57612938EB3B00B0B9A6 /* Credentials.swift */; };
-		FF2F57642938EC5D00B0B9A6 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F57632938EC5D00B0B9A6 /* Observable.swift */; };
 		FF2F576629393AD800B0B9A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */; };
 		FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716A292C44B0003BF000 /* AppDelegate.swift */; };
 		FF4D716D292C44B0003BF000 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716C292C44B0003BF000 /* SceneDelegate.swift */; };
@@ -64,6 +65,9 @@
 		529A392229399A9D00336301 /* RecentCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentCommentTableViewCell.swift; sourceTree = "<group>"; };
 		529A39242939A36300336301 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		529A39262939B33300336301 /* ImagePickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerManager.swift; sourceTree = "<group>"; };
+		529BAAE72939C53700034AF8 /* UserID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserID.swift; sourceTree = "<group>"; };
+		529BAAE82939C53700034AF8 /* RegisterUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
+		529BAAE92939C53700034AF8 /* LoginSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSession.swift; sourceTree = "<group>"; };
 		5DF6D865C7455D8F217E2179 /* Pods_AppdevHackathonProject_AppdevHackathonProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppdevHackathonProject_AppdevHackathonProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66ABDF94CC6D8461976F5DF4 /* Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.debug.xcconfig"; path = "Target Support Files/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0C296C3C0B182934D228E0D /* Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.release.xcconfig"; path = "Target Support Files/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,8 +75,6 @@
 		B8E496ABDE203EEA30D6D9C7 /* Pods-AppdevHackathonProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppdevHackathonProject.debug.xcconfig"; path = "Target Support Files/Pods-AppdevHackathonProject/Pods-AppdevHackathonProject.debug.xcconfig"; sourceTree = "<group>"; };
 		E655A4D92B309E8CF2ED1972 /* Pods-AppdevHackathonProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppdevHackathonProject.release.xcconfig"; path = "Target Support Files/Pods-AppdevHackathonProject/Pods-AppdevHackathonProject.release.xcconfig"; sourceTree = "<group>"; };
 		FF2F575B293848EB00B0B9A6 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		FF2F57612938EB3B00B0B9A6 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
-		FF2F57632938EC5D00B0B9A6 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FF4D7167292C44B0003BF000 /* AppdevHackathonProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppdevHackathonProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4D716A292C44B0003BF000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -185,8 +187,9 @@
 				FF4D719E292C4EA7003BF000 /* DetailViewController.swift */,
 				FF4D71A829358BC2003BF000 /* SignUpViewController.swift */,
 				FF4D71A42932D30E003BF000 /* LoginViewController.swift */,
-				FF2F57632938EC5D00B0B9A6 /* Observable.swift */,
-				FF2F57612938EB3B00B0B9A6 /* Credentials.swift */,
+				529BAAE92939C53700034AF8 /* LoginSession.swift */,
+				529BAAE82939C53700034AF8 /* RegisterUser.swift */,
+				529BAAE72939C53700034AF8 /* UserID.swift */,
 				FFC5E4B12935C91300BC5AA5 /* Comment.swift */,
 				529A39242939A36300336301 /* Favorite.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
@@ -460,12 +463,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF4D71A52932D30E003BF000 /* LoginViewController.swift in Sources */,
+				529BAAEB2939C53700034AF8 /* RegisterUser.swift in Sources */,
 				FF4D719D292C4C89003BF000 /* PlacesCollectionViewCell.swift in Sources */,
 				FF4D716F292C44B0003BF000 /* ViewController.swift in Sources */,
 				FFC5E4B62935CFBD00BC5AA5 /* NetworkManager.swift in Sources */,
-				FF2F57642938EC5D00B0B9A6 /* Observable.swift in Sources */,
 				FF2F575C293848EB00B0B9A6 /* LocationManager.swift in Sources */,
 				FF2F576629393AD800B0B9A6 /* ProfileViewController.swift in Sources */,
+				529BAAEC2939C53700034AF8 /* LoginSession.swift in Sources */,
 				FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */,
 				FF4D71A929358BC2003BF000 /* SignUpViewController.swift in Sources */,
 				FF4D719F292C4EA7003BF000 /* DetailViewController.swift in Sources */,
@@ -473,8 +477,8 @@
 				529A39272939B33300336301 /* ImagePickerManager.swift in Sources */,
 				529A391F2939954300336301 /* FavoritesCollectionViewCell.swift in Sources */,
 				FFC5E4B82935D13500BC5AA5 /* CreateCommentViewController.swift in Sources */,
-				FF2F57622938EB3B00B0B9A6 /* Credentials.swift in Sources */,
 				FF4D71A3292C51E0003BF000 /* Filter.swift in Sources */,
+				529BAAEA2939C53700034AF8 /* UserID.swift in Sources */,
 				529A39252939A36300336301 /* Favorite.swift in Sources */,
 				FF4D719B292C4653003BF000 /* Places.swift in Sources */,
 				529A392329399A9D00336301 /* RecentCommentTableViewCell.swift in Sources */,
