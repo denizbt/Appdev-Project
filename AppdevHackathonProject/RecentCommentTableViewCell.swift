@@ -65,11 +65,11 @@ class RecentCommentTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-        let time_stamp = dateFormatter.date(from: commentObject.time_stamp)!
+        let timestamp = dateFormatter.date(from: commentObject.timestamp)!
 
         let coolDateFormatter = DateFormatter()
         coolDateFormatter.dateFormat = "MMM d, h:mm a"
-        let coolDateString = coolDateFormatter.string(from: time_stamp)
+        let coolDateString = coolDateFormatter.string(from: timestamp)
         timeLabel.text = "\(coolDateString)"
     }
     

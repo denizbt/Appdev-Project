@@ -118,7 +118,7 @@
 		5EE800BA8F20DC3FFAACD2DED8372F0E /* Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		643AC9B80DB7D6C4ACB68D64FA1A5867 /* Pods-AppdevHackathonProject.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AppdevHackathonProject.modulemap"; sourceTree = "<group>"; };
 		67A1DCF5C4A4D1ED23DB76881807622B /* Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppdevHackathonProject-AppdevHackathonProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
-		6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods-AppdevHackathonProject */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AppdevHackathonProject"; path = Pods_AppdevHackathonProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods_AppdevHackathonProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppdevHackathonProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D19944393970C1F09CDC2904AD40A95 /* RetryPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RetryPolicy.swift; path = Source/RetryPolicy.swift; sourceTree = "<group>"; };
 		6E761F63EACA04B9944E3B8D8CDAF64C /* RequestTaskMap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestTaskMap.swift; path = Source/RequestTaskMap.swift; sourceTree = "<group>"; };
 		717700B23478BFC9261269EEC9FABE6E /* ServerTrustEvaluation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustEvaluation.swift; path = Source/ServerTrustEvaluation.swift; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				5D797E9A5C5782CE845840781FA1CC81 /* Alamofire.framework */,
-				6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods-AppdevHackathonProject */,
+				6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods_AppdevHackathonProject.framework */,
 				E1DFD70A8C14051014D62712B7D903E1 /* Pods-AppdevHackathonProject-AppdevHackathonProjectUITests */,
 				312CBFE7ECD1AC6AD7DBCF732C636EBF /* Pods-AppdevHackathonProjectTests */,
 			);
@@ -437,7 +437,7 @@
 			);
 			name = "Pods-AppdevHackathonProject";
 			productName = Pods_AppdevHackathonProject;
-			productReference = 6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods-AppdevHackathonProject */;
+			productReference = 6ADAEBA6124E222A1ED61F44F1A2EB27 /* Pods_AppdevHackathonProject.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		CF7F967A48914A23122C2084A6D22E44 /* Pods-AppdevHackathonProjectTests */ = {

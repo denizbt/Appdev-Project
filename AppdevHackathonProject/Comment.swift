@@ -13,7 +13,7 @@ struct Comment: Codable {
     let number: Int
     let user_id: Int
     let location_id: Int
-    var time_stamp: String
+    var timestamp: String
     var expiration: Bool
 }
 

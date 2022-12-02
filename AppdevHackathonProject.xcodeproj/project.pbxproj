@@ -20,6 +20,9 @@
 		FF2F575C293848EB00B0B9A6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F575B293848EB00B0B9A6 /* LocationManager.swift */; };
 		FF2F576629393AD800B0B9A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */; };
 		FF2F576E293A3BC400B0B9A6 /* CreateComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576D293A3BC400B0B9A6 /* CreateComment.swift */; };
+		FF2F5770293A861D00B0B9A6 /* LocationById.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576F293A861D00B0B9A6 /* LocationById.swift */; };
+		FF2F5772293A889000B0B9A6 /* LogoutSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F5771293A889000B0B9A6 /* LogoutSession.swift */; };
+		FF2F5774293A8A5A00B0B9A6 /* UploadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F5773293A8A5A00B0B9A6 /* UploadImage.swift */; };
 		FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716A292C44B0003BF000 /* AppDelegate.swift */; };
 		FF4D716D292C44B0003BF000 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716C292C44B0003BF000 /* SceneDelegate.swift */; };
 		FF4D716F292C44B0003BF000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716E292C44B0003BF000 /* ViewController.swift */; };
@@ -78,6 +81,9 @@
 		FF2F575B293848EB00B0B9A6 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FF2F576D293A3BC400B0B9A6 /* CreateComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateComment.swift; sourceTree = "<group>"; };
+		FF2F576F293A861D00B0B9A6 /* LocationById.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationById.swift; sourceTree = "<group>"; };
+		FF2F5771293A889000B0B9A6 /* LogoutSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutSession.swift; sourceTree = "<group>"; };
+		FF2F5773293A8A5A00B0B9A6 /* UploadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImage.swift; sourceTree = "<group>"; };
 		FF4D7167292C44B0003BF000 /* AppdevHackathonProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppdevHackathonProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4D716A292C44B0003BF000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF4D716C292C44B0003BF000 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +202,9 @@
 				529A39242939A36300336301 /* Favorite.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
 				FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */,
+				FF2F5773293A8A5A00B0B9A6 /* UploadImage.swift */,
+				FF2F5771293A889000B0B9A6 /* LogoutSession.swift */,
+				FF2F576F293A861D00B0B9A6 /* LocationById.swift */,
 				FF2F576D293A3BC400B0B9A6 /* CreateComment.swift */,
 				FFC5E4B72935D13500BC5AA5 /* CreateCommentViewController.swift */,
 				FF2F575B293848EB00B0B9A6 /* LocationManager.swift */,
@@ -475,8 +484,10 @@
 				529BAAEC2939C53700034AF8 /* LoginSession.swift in Sources */,
 				FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */,
 				FF4D71A929358BC2003BF000 /* SignUpViewController.swift in Sources */,
+				FF2F5774293A8A5A00B0B9A6 /* UploadImage.swift in Sources */,
 				FF4D719F292C4EA7003BF000 /* DetailViewController.swift in Sources */,
 				FF4D716D292C44B0003BF000 /* SceneDelegate.swift in Sources */,
+				FF2F5770293A861D00B0B9A6 /* LocationById.swift in Sources */,
 				529A39272939B33300336301 /* ImagePickerManager.swift in Sources */,
 				FF2F576E293A3BC400B0B9A6 /* CreateComment.swift in Sources */,
 				529A391F2939954300336301 /* FavoritesCollectionViewCell.swift in Sources */,
@@ -484,6 +495,7 @@
 				FF4D71A3292C51E0003BF000 /* Filter.swift in Sources */,
 				529BAAEA2939C53700034AF8 /* UserID.swift in Sources */,
 				529A39252939A36300336301 /* Favorite.swift in Sources */,
+				FF2F5772293A889000B0B9A6 /* LogoutSession.swift in Sources */,
 				FF4D719B292C4653003BF000 /* Places.swift in Sources */,
 				529A392329399A9D00336301 /* RecentCommentTableViewCell.swift in Sources */,
 				FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */,

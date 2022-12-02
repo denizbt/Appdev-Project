@@ -6,6 +6,7 @@ target 'AppdevHackathonProject' do
   use_frameworks!
 
   pod 'Alamofire', '~> 5.5'
+  pod 'DropDown'
 
   # Pods for AppdevHackathonProject
 

@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests/Pods-AppdevHackathonProject-AppdevHackathonProjectUITests-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework

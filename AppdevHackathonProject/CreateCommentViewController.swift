@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class CreateCommentViewController: UIViewController {
 
@@ -26,6 +27,13 @@ class CreateCommentViewController: UIViewController {
     
     init(id: LoginSession) {
         self.id = id
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    var new_location: LocationManager?
+    
+    init(new_location: LocationManager) {
+        self.new_location = new_location
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -79,11 +87,18 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
+        LocationManager.shared.getUserLocation { location in
+            new_location?.locationManager(location.manager, didUpdateLocations: [location])
+            //var latitude = location.latitude
+            //var longitude = location.longitude
+        }
+        
         let text = textTextView.text!
         let user_id = id?.user_id
+
         
         if let unwrappedUserId = user_id {
-            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text)
+            //delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
         }
         
         
@@ -117,5 +132,5 @@ class CreateCommentViewController: UIViewController {
 }
 
 protocol CreateCommentDelegate: UIViewController {
-    func createComment(user_id: Int, number: Int, text: String)
+    func createComment(user_id: Int, number: Int, text: String, latitude: Float, longitude: Float)
 }

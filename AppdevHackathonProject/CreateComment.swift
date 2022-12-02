@@ -8,7 +8,8 @@
 import UIKit
 
 struct CreateComment: Codable {
-    let user_id: Int
+    let id: Int
     let number: Int
-    let text: String
+    let text: String?
+    let timestamp: String
 }

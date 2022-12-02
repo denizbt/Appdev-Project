@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DropDown
  
 class DetailViewController: UIViewController {
     
@@ -165,11 +166,9 @@ class DetailViewController: UIViewController {
         view.addSubview(commentTableView)
         
         crowdTextView.text = String(places.crowded)
-        crowdTextView.font = .systemFont(ofSize: textFont)
-        crowdTextView.backgroundColor = .white
-        crowdTextView.textColor = maroon
-        crowdTextView.layer.cornerRadius = labelCornerRadius
-        crowdTextView.clipsToBounds = true
+        crowdTextView.font = .boldSystemFont(ofSize: 32)
+        crowdTextView.backgroundColor = maroon
+        crowdTextView.textColor = .white
         crowdTextView.textAlignment = .center
         crowdTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(crowdTextView)
@@ -208,7 +207,7 @@ class DetailViewController: UIViewController {
  
     func sortCommentData() {
         commentData.sort { comment1, comment2 in
-            return comment1.time_stamp > comment2.time_stamp
+            return comment1.timestamp > comment2.timestamp
         }
     }
     
@@ -365,10 +364,10 @@ extension DetailViewController: UITableViewDataSource {
 
 extension DetailViewController: CreateCommentDelegate {
 
-    func createComment(user_id: Int, number: Int, text: String) {
+    func createComment(user_id: Int, number: Int, text: String, latitude: Float, longitude: Float) {
 
         //TODO: #1 Create Post
-        NetworkManager.createComment(user_id: user_id, number: number, text: text){ comment in
+        NetworkManager.createComment(user_id: user_id, number: number, text: text, latitude: latitude, longitude: longitude){ comment in
             self.shownCommentData = self.shownCommentData
             self.commentTableView.reloadData()
         }
