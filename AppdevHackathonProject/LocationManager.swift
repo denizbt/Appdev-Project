@@ -22,12 +22,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        //let latLong: [CLLocationDegrees]
 
         let location = locations.last! as CLLocation
         
-       // let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        let latitude = location.coordinate.latitude
+       let latitude = location.coordinate.latitude
+       let longitude = location.coordinate.longitude
+//        let latitude = location.coordinate.latitude
+        
+//        latLong = [longitude, latitude]
+//        return latLong
+        
         
     }
 }

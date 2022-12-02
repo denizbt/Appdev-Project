@@ -87,8 +87,19 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
+//        LocationManager.shared.getUserLocation { location in
+//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
+//            //var latitude = location.latitude
+//            //var longitude = location.longitude
+//        }
+        
+        
         LocationManager.shared.getUserLocation { location in
-            new_location?.locationManager(location.manager, didUpdateLocations: [location])
+            var latitude = location.coordinate.latitude
+            var longitude = location.coordinate.longitude
+            
+            
+//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
             //var latitude = location.latitude
             //var longitude = location.longitude
         }
@@ -98,10 +109,8 @@ class CreateCommentViewController: UIViewController {
 
         
         if let unwrappedUserId = user_id {
-            //delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
+            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
         }
-        
-        
 
         navigationController?.popViewController(animated: true)
     }
