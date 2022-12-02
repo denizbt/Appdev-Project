@@ -15,25 +15,16 @@ class CreateCommentViewController: UIViewController {
     let titleTextView = UITextView()
     let userIdTextField = UITextField()
     let saveButton = UIButton()
+    var latitude: Double?
+    var longitude: Double?
 
-    weak var delegate: CreateCommentDelegate?
+    var location:LocationById?
+    var id: Int?
 
-    init(delegate: CreateCommentDelegate) {
-        self.delegate = delegate
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    var id: LoginSession?
-    
-    init(id: LoginSession) {
+    init(id: Int, location: LocationById) {
+        self.location = location
         self.id = id
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    var new_location: LocationManager?
-    
-    init(new_location: LocationManager) {
-        self.new_location = new_location
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,32 +78,23 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
-//        LocationManager.shared.getUserLocation { location in
-//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
-//            //var latitude = location.latitude
-//            //var longitude = location.longitude
-//        }
-        
         
         LocationManager.shared.getUserLocation { location in
-            var latitude = location.coordinate.latitude
-            var longitude = location.coordinate.longitude
-            
-            
-//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
-            //var latitude = location.latitude
-            //var longitude = location.longitude
+            self.latitude = location.coordinate.latitude
+            self.longitude = location.coordinate.longitude
         }
         
         let text = textTextView.text!
-        let user_id = id?.user_id
-
         
-        if let unwrappedUserId = user_id {
-            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
+        
+        if let new_id = id {
+            if let location_id = location?.id {
+                NetworkManager.createComment(location_id: location_id ,user_id: new_id, number: 0,text: text, latitude: latitude ?? 0, longitude: longitude ?? 0) { response in
+                }
+            }
+            
+            navigationController?.popViewController(animated: true)
         }
-
-        navigationController?.popViewController(animated: true)
     }
 
     func setupConstraints() {
@@ -138,8 +120,4 @@ class CreateCommentViewController: UIViewController {
         ])
     }
 
-}
-
-protocol CreateCommentDelegate: UIViewController {
-    func createComment(user_id: Int, number: Int, text: String, latitude: Float, longitude: Float)
 }

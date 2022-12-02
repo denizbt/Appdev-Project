@@ -29,10 +29,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
        let latitude = location.coordinate.latitude
        let longitude = location.coordinate.longitude
-//        let latitude = location.coordinate.latitude
-        
-//        latLong = [longitude, latitude]
-//        return latLong
         
         
     }

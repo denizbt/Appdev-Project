@@ -32,9 +32,14 @@ class DetailViewController: UIViewController {
  
     let places: Places
     weak var delegate: viewInfo?
-    init(places: Places, delegate: viewInfo) {
+    let location: LocationById
+    let login: LoginSession
+    
+    init(login:LoginSession, location:LocationById, places: Places, delegate: viewInfo) {
         self.places = places
         self.delegate = delegate
+        self.location = location
+        self.login = login
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -94,16 +99,6 @@ class DetailViewController: UIViewController {
         categoryTextView.textAlignment = .center
         categoryTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categoryTextView)
-        
-        crowdTextView.text = String(places.crowded)
-        crowdTextView.font = .systemFont(ofSize: 20)
-        crowdTextView.backgroundColor = .white
-        crowdTextView.textColor = maroon
-        crowdTextView.layer.cornerRadius = labelCornerRadius
-        crowdTextView.clipsToBounds = true
-        crowdTextView.textAlignment = .center
-        crowdTextView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(crowdTextView)
         
         let rectangle1 = CGRect(x: 33, y: 323, width: 330, height: 165)
         let view1 = UIView(frame: rectangle1)
@@ -203,7 +198,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func pushCreateView() {
-        present(CreateCommentViewController(delegate: self), animated: true)
+        present(CreateCommentViewController(id: login.user_id, location: location), animated: true)
     }
  
     func sortCommentData() {
@@ -221,7 +216,7 @@ class DetailViewController: UIViewController {
          */
 
         NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
-            self.commentData = comments
+            self.commentData = comments.comments
             self.sortCommentData()
             self.shownCommentData = self.commentData
             self.commentTableView.reloadData()
@@ -334,14 +329,13 @@ class DetailViewController: UIViewController {
     @objc func refreshData() {
 
         //TODO: #1.5 Implement Refresh
-        NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
-            self.commentData = comments
+        NetworkManager.getCommentsByLocation(location_id: location.id) { comments in
+            self.commentData = comments.comments
             self.sortCommentData()
-            self.shownCommentData = self.commentData
+            self.shownCommentData = self.commentData + comments.comments
             self.commentTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
-        
     }
 }
 
@@ -363,16 +357,16 @@ extension DetailViewController: UITableViewDataSource {
     }
 }
 
-extension DetailViewController: CreateCommentDelegate {
-
-    func createComment(user_id: Int, number: Int, text: String, latitude: Float, longitude: Float) {
-
-        //TODO: #1 Create Post
-        NetworkManager.createComment(user_id: user_id, number: number, text: text, latitude: latitude, longitude: longitude){ comment in
-            self.shownCommentData = self.shownCommentData
-            self.commentTableView.reloadData()
-        }
-    }
-}
+//extension DetailViewController: CreateCommentDelegate {
+//
+//    func createComment(location_id: Int, user_id: Int, number: Int, text: String, latitude: Double, longitude: Double) {
+//
+//        //TODO: #1 Create Post
+//        NetworkManager.createComment(location_id: location_id, user_id: user_id, number: number, text: text, latitude: latitude, longitude: longitude){ comment in
+//            self.shownCommentData = self.shownCommentData
+//            self.commentTableView.reloadData()
+//        }
+//    }
+//}
 
 

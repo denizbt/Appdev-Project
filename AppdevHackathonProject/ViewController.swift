@@ -18,9 +18,11 @@ class ViewController: UIViewController {
     let serviceCenters = Filter(filterName: "Service Centers", selected: false)
     
     var user: UserID?
+    var login: LoginSession
     
-    init(user: UserID) {
+    init(login: LoginSession, user: UserID) {
         self.user = user
+        self.login = login
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -225,6 +227,7 @@ class ViewController: UIViewController {
         
         LocationManager.shared.getUserLocation { location in
 
+            
         }
     }
     
@@ -233,7 +236,6 @@ class ViewController: UIViewController {
             navigationController?.pushViewController(ProfileViewController(new_user: unwrappedUser), animated: true)
         }
     }
-    
   
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -371,7 +373,13 @@ extension ViewController: UICollectionViewDelegate {
         }
         else{
             let cell = placesCollectionView.cellForItem(at: indexPath) as! PlacesCollectionViewCell
-            present(DetailViewController(places: places[indexPath.row], delegate: cell), animated: true)
+            
+                NetworkManager.getLocationById(id: self.places[indexPath.row].id) { response in
+                    self.present(DetailViewController(login: self.login, location: response, places: self.places[indexPath.row], delegate: cell), animated: true)
+            }
+            
+
+            
         }
     }
 }
