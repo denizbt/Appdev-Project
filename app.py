@@ -291,7 +291,7 @@ def delete_user():
     db.session.commit()
     return success_response(user.simple_serialize())
 
-@app.route("/api/users/", methods=["DELETE"])
+@app.route("/api/comments/", methods=["DELETE"])
 def delete_comment():
     """
     Protected endpoint which allows a user to delete a comment that they wrote
@@ -449,7 +449,6 @@ def get_user_positions(user_id):
 
     positions = [pos.simple_serialize() for pos in Position.query.filter_by(user_id=user_id)]
     return success_response({"positions": positions}, 200)
-
 
 # get_all_comments() not necessary for frontend (just for testing)
 @app.route("/api/comments/")
