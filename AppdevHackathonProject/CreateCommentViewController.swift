@@ -59,8 +59,7 @@ class CreateCommentViewController: UIViewController {
         dropDown.dataSource = ["1","2","3","4","5"]
         dropDown.backgroundColor = .white
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("Selected item: \(item) at index: \(index)")
-            dropButton.setTitle(item + "/5", for: .normal)
+            dropButton.setTitle(item + " / 5", for: .normal)
         }
         view.addSubview(dropDown)
 
@@ -97,6 +96,7 @@ class CreateCommentViewController: UIViewController {
         else{
             let rating = ratingTitle.prefix(1)
             //TODO: send rating to backend
+            print(rating)
             
         }
         
@@ -158,13 +158,6 @@ class CreateCommentViewController: UIViewController {
             dropButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
         ])
         
-        NSLayoutConstraint.activate([
-            dropDown.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dropDown.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            dropDown.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            dropDown.heightAnchor.constraint(equalToConstant: 40)
-        ])
-
         NSLayoutConstraint.activate([
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
