@@ -98,7 +98,7 @@ class CreateCommentViewController: UIViewController {
     @objc func saveAction() {
         //alert message if no rating
         let ratingTitle=dropButton.currentTitle
-
+        
         if(ratingTitle == "Rate Busyness"){
             let invalidInputAlert = UIAlertController(title: "No Rating", message: "Please submit a busyness rating", preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
@@ -109,11 +109,12 @@ class CreateCommentViewController: UIViewController {
         else{
             //TODO: send rating to backend
         }
-        LocationManager.shared.getUserLocation { location in
-            new_location?.locationManager(location.manager, didUpdateLocations: [location])
-            //var latitude = location.latitude
-            //var longitude = location.longitude
-        }
+        
+//        LocationManager.shared.getUserLocation { location in
+//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
+//            //var latitude = location.latitude
+//            //var longitude = location.longitude
+//        }
         
         
         LocationManager.shared.getUserLocation { location in
