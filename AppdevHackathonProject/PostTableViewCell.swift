@@ -77,17 +77,17 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func configure(commentObject: Comment) {
-        bodyLabel.text = commentObject.body
-        posterLabel.text = commentObject.poster
+        bodyLabel.text = commentObject.text
+        posterLabel.text = String(commentObject.user_id)
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-        let timeStamp = dateFormatter.date(from: commentObject.timeStamp)!
+        let time_stamp = dateFormatter.date(from: commentObject.time_stamp)!
 
         let coolDateFormatter = DateFormatter()
         coolDateFormatter.dateFormat = "MMM d, h:mm a"
-        let coolDateString = coolDateFormatter.string(from: timeStamp)
+        let coolDateString = coolDateFormatter.string(from: time_stamp)
         timestampLabel.text = "\(coolDateString)"
     }
     

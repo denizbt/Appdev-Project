@@ -13,8 +13,8 @@ class NetworkManager {
     static let host = "http://35.194.81.8"
 
     static func getCommentsByLocation(location_id: Int, completion: @escaping ([Comment]) -> Void) {
-        let endpoint = "\(host)/api/comments/\(location_id)/"
-        AF.request(endpoint, method: .get).validate().responseData { response in
+        let endpoint = "\(host)/api/comments/6/"
+        AF.request(endpoint, method: .get, encoding: JSONEncoding.default).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
@@ -22,7 +22,7 @@ class NetworkManager {
                 if let userResponse = try? jsonDecoder.decode([Comment].self, from: data) {
                     completion(userResponse)
                 } else {
-                    print("Failed to decode getAllPosts")
+                    print("Failed to decode getAllComments")
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -40,7 +40,7 @@ class NetworkManager {
                 if let userResponse = try? jsonDecoder.decode(UserID.self, from: data) {
                     completion(userResponse)
                 } else {
-                    print("Failed to decode getAllPosts")
+                    print("Failed to decode getUserInfo")
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -67,7 +67,7 @@ class NetworkManager {
                     completion(userResponse)
                 }
                 else {
-                    //print("Failed to decode login")
+                    print("Failed to decode login")
                 }
                 
             case .failure(let error):
@@ -94,7 +94,7 @@ class NetworkManager {
                     completion(userResponse)
                 }
                 else {
-                    print("Failed to decode createPost")
+                    print("Failed to decode registerUser")
                 }
                 
             case .failure(let error):
@@ -104,24 +104,24 @@ class NetworkManager {
     }
     
 
-    static func createComment(title: String, body: String, poster: String, completion: @escaping (Comment) -> Void) {
-        let endpoint = "\(host)/posts/"
+    static func createComment(user_id: Int, number: Int, text: String, completion: @escaping (CreateComment) -> Void) {
+        let endpoint = "\(host)/api/comments/1/"
         
         let params: Parameters = [
-            "title": title,
-            "body": body,
-            "poster": poster
+            "text": text,
+            "user_id": user_id,
+            "number": number
         ]
         
-        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
             switch response.result{
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
-                if let userResponse = try? jsonDecoder.decode(Comment.self, from: data) {
+                if let userResponse = try? jsonDecoder.decode(CreateComment.self, from: data) {
                     completion(userResponse)
                 }
                 else {
-                    print("Failed to decode createPost")
+                    print("Failed to decode createComment")
                 }
                 
             case .failure(let error):

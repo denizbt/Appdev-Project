@@ -12,7 +12,7 @@ class CreateCommentViewController: UIViewController {
     let headerLabel = UILabel()
     let textTextView = UITextView()
     let titleTextView = UITextView()
-    let posterTextField = UITextField()
+    let userIdTextField = UITextField()
     let saveButton = UIButton()
 
     weak var delegate: CreateCommentDelegate?
@@ -20,6 +20,17 @@ class CreateCommentViewController: UIViewController {
     init(delegate: CreateCommentDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    var id: LoginSession?
+    
+    init(id: LoginSession) {
+        self.id = id
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -49,13 +60,13 @@ class CreateCommentViewController: UIViewController {
         textTextView.font = .systemFont(ofSize: 15)
         view.addSubview(textTextView)
 
-        posterTextField.placeholder = "Who's creating this post?"
-        posterTextField.translatesAutoresizingMaskIntoConstraints = false
-        posterTextField.clipsToBounds = true
-        posterTextField.layer.cornerRadius = 5
-        posterTextField.backgroundColor = .systemGray4
-        posterTextField.font = .systemFont(ofSize: 20)
-        view.addSubview(posterTextField)
+        userIdTextField.placeholder = "Who's creating this post?"
+        userIdTextField.translatesAutoresizingMaskIntoConstraints = false
+        userIdTextField.clipsToBounds = true
+        userIdTextField.layer.cornerRadius = 5
+        userIdTextField.backgroundColor = .systemGray4
+        userIdTextField.font = .systemFont(ofSize: 20)
+        view.addSubview(userIdTextField)
 
         saveButton.setTitle("Save", for: .normal)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -68,11 +79,14 @@ class CreateCommentViewController: UIViewController {
     }
     
     @objc func saveAction() {
-        let title = titleTextView.text!
-        let body = textTextView.text!
-        let poster = posterTextField.text!
-
-        delegate?.createComment(title: title, body: body, poster: poster)
+        let text = textTextView.text!
+        let user_id = id?.user_id
+        
+        if let unwrappedUserId = user_id {
+            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text)
+        }
+        
+        
 
         navigationController?.popViewController(animated: true)
     }
@@ -92,25 +106,16 @@ class CreateCommentViewController: UIViewController {
             textTextView.heightAnchor.constraint(equalTo: view.widthAnchor)
         ])
 
-        NSLayoutConstraint.activate([
-            posterTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            posterTextField.topAnchor.constraint(equalTo: textTextView.bottomAnchor, constant: 20),
-            posterTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier)
-        ])
 
         NSLayoutConstraint.activate([
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            saveButton.topAnchor.constraint(equalTo: posterTextField.bottomAnchor, constant: 20),
+            saveButton.topAnchor.constraint(equalTo: textTextView.bottomAnchor, constant: 20),
             saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
         ])
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
 }
 
 protocol CreateCommentDelegate: UIViewController {
-    func createComment(title: String, body: String, poster: String)
+    func createComment(user_id: Int, number: Int, text: String)
 }

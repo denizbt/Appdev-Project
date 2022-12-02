@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
 
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
     
-    let registerUser: Int?
+    var registerUser: Int?
     
     init() {
         self.registerUser = nil
@@ -46,7 +46,6 @@ class LoginViewController: UIViewController {
                 
         view.backgroundColor = maroon
         emailTextField.becomeFirstResponder()
-        
         
         welcome.text = "Welcome!"
         welcome.font = .boldSystemFont(ofSize: 32)
@@ -137,6 +136,11 @@ class LoginViewController: UIViewController {
         setUpConstraints()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        emailTextField.becomeFirstResponder()
+    }
         
     @objc func signUp() {
         navigationController?.pushViewController(SignUpViewController(), animated: true)
@@ -157,17 +161,14 @@ class LoginViewController: UIViewController {
         }
         else{
             //TODO: post info to database
-            NetworkManager.login(email: emailTextField.text!, password: passwordTextField.text!){ id in
+            emailTextField.resignFirstResponder()
+            
+            NetworkManager.login(email: emailTextField.text!, password: passwordTextField.text!){ [self] id in
                 NetworkManager.getUserID(id: id.user_id){user in
                     self.navigationController?.pushViewController(ViewController(user: user), animated: true)
                 }
-                print("hi")
             }
         }
-        
-
-        
-
     }
     
     func setUpConstraints() {
@@ -250,6 +251,5 @@ class LoginViewController: UIViewController {
         ])
     }
     
-    func loginButtonPressed (_sender: UIButton) {
-    }
+    
 }

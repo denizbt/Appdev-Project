@@ -29,13 +29,13 @@ class Places {
         self.name = name
         self.category = category
         self.crowded = crowded
-        self.mon = mon
-        self.tue = tue
-        self.wed = wed
-        self.thu = thu
-        self.fri = fri
-        self.sat = sat
-        self.sun = sun
+        self.mon = "Mon: " + mon
+        self.tue = "Tue: " + tue
+        self.wed = "Wed: " + wed
+        self.thu = "Thu: " + thu
+        self.fri = "Fri: " + fri
+        self.sat = "Sat: " + sat
+        self.sun = "Sun: " + sun
         self.id = id
     }
 }

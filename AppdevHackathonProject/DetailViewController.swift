@@ -13,13 +13,19 @@ class DetailViewController: UIViewController {
     let nameTextView = UILabel()
     let categoryTextView = UILabel()
     let crowdTextView = UILabel()
-    let hoursTextView = UILabel()
+    let mon = UILabel()
+    let tue = UILabel()
+    let wed = UILabel()
+    let thu = UILabel()
+    let fri = UILabel()
+    let sat = UILabel()
+    let sun = UILabel()
     let backButton = UIButton()
     
     //design
     let labelCornerRadius = CGFloat(15)
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
-    let textFont = CGFloat(16)
+    let textFont = CGFloat(14)
     let babyBlue = CGColor(red: 0/255, green: 191/255, blue: 255/255, alpha: 1.0)
  
     let places: Places
@@ -29,6 +35,7 @@ class DetailViewController: UIViewController {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
+
  
     //comments
     let commentTableView = UITableView()
@@ -61,24 +68,101 @@ class DetailViewController: UIViewController {
         view.addSubview(favoritesButton)
         
         nameTextView.text = places.name
-        nameTextView.font = .systemFont(ofSize: textFont)
+        nameTextView.font = .boldSystemFont(ofSize: 16)
         nameTextView.backgroundColor = .white
+        nameTextView.layer.shadowColor = UIColor.black.cgColor
+        nameTextView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        nameTextView.layer.shadowRadius = 5
+        nameTextView.layer.shadowOpacity = 1
+        nameTextView.layer.masksToBounds = false
         nameTextView.textColor = maroon
-        nameTextView.layer.cornerRadius = labelCornerRadius
-        nameTextView.clipsToBounds = true
         nameTextView.textAlignment = .center
         nameTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameTextView)
         
         categoryTextView.text = places.category
-        categoryTextView.font = .systemFont(ofSize: textFont)
+        categoryTextView.font = .boldSystemFont(ofSize: 16)
         categoryTextView.backgroundColor = .white
+        categoryTextView.layer.shadowColor = UIColor.black.cgColor
+        categoryTextView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        categoryTextView.layer.shadowRadius = 5
+        categoryTextView.layer.shadowOpacity = 1
+        categoryTextView.layer.masksToBounds = false
         categoryTextView.textColor = maroon
-        categoryTextView.layer.cornerRadius = labelCornerRadius
-        categoryTextView.clipsToBounds = true
         categoryTextView.textAlignment = .center
         categoryTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categoryTextView)
+        
+        crowdTextView.text = String(places.crowded)
+        crowdTextView.font = .systemFont(ofSize: 20)
+        crowdTextView.backgroundColor = .white
+        crowdTextView.textColor = maroon
+        crowdTextView.layer.cornerRadius = labelCornerRadius
+        crowdTextView.clipsToBounds = true
+        crowdTextView.textAlignment = .center
+        crowdTextView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(crowdTextView)
+        
+        let rectangle1 = CGRect(x: 33, y: 323, width: 330, height: 165)
+        let view1 = UIView(frame: rectangle1)
+        view1.backgroundColor = .white
+        view1.layer.cornerRadius = 15
+        self.view.addSubview(view1)
+        
+        mon.text = String(places.mon)
+        mon.font = .systemFont(ofSize: textFont)
+        mon.textColor = maroon
+        mon.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mon)
+        
+        tue.text = String(places.tue)
+        tue.font = .systemFont(ofSize: textFont)
+        tue.textColor = maroon
+        tue.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tue)
+        
+        wed.text = String(places.wed)
+        wed.font = .systemFont(ofSize: textFont)
+        wed.textColor = maroon
+        wed.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(wed)
+        
+        thu.text = String(places.thu)
+        thu.font = .systemFont(ofSize: textFont)
+        thu.textColor = maroon
+        thu.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(thu)
+        
+        fri.text = String(places.fri)
+        fri.font = .systemFont(ofSize: textFont)
+        fri.textColor = maroon
+        fri.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fri)
+        
+        sat.text = String(places.sat)
+        sat.font = .systemFont(ofSize: textFont)
+        sat.textColor = maroon
+        sat.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(sat)
+        
+        sun.text = String(places.sun)
+        sun.font = .systemFont(ofSize: textFont)
+        sun.textColor = maroon
+        sun.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(sun)
+        
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.white, for: .normal)
+        backButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backButton)
+ 
+        commentTableView.layer.cornerRadius = 15
+        commentTableView.translatesAutoresizingMaskIntoConstraints = false
+        commentTableView.dataSource = self
+        commentTableView.register(PostTableViewCell.self, forCellReuseIdentifier: commentReuseIdentifier)
+        view.addSubview(commentTableView)
         
         crowdTextView.text = String(places.crowded)
         crowdTextView.font = .systemFont(ofSize: textFont)
@@ -89,28 +173,6 @@ class DetailViewController: UIViewController {
         crowdTextView.textAlignment = .center
         crowdTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(crowdTextView)
-        
-        // hoursTextView.text = places.hours
-        hoursTextView.font = .systemFont(ofSize: textFont)
-        hoursTextView.backgroundColor = .white
-        hoursTextView.textColor = maroon
-        hoursTextView.layer.cornerRadius = labelCornerRadius
-        hoursTextView.clipsToBounds = true
-        hoursTextView.textAlignment = .center
-        hoursTextView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(hoursTextView)
-        
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(.white, for: .normal)
-        backButton.titleLabel?.font = UIFont.systemFont(ofSize: textFont, weight: .bold)
-        backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(backButton)
- 
-        commentTableView.translatesAutoresizingMaskIntoConstraints = false
-        commentTableView.dataSource = self
-        commentTableView.register(PostTableViewCell.self, forCellReuseIdentifier: commentReuseIdentifier)
-        view.addSubview(commentTableView)
         
         addCommentButton.setBackgroundImage(UIImage(named: "comment"), for: .normal)
         addCommentButton.layer.cornerRadius = 20
@@ -146,7 +208,7 @@ class DetailViewController: UIViewController {
  
     func sortCommentData() {
         commentData.sort { comment1, comment2 in
-            return comment1.timeStamp > comment2.timeStamp
+            return comment1.time_stamp > comment2.time_stamp
         }
     }
     
@@ -167,64 +229,102 @@ class DetailViewController: UIViewController {
     }
     
     func setupConstraints() {
-        let spacing = CGFloat(20)
-        let labelHeight = CGFloat(30)
-        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 250)
+            imageView.heightAnchor.constraint(equalToConstant: 244)
         ])
         
         NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 274),
-            nameTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameTextView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10),
             nameTextView.widthAnchor.constraint(equalToConstant: 148),
-            nameTextView.heightAnchor.constraint(equalToConstant: 31)
+            nameTextView.heightAnchor.constraint(equalToConstant: 31),
+            nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
         ])
         
         NSLayoutConstraint.activate([
-            categoryTextView.topAnchor.constraint(equalTo: nameTextView.bottomAnchor, constant: spacing),
-            categoryTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            categoryTextView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10),
             categoryTextView.widthAnchor.constraint(equalToConstant: 104),
-            categoryTextView.heightAnchor.constraint(equalToConstant: 31)
+            categoryTextView.heightAnchor.constraint(equalToConstant: 31),
+            categoryTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
         
         NSLayoutConstraint.activate([
-            crowdTextView.topAnchor.constraint(equalTo: categoryTextView.bottomAnchor, constant: spacing),
+            crowdTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 255),
             crowdTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            crowdTextView.heightAnchor.constraint(equalToConstant: labelHeight),
-            crowdTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            crowdTextView.heightAnchor.constraint(equalToConstant: 50),
+            crowdTextView.widthAnchor.constraint(equalToConstant: 50),
         ])
         
         NSLayoutConstraint.activate([
-            hoursTextView.topAnchor.constraint(equalTo: crowdTextView.bottomAnchor, constant: spacing),
-            hoursTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            hoursTextView.heightAnchor.constraint(equalToConstant: labelHeight),
-            hoursTextView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            mon.topAnchor.constraint(equalTo: view.topAnchor, constant: 330),
+            mon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            mon.heightAnchor.constraint(equalToConstant: 20),
+            mon.widthAnchor.constraint(equalToConstant: 300),
         ])
         
         NSLayoutConstraint.activate([
-            backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            tue.topAnchor.constraint(equalTo: mon.bottomAnchor, constant: 2),
+            tue.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tue.heightAnchor.constraint(equalToConstant: 20),
+            tue.widthAnchor.constraint(equalToConstant: 300),
         ])
         
         NSLayoutConstraint.activate([
-            commentTableView.topAnchor.constraint(equalTo: hoursTextView.bottomAnchor, constant: 10),
-            commentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            commentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            commentTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            wed.topAnchor.constraint(equalTo: tue.bottomAnchor, constant: 2),
+            wed.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            wed.heightAnchor.constraint(equalToConstant: 20),
+            wed.widthAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        NSLayoutConstraint.activate([
+            thu.topAnchor.constraint(equalTo: wed.bottomAnchor, constant: 2),
+            thu.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            thu.heightAnchor.constraint(equalToConstant: 20),
+            thu.widthAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        NSLayoutConstraint.activate([
+            fri.topAnchor.constraint(equalTo: thu.bottomAnchor, constant: 2),
+            fri.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fri.heightAnchor.constraint(equalToConstant: 20),
+            fri.widthAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        NSLayoutConstraint.activate([
+            sat.topAnchor.constraint(equalTo: fri.bottomAnchor, constant: 2),
+            sat.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sat.heightAnchor.constraint(equalToConstant: 20),
+            sat.widthAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        NSLayoutConstraint.activate([
+            sun.topAnchor.constraint(equalTo: sat.bottomAnchor, constant: 2),
+            sun.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sun.heightAnchor.constraint(equalToConstant: 20),
+            sun.widthAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        NSLayoutConstraint.activate([
+            commentTableView.topAnchor.constraint(equalTo: sun.bottomAnchor, constant: 35),
+            commentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33),
+            commentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -33),
+            commentTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
         ])
         
         NSLayoutConstraint.activate([
             addCommentButton.widthAnchor.constraint(equalToConstant: 70),
             addCommentButton.heightAnchor.constraint(equalToConstant: 70),
-            addCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            addCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -45),
+            addCommentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addCommentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
         ])
         
+        NSLayoutConstraint.activate([
+            backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
  
     required init?(coder: NSCoder) {
@@ -242,13 +342,6 @@ class DetailViewController: UIViewController {
             self.refreshControl.endRefreshing()
         }
         
-        NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
-            self.commentData = comments
-            self.sortCommentData()
-            self.shownCommentData = self.commentData
-            self.commentTableView.reloadData()
-            self.refreshControl.endRefreshing()
-        }
     }
 }
 
@@ -272,14 +365,14 @@ extension DetailViewController: UITableViewDataSource {
 
 extension DetailViewController: CreateCommentDelegate {
 
-    func createComment(title: String, body: String, poster: String) {
+    func createComment(user_id: Int, number: Int, text: String) {
 
         //TODO: #1 Create Post
-        NetworkManager.createComment(title: title, body: body, poster: poster) { comment in
-            self.shownCommentData = [comment] + self.shownCommentData
+        NetworkManager.createComment(user_id: user_id, number: number, text: text){ comment in
+            self.shownCommentData = self.shownCommentData
             self.commentTableView.reloadData()
         }
     }
-    
 }
+
 

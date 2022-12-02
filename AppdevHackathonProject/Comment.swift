@@ -8,14 +8,13 @@
 import Foundation
 
 struct Comment: Codable {
-    let id: String
-    var body: String
-    let poster: String
-    var timeStamp: String
+    let id: Int
+    var text: String
     let number: Int
     let user_id: Int
     let location_id: Int
-    
+    var time_stamp: String
+    var expiration: Bool
 }
 
 struct CommentResponse: Codable {

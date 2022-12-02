@@ -23,7 +23,18 @@ class ProfileViewController: UIViewController {
     var favorites: [String] = [] //favorite consists of imageName String 
     var comments: [Comment] = []
     let spacing: CGFloat = 10
+    let atView = UILabel()
     
+    var new_user: UserID?
+    
+    init(new_user: UserID) {
+        self.new_user = new_user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 //    let places: Places
 //    weak var delegate: viewInfo?
@@ -42,13 +53,19 @@ class ProfileViewController: UIViewController {
         favorites = []
         comments = []
 
-        nameLabel.text = "(Full Name)" //TODO: update
+        nameLabel.text = new_user?.name //TODO: update
         nameLabel.font = .boldSystemFont(ofSize: 32)
         nameLabel.textColor = maroon
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
+
+        atView.text = "@"
+        atView.font = .systemFont(ofSize: 20)
+        atView.textColor = maroon
+        atView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(atView)
         
-        usernameLabel.text = "@" + "(username)" //TODO: update
+        usernameLabel.text = new_user?.username //TODO: update
         usernameLabel.font = .systemFont(ofSize: 20)
         usernameLabel.textColor = maroon
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +122,7 @@ class ProfileViewController: UIViewController {
         commentLabel.textColor = .black
         commentLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(commentLabel)
+        
         setUpConstraints()
     }
     
@@ -122,8 +140,14 @@ class ProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
+            atView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            atView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            atView.heightAnchor.constraint(equalToConstant: 24)
+        ])
+        
+        NSLayoutConstraint.activate([
             usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            usernameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            usernameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             usernameLabel.heightAnchor.constraint(equalToConstant: 24),
         ])
         
