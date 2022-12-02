@@ -12,6 +12,9 @@
 		9748630540E8B23A1F53E9F5 /* Pods_AppdevHackathonProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F9DD292F38609062D1B2E8 /* Pods_AppdevHackathonProject.framework */; };
 		FF2F575C293848EB00B0B9A6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F575B293848EB00B0B9A6 /* LocationManager.swift */; };
 		FF2F576629393AD800B0B9A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */; };
+		FF2F57682939950000B0B9A6 /* LoginSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F57672939950000B0B9A6 /* LoginSession.swift */; };
+		FF2F576A2939997500B0B9A6 /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F57692939997500B0B9A6 /* RegisterUser.swift */; };
+		FF2F576C2939A2F200B0B9A6 /* UserID.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2F576B2939A2F200B0B9A6 /* UserID.swift */; };
 		FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716A292C44B0003BF000 /* AppDelegate.swift */; };
 		FF4D716D292C44B0003BF000 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716C292C44B0003BF000 /* SceneDelegate.swift */; };
 		FF4D716F292C44B0003BF000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D716E292C44B0003BF000 /* ViewController.swift */; };
@@ -62,6 +65,9 @@
 		E655A4D92B309E8CF2ED1972 /* Pods-AppdevHackathonProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppdevHackathonProject.release.xcconfig"; path = "Target Support Files/Pods-AppdevHackathonProject/Pods-AppdevHackathonProject.release.xcconfig"; sourceTree = "<group>"; };
 		FF2F575B293848EB00B0B9A6 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		FF2F57672939950000B0B9A6 /* LoginSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSession.swift; sourceTree = "<group>"; };
+		FF2F57692939997500B0B9A6 /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
+		FF2F576B2939A2F200B0B9A6 /* UserID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserID.swift; sourceTree = "<group>"; };
 		FF4D7167292C44B0003BF000 /* AppdevHackathonProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppdevHackathonProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4D716A292C44B0003BF000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF4D716C292C44B0003BF000 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 				FF4D716C292C44B0003BF000 /* SceneDelegate.swift */,
 				FF4D716E292C44B0003BF000 /* ViewController.swift */,
 				FF4D719E292C4EA7003BF000 /* DetailViewController.swift */,
+				FF2F576B2939A2F200B0B9A6 /* UserID.swift */,
 				FF4D71A0292C51B3003BF000 /* FilterCollectionViewCell.swift */,
 				FF4D71A2292C51E0003BF000 /* Filter.swift */,
 				FF4D719C292C4C89003BF000 /* PlacesCollectionViewCell.swift */,
@@ -175,6 +182,8 @@
 				FF4D71A42932D30E003BF000 /* LoginViewController.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
 				FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */,
+				FF2F57692939997500B0B9A6 /* RegisterUser.swift */,
+				FF2F57672939950000B0B9A6 /* LoginSession.swift */,
 				FFC5E4B12935C91300BC5AA5 /* Comment.swift */,
 				FFC5E4B72935D13500BC5AA5 /* CreateCommentViewController.swift */,
 				FF2F575B293848EB00B0B9A6 /* LocationManager.swift */,
@@ -442,11 +451,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF4D71A52932D30E003BF000 /* LoginViewController.swift in Sources */,
+				FF2F576A2939997500B0B9A6 /* RegisterUser.swift in Sources */,
 				FF4D719D292C4C89003BF000 /* PlacesCollectionViewCell.swift in Sources */,
 				FF4D716F292C44B0003BF000 /* ViewController.swift in Sources */,
 				FFC5E4B62935CFBD00BC5AA5 /* NetworkManager.swift in Sources */,
 				FF2F575C293848EB00B0B9A6 /* LocationManager.swift in Sources */,
 				FF2F576629393AD800B0B9A6 /* ProfileViewController.swift in Sources */,
+				FF2F57682939950000B0B9A6 /* LoginSession.swift in Sources */,
 				FF4D716B292C44B0003BF000 /* AppDelegate.swift in Sources */,
 				FF4D71A929358BC2003BF000 /* SignUpViewController.swift in Sources */,
 				FF4D719F292C4EA7003BF000 /* DetailViewController.swift in Sources */,
@@ -454,6 +465,7 @@
 				FFC5E4B82935D13500BC5AA5 /* CreateCommentViewController.swift in Sources */,
 				FF4D71A3292C51E0003BF000 /* Filter.swift in Sources */,
 				FF4D719B292C4653003BF000 /* Places.swift in Sources */,
+				FF2F576C2939A2F200B0B9A6 /* UserID.swift in Sources */,
 				FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */,
 				FF4D71A1292C51B3003BF000 /* FilterCollectionViewCell.swift in Sources */,
 				FFC5E4B42935CAD800BC5AA5 /* PostTableViewCell.swift in Sources */,

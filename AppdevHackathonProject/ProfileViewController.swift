@@ -8,10 +8,23 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
+    
+    var new_user: UserID?
+    
+    init(new_user: UserID) {
+        self.new_user = new_user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         // Do any additional setup after loading the view.
     }
     

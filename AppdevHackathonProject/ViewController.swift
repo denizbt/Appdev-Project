@@ -17,90 +17,101 @@ class ViewController: UIViewController {
     let foodCourts = Filter(filterName: "Food Courts", selected: false)
     let serviceCenters = Filter(filterName: "Service Centers", selected: false)
     
+    var user: UserID?
+    
+    init(user: UserID) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //Dining Halls
-    let morrison = Places(imageName: "morrison", name: "Morrison Dining", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 4:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "8:00am - 4:30pm , 5:00pm - 8:30pm", sun: "10:00am - 2:00pm , 5:00pm - 8:30pm")
+    let morrison = Places(imageName: "morrison", name: "Morrison Dining", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 4:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "8:00am - 4:30pm , 5:00pm - 8:30pm", sun: "10:00am - 2:00pm , 5:00pm - 8:30pm", id: 0)
     
-    let northStar = Places(imageName: "northStar", name: "North Star", category: "Dining Hall", crowded: 0.0, mon: "5:00pm - 9:00pm", tue: "5:00pm - 9:00pm", wed: "5:00pm - 9:00pm", thu: "5:00pm - 9:00pm", fri: "5:00pm - 9:00pm", sat: "10:30am - 2:30pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm")
+    let northStar = Places(imageName: "northStar", name: "North Star", category: "Dining Hall", crowded: 0.0, mon: "5:00pm - 9:00pm", tue: "5:00pm - 9:00pm", wed: "5:00pm - 9:00pm", thu: "5:00pm - 9:00pm", fri: "5:00pm - 9:00pm", sat: "10:30am - 2:30pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm", id: 0)
     
-    let risley = Places(imageName: "risley", name: "Risley", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 4:30pm - 9:00pm", tue: "11:00am - 2:00pm , 4:30pm - 9:00pm", wed: "11:00am - 2:00pm , 4:30pm - 9:00pm", thu: "11:00am - 2:00pm , 4:30pm - 9:00pm", fri: "11:00am - 2:00pm , 4:30pm - 9:00pm", sat: "Closed", sun: "Closed")
+    let risley = Places(imageName: "risley", name: "Risley", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 4:30pm - 9:00pm", tue: "11:00am - 2:00pm , 4:30pm - 9:00pm", wed: "11:00am - 2:00pm , 4:30pm - 9:00pm", thu: "11:00am - 2:00pm , 4:30pm - 9:00pm", fri: "11:00am - 2:00pm , 4:30pm - 9:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let okenshields = Places(imageName: "okenshields", name: "Okenshields", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "Closed", sun: "Closed")
+    let okenshields = Places(imageName: "okenshields", name: "Okenshields", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:30pm , 5:00pm - 8:30pm", tue: "7:00am - 4:30pm , 5:00pm - 8:30pm", wed: "7:00am - 4:30pm , 5:00pm - 8:30pm", thu: "7:00am - 4:30pm , 5:00pm - 8:30pm", fri: "7:00am - 4:30pm , 5:00pm - 8:30pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let becker = Places(imageName: "becker", name: "Becker House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 3:30pm , 5:00pm - 8:00pm", tue: "7:00am - 3:30pm , 5:00pm - 8:00pm", wed: "7:00am - 2:00pm , 6:00pm - 8:00pm", thu: "7:00am - 3:30pm , 5:00pm - 8:00pm", fri: "7:00am - 3:30pm , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm")
+    let becker = Places(imageName: "becker", name: "Becker House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 3:30pm , 5:00pm - 8:00pm", tue: "7:00am - 3:30pm , 5:00pm - 8:00pm", wed: "7:00am - 2:00pm , 6:00pm - 8:00pm", thu: "7:00am - 3:30pm , 5:00pm - 8:00pm", fri: "7:00am - 3:30pm , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm", id: 0)
     
-    let cook = Places(imageName: "cook", name: "Cook House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 9:00pm", tue: "7:30am - 10:00am , 5:00pm - 9:00pm", wed: "7:30am - 10:00am , 6:00pm - 9:00pm", thu: "7:30am - 10:00am , 5:00pm - 9:00pm", fri: "7:30am - 10:00am , 5:00pm - 9:00pm", sat: "10:30am - 2:00pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm")
+    let cook = Places(imageName: "cook", name: "Cook House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 9:00pm", tue: "7:30am - 10:00am , 5:00pm - 9:00pm", wed: "7:30am - 10:00am , 6:00pm - 9:00pm", thu: "7:30am - 10:00am , 5:00pm - 9:00pm", fri: "7:30am - 10:00am , 5:00pm - 9:00pm", sat: "10:30am - 2:00pm , 5:00pm - 9:00pm", sun: "10:00am - 2:00pm , 5:00pm - 9:00pm", id: 0)
     
-    let bethe = Places(imageName: "bethe", name: "Bethe House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 2:00pm , 4:30pm - 7:30pm", tue: "7:00am - 2:00pm , 4:30pm - 7:30pm", wed: "7:00am - 2:00pm , 6:00pm - 7:30pm", thu: "7:00am - 2:00pm , 4:30pm - 7:30pm", fri: "7:00am - 2:00pm , 4:30pm - 7:30pm", sat: "10:30am - 2:00pm , 4:30pm - 7:30pm", sun: "10:00am - 2:00pm , 4:30pm - 7:30pm")
+    let bethe = Places(imageName: "bethe", name: "Bethe House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 2:00pm , 4:30pm - 7:30pm", tue: "7:00am - 2:00pm , 4:30pm - 7:30pm", wed: "7:00am - 2:00pm , 6:00pm - 7:30pm", thu: "7:00am - 2:00pm , 4:30pm - 7:30pm", fri: "7:00am - 2:00pm , 4:30pm - 7:30pm", sat: "10:30am - 2:00pm , 4:30pm - 7:30pm", sun: "10:00am - 2:00pm , 4:30pm - 7:30pm", id: 0)
     
-    let keeton = Places(imageName: "keeton", name: "Keeton House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 10:00am , 5:00pm - 8:00pm", tue: "7:00am - 10:00am , 5:00pm - 8:00pm", wed: "7:00am - 10:00am , 6:00pm - 8:00pm", thu: "7:00am - 10:00am , 5:00pm - 8:00pm", fri: "7:00am - 10:00am , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm")
+    let keeton = Places(imageName: "keeton", name: "Keeton House", category: "Dining Hall", crowded: 0.0, mon: "7:00am - 10:00am , 5:00pm - 8:00pm", tue: "7:00am - 10:00am , 5:00pm - 8:00pm", wed: "7:00am - 10:00am , 6:00pm - 8:00pm", thu: "7:00am - 10:00am , 5:00pm - 8:00pm", fri: "7:00am - 10:00am , 5:00pm - 8:00pm", sat: "10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "10:00am - 2:00pm , 5:00pm - 8:00pm", id: 0)
     
-    let rose = Places(imageName: "rose", name: "Rose House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 8:00pm", tue: "7:30am - 10:00am , 5:00pm - 8:00pm", wed: "7:30am - 10:00am , 6:00pm - 8:00pm", thu: "7:30am - 10:00am , 5:00pm - 8:00pm", fri: "7:30am - 10:00am , 5:00pm - 8:00pm", sat: "8:00am - 9:30am , 10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "8:00am - 9:30am , 10:00am - 2:00pm , 5:00pm - 8:00pm")
+    let rose = Places(imageName: "rose", name: "Rose House", category: "Dining Hall", crowded: 0.0, mon: "7:30am - 10:00am , 5:00pm - 8:00pm", tue: "7:30am - 10:00am , 5:00pm - 8:00pm", wed: "7:30am - 10:00am , 6:00pm - 8:00pm", thu: "7:30am - 10:00am , 5:00pm - 8:00pm", fri: "7:30am - 10:00am , 5:00pm - 8:00pm", sat: "8:00am - 9:30am , 10:30am - 2:00pm , 5:00pm - 8:00pm", sun: "8:00am - 9:30am , 10:00am - 2:00pm , 5:00pm - 8:00pm", id: 0)
     
-    let west = Places(imageName: "104west", name: "104West!", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 5:00pm - 7:00pm", tue: "11:00am - 2:00pm , 5:00pm - 7:00pm", wed: "11:00am - 2:00pm , 5:00pm - 7:00pm", thu: "11:00am - 2:00pm , 5:00pm - 7:00pm", fri: "11:00am - 2:00pm , 5:00pm - 7:00pm", sat: "12:30pm - 2:00pm , 4:20pm - 5:20pm", sun: "11:00am - 2:00pm , 5:00pm - 7:00pm")
+    let west = Places(imageName: "104west", name: "104West!", category: "Dining Hall", crowded: 0.0, mon: "11:00am - 2:00pm , 5:00pm - 7:00pm", tue: "11:00am - 2:00pm , 5:00pm - 7:00pm", wed: "11:00am - 2:00pm , 5:00pm - 7:00pm", thu: "11:00am - 2:00pm , 5:00pm - 7:00pm", fri: "11:00am - 2:00pm , 5:00pm - 7:00pm", sat: "12:30pm - 2:00pm , 4:20pm - 5:20pm", sun: "11:00am - 2:00pm , 5:00pm - 7:00pm", id: 0)
     
     
     // Libraries
-    let adelson = Places(imageName: "adelson", name: "Adelson Library", category: "Library", crowded: 0.0, mon: "10:00am - 5:00pm", tue: "10:00am - 5:00pm", wed: "10:00am - 5:00pm", thu: "10:00am - 5:00pm", fri: "10:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 5:00pm")
+    let adelson = Places(imageName: "adelson", name: "Adelson Library", category: "Library", crowded: 0.0, mon: "10:00am - 5:00pm", tue: "10:00am - 5:00pm", wed: "10:00am - 5:00pm", thu: "10:00am - 5:00pm", fri: "10:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 5:00pm", id: 0)
     
-    let ilr = Places(imageName: "ilr", name: "ILR Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let ilr = Places(imageName: "ilr", name: "ILR Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let physicalSciences = Places(imageName: "physicalSciences", name: "Physical Sciences Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
+    let physicalSciences = Places(imageName: "physicalSciences", name: "Physical Sciences Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours", id: 0)
     
-    let engineering = Places(imageName: "engineering", name: "Engineering Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours")
+    let engineering = Places(imageName: "engineering", name: "Engineering Library", category: "Library", crowded: 0.0, mon: "Open 24 Hours", tue: "Open 24 Hours", wed: "Open 24 Hours", thu: "Open 24 Hours", fri: "Open 24 Hours", sat: "Open 24 Hours", sun: "Open 24 Hours", id: 0)
     
-    let vet = Places(imageName: "vet", name: "Veterinary Library", category: "Library", crowded: 0.0, mon: "7:30am - 10:00pm", tue: "7:30am - 10:00pm", wed: "7:30am - 10:00pm", thu: "7:30am - 10:00pm", fri: "7:30am - 8:00pm", sat: "10:00am - 8:00pm", sun: "12:00pm - 10:00pm")
+    let vet = Places(imageName: "vet", name: "Veterinary Library", category: "Library", crowded: 0.0, mon: "7:30am - 10:00pm", tue: "7:30am - 10:00pm", wed: "7:30am - 10:00pm", thu: "7:30am - 10:00pm", fri: "7:30am - 8:00pm", sat: "10:00am - 8:00pm", sun: "12:00pm - 10:00pm", id: 0)
     
-    let africana = Places(imageName: "africana", name: "Africana Library", category: "Library", crowded: 0.0, mon: "9:00am - 9:00pm", tue: "9:00am - 9:00pm", wed: "9:00am - 9:00pm", thu: "9:00am - 9:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let africana = Places(imageName: "africana", name: "Africana Library", category: "Library", crowded: 0.0, mon: "9:00am - 9:00pm", tue: "9:00am - 9:00pm", wed: "9:00am - 9:00pm", thu: "9:00am - 9:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let olin = Places(imageName: "olin", name: "Olin Library", category: "Library", crowded: 0.0, mon: "8:00am - 12:00am", tue: "8:00am - 12:00am", wed: "8:00am - 12:00am", thu: "8:00am - 12:00am", fri: "8:00am - 6:00pm", sat: "10:00am - 6:00pm", sun: "10:00am - 12:00am")
+    let olin = Places(imageName: "olin", name: "Olin Library", category: "Library", crowded: 0.0, mon: "8:00am - 12:00am", tue: "8:00am - 12:00am", wed: "8:00am - 12:00am", thu: "8:00am - 12:00am", fri: "8:00am - 6:00pm", sat: "10:00am - 6:00pm", sun: "10:00am - 12:00am", id: 0)
     
-    let kroch = Places(imageName: "kroch", name: "Kroch Library", category: "Library", crowded: 0.0, mon: "8:00am - 12:00am", tue: "8:00am - 12:00am", wed: "8:00am - 12:00am", thu: "8:00am - 12:00am", fri: "8:00am - 6:00pm", sat: "10:00am - 6:00pm", sun: "10:00am - 12:00am")
+    let kroch = Places(imageName: "kroch", name: "Kroch Library", category: "Library", crowded: 0.0, mon: "8:00am - 12:00am", tue: "8:00am - 12:00am", wed: "8:00am - 12:00am", thu: "8:00am - 12:00am", fri: "8:00am - 6:00pm", sat: "10:00am - 6:00pm", sun: "10:00am - 12:00am", id: 0)
     
-    let law = Places(imageName: "law", name: "Law Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "11:00am - 5:00pm", sun: "12:00pm - 8:00pm")
+    let law = Places(imageName: "law", name: "Law Library", category: "Library", crowded: 0.0, mon: "8:00am - 8:00pm", tue: "8:00am - 8:00pm", wed: "8:00am - 8:00pm", thu: "8:00am - 8:00pm", fri: "8:00am - 5:00pm", sat: "11:00am - 5:00pm", sun: "12:00pm - 8:00pm", id: 0)
 
-    let management = Places(imageName: "management", name: "Management Library", category: "Library", crowded: 0.0, mon: "7:00am - 8:00pm", tue: "7:00am - 8:00pm", wed: "7:00am - 8:00pm", thu: "7:00am - 8:00pm", fri: "7:00am - 8:00pm", sat: "7:00am - 5:00pm", sun: "7:00am - 5:00pm")
+    let management = Places(imageName: "management", name: "Management Library", category: "Library", crowded: 0.0, mon: "7:00am - 8:00pm", tue: "7:00am - 8:00pm", wed: "7:00am - 8:00pm", thu: "7:00am - 8:00pm", fri: "7:00am - 8:00pm", sat: "7:00am - 5:00pm", sun: "7:00am - 5:00pm", id: 0)
 
-    let mann = Places(imageName: "mann", name: "Mann Library", category: "Library", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 6:00pm", sat: "12:00pm - 6:00pm", sun: "12:00pm - 6:00pm")
+    let mann = Places(imageName: "mann", name: "Mann Library", category: "Library", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 6:00pm", sat: "12:00pm - 6:00pm", sun: "12:00pm - 6:00pm", id: 0)
     
-    let math = Places(imageName: "math", name: "Math Library", category: "Library", crowded: 0.0, mon: "9:00am - 8:00pm", tue: "9:00am - 8:00pm", wed: "9:00am - 8:00pm", thu: "9:00am - 8:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "12:00pm - 8:00pm")
+    let math = Places(imageName: "math", name: "Math Library", category: "Library", crowded: 0.0, mon: "9:00am - 8:00pm", tue: "9:00am - 8:00pm", wed: "9:00am - 8:00pm", thu: "9:00am - 8:00pm", fri: "9:00am - 5:00pm", sat: "Closed", sun: "12:00pm - 8:00pm", id: 0)
     
-    let arts = Places(imageName: "arts", name: "Fine Arts Library", category: "Library", crowded: 0.0, mon: "9:00am - 10:00pm", tue: "9:00am - 10:00pm", wed: "9:00am - 10:00pm", thu: "9:00am - 10:00pm", fri: "9:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "Closed")
+    let arts = Places(imageName: "arts", name: "Fine Arts Library", category: "Library", crowded: 0.0, mon: "9:00am - 10:00pm", tue: "9:00am - 10:00pm", wed: "9:00am - 10:00pm", thu: "9:00am - 10:00pm", fri: "9:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "Closed", id: 0)
     
-    let hotel = Places(imageName: "hotel", name: "Hotel Library", category: "Library", crowded: 0.0, mon: "8:00am - 11:30pm", tue: "8:00am - 11:30pm", wed: "8:00am - 11:30pm", thu: "8:00am - 11:30pm", fri: "8:00am - 6:30pm", sat: "12:00pm - 6:30pm", sun: "Closed")
+    let hotel = Places(imageName: "hotel", name: "Hotel Library", category: "Library", crowded: 0.0, mon: "8:00am - 11:30pm", tue: "8:00am - 11:30pm", wed: "8:00am - 11:30pm", thu: "8:00am - 11:30pm", fri: "8:00am - 6:30pm", sat: "12:00pm - 6:30pm", sun: "Closed", id: 0)
 
-    let uris = Places(imageName: "uris", name: "Uris Library", category: "Library", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm")
+    let uris = Places(imageName: "uris", name: "Uris Library", category: "Library", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm", id: 0)
 
     
     //Cafes
-    let libe = Places(imageName: "libe", name: "Libe Café", category: "Café", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 10:00pm")
+    let libe = Places(imageName: "libe", name: "Libe Café", category: "Café", crowded: 0.0, mon: "8:00am - 10:00pm", tue: "8:00am - 10:00pm", wed: "8:00am - 10:00pm", thu: "8:00am - 10:00pm", fri: "8:00am - 5:00pm", sat: "10:00am - 5:00pm", sun: "10:00am - 10:00pm", id: 0)
 
-    let atrium = Places(imageName: "atrium", name: "Atrium Café", category: "Café", crowded: 0.0, mon: "Closed", tue: "Closed", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed")
+    let atrium = Places(imageName: "atrium", name: "Atrium Café", category: "Café", crowded: 0.0, mon: "Closed", tue: "Closed", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed", id: 0)
     
-    let barn = Places(imageName: "barn", name: "Big Red Barn", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed")
+    let barn = Places(imageName: "barn", name: "Big Red Barn", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "Closed", thu: "Closed", fri: "Closed", sat: "Closed", sun: "Closed", id: 0)
     
-    let jennie = Places(imageName: "jennie", name: "Café Jennie", category: "Café", crowded: 0.0, mon: "8:30am - 6:00pm", tue: "8:30am - 6:00pm", wed: "8:30am - 6:00pm", thu: "8:30am - 6:00pm", fri: "8:30am - 6:00pm", sat: "10:00am - 5:00pm", sun: "Closed")
+    let jennie = Places(imageName: "jennie", name: "Café Jennie", category: "Café", crowded: 0.0, mon: "8:30am - 6:00pm", tue: "8:30am - 6:00pm", wed: "8:30am - 6:00pm", thu: "8:30am - 6:00pm", fri: "8:30am - 6:00pm", sat: "10:00am - 5:00pm", sun: "Closed", id: 0)
     
-    let crossings = Places(imageName: "crossings", name: "Crossings Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 6:00pm", sat: "8:00am - 6:00pm", sun: "8:00am - 6:00pm")
+    let crossings = Places(imageName: "crossings", name: "Crossings Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 6:00pm", sat: "8:00am - 6:00pm", sun: "8:00am - 6:00pm", id: 0)
     
-    let goldies = Places(imageName: "goldies", name: "Goldie's Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let goldies = Places(imageName: "goldies", name: "Goldie's Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed", id: 0)
 
-    let greenDragon = Places(imageName: "greenDragon", name: "Green Dragon", category: "Café", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm")
+    let greenDragon = Places(imageName: "greenDragon", name: "Green Dragon", category: "Café", crowded: 0.0, mon: "8:00am - 11:00pm", tue: "8:00am - 11:00pm", wed: "8:00am - 11:00pm", thu: "8:00am - 11:00pm", fri: "8:00am - 5:00pm", sat: "12:00pm - 5:00pm", sun: "12:00pm - 11:00pm", id: 0)
 
-    let mannCafe = Places(imageName: "mannCafe", name: "Mann Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let mannCafe = Places(imageName: "mannCafe", name: "Mann Café", category: "Café", crowded: 0.0, mon: "8:00am - 6:00pm", tue: "8:00am - 6:00pm", wed: "8:00am - 6:00pm", thu: "8:00am - 6:00pm", fri: "8:00am - 5:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let martha = Places(imageName: "martha", name: "Martha's Café", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 3:00pm", sat: "Closed", sun: "Closed")
+    let martha = Places(imageName: "martha", name: "Martha's Café", category: "Café", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 3:00pm", sat: "Closed", sun: "Closed", id: 0)
 
-    let mattin = Places(imageName: "mattin", name: "Mattin's Café", category: "Café", crowded: 0.0, mon: "7:00am - 10:00pm", tue: "7:00am - 10:00pm", wed: "7:00am - 10:00pm", thu: "7:00am - 10:00pm", fri: "7:00am - 5:00pm", sat: "Closed", sun: "Closed")
+    let mattin = Places(imageName: "mattin", name: "Mattin's Café", category: "Café", crowded: 0.0, mon: "7:00am - 10:00pm", tue: "7:00am - 10:00pm", wed: "7:00am - 10:00pm", thu: "7:00am - 10:00pm", fri: "7:00am - 5:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let novicks = Places(imageName: "novicks", name: "Novick's Café", category: "Café", crowded: 0.0, mon: "7:30am - 9:00pm", tue: "7:30am - 9:00pm", wed: "7:30am - 9:00pm", thu: "7:30am - 9:00pm", fri: "7:30am - 9:00pm", sat: "7:30am - 9:00pm", sun: "7:30am - 9:00pm")
+    let novicks = Places(imageName: "novicks", name: "Novick's Café", category: "Café", crowded: 0.0, mon: "7:30am - 9:00pm", tue: "7:30am - 9:00pm", wed: "7:30am - 9:00pm", thu: "7:30am - 9:00pm", fri: "7:30am - 9:00pm", sat: "7:30am - 9:00pm", sun: "7:30am - 9:00pm", id: 0)
 
-    let rusty = Places(imageName: "rusty", name: "Rusty's", category: "Café", crowded: 0.0, mon: "8:00am - 4:00pm", tue: "8:00am - 4:00pm", wed: "8:00am - 4:00pm", thu: "8:00am - 4:00pm", fri: "8:00am - 4:00pm", sat: "Closed", sun: "Closed")
+    let rusty = Places(imageName: "rusty", name: "Rusty's", category: "Café", crowded: 0.0, mon: "8:00am - 4:00pm", tue: "8:00am - 4:00pm", wed: "8:00am - 4:00pm", thu: "8:00am - 4:00pm", fri: "8:00am - 4:00pm", sat: "Closed", sun: "Closed", id: 0)
 
     
     //Food Court
-    let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed")
+    let trillium = Places(imageName: "trillium", name: "Trillium", category: "Food Court", crowded: 0.0, mon: "8:00am - 3:00pm", tue: "8:00am - 3:00pm", wed: "8:00am - 3:00pm", thu: "8:00am - 3:00pm", fri: "8:00am - 2:00pm", sat: "Closed", sun: "Closed", id: 0)
     
-    let bear = Places(imageName: "bear", name: "Bear Necessities", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am")
+    let bear = Places(imageName: "bear", name: "Bear Necessities", category: "Food Court", crowded: 0.0, mon: "8:00am - 2:00am", tue: "8:00am - 2:00am", wed: "8:00am - 2:00am", thu: "8:00am - 2:00am", fri: "8:00am - 2:00am", sat: "10:00am - 2:00am", sun: "10:00am - 2:00am", id: 0)
     
     var placesCollectionView: UICollectionView!
     var filterCollectionView: UICollectionView!
@@ -218,7 +229,9 @@ class ViewController: UIViewController {
     }
     
     @objc func pushProfile() {
-        navigationController?.pushViewController(ProfileViewController(), animated: true)
+        if let unwrappedUser = user {
+            navigationController?.pushViewController(ProfileViewController(new_user: unwrappedUser), animated: true)
+        }
     }
     
   
@@ -264,7 +277,7 @@ class ViewController: UIViewController {
             placesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -collectionViewPadding)
         ])
     }
-        
+    
     func filterRestaurants() {
         places = []
         

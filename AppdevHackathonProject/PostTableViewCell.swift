@@ -77,7 +77,6 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func configure(commentObject: Comment) {
-        titleLabel.text = commentObject.title
         bodyLabel.text = commentObject.body
         posterLabel.text = commentObject.poster
 

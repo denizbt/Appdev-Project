@@ -21,8 +21,20 @@ class LoginViewController: UIViewController {
     let noAccountLabel = UILabel()
     let signUpButton = UIButton()
     let loginButton = UIButton()
+    var id: LoginSession?
 
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
+    
+    let registerUser: RegisterUser?
+    
+    init(registerUser: RegisterUser) {
+        self.registerUser = registerUser
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,11 +128,9 @@ class LoginViewController: UIViewController {
         view.addSubview(signUpButton)
         
         setUpConstraints()
-        
-
         // Do any additional setup after loading the view.
     }
-    
+        
     @objc func signUp() {
         navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
@@ -129,6 +139,7 @@ class LoginViewController: UIViewController {
         let password=passwordTextField.text ?? ""
         let email=emailTextField.text ?? ""
         let username=usernameTextField.text ?? ""
+        
 
         if(password.isEmpty || (email.isEmpty && username.isEmpty)){
             let invalidInputAlert = UIAlertController(title: "Empty Field(s)", message: "Please make sure all text fields are completed", preferredStyle: .alert)
@@ -139,9 +150,17 @@ class LoginViewController: UIViewController {
         }
         else{
             //TODO: post info to database
-            navigationController?.pushViewController(ViewController(), animated: true)
+            NetworkManager.login(email: emailTextField.text!, password: passwordTextField.text!){ id in
+                NetworkManager.getUserID(id: id.id){user in
+                    self.navigationController?.pushViewController(ViewController(user: user), animated: true)
+                }
+            }
 
         }
+        
+
+        
+
     }
     
     func setUpConstraints() {

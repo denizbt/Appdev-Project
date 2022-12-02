@@ -151,7 +151,7 @@ class DetailViewController: UIViewController {
          2) Update `postData` & `shownPostData` and reload `postTableView`
          */
 
-        NetworkManager.getAllComments { comments in
+        NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
             self.commentData = comments
             self.sortCommentData()
             self.shownCommentData = self.commentData
@@ -227,7 +227,15 @@ class DetailViewController: UIViewController {
     @objc func refreshData() {
 
         //TODO: #1.5 Implement Refresh
-        NetworkManager.getAllComments { comments in
+        NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
+            self.commentData = comments
+            self.sortCommentData()
+            self.shownCommentData = self.commentData
+            self.commentTableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
+        
+        NetworkManager.getCommentsByLocation(location_id: self.places.id) { comments in
             self.commentData = comments
             self.sortCommentData()
             self.shownCommentData = self.commentData

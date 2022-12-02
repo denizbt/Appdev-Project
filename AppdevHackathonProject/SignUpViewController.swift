@@ -24,6 +24,16 @@ class SignUpViewController: UIViewController {
 
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
 
+//    let id: UserID?
+//
+//    init(id: UserID) {
+//        self.id = id
+//        super.init(nibName: nil, bundle: nil)
+//    }
+ //
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,7 +161,9 @@ class SignUpViewController: UIViewController {
         }
         else{
             //TODO: post info to database
-            navigationController?.pushViewController(LoginViewController(), animated: true)
+            NetworkManager.registerUser(name: fullNameTextField.text!, username: usernameTextField.text!, email: emailTextField.text!, password: passwordTextField.text!){ id in
+                        self.navigationController?.pushViewController(LoginViewController(registerUser: id), animated: true)
+            }
         }
     }
     

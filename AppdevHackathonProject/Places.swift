@@ -20,10 +20,11 @@ class Places {
     var fri: String
     var sat: String
     var sun: String
+    var id: Int
 
 
  
-    init (imageName: String, name: String, category: String, crowded: Float, mon: String, tue: String, wed: String, thu: String, fri: String, sat: String, sun: String) {
+    init (imageName: String, name: String, category: String, crowded: Float, mon: String, tue: String, wed: String, thu: String, fri: String, sat: String, sun: String, id: Int) {
         self.imageName = imageName
         self.name = name
         self.category = category
@@ -35,6 +36,7 @@ class Places {
         self.fri = fri
         self.sat = sat
         self.sun = sun
+        self.id = id
     }
 }
 

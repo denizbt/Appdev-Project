@@ -10,10 +10,10 @@ import Foundation
 
 class NetworkManager {
 
-    static let host = "https://ios-course-message-board.herokuapp.com"
+    static let host = "https://35.194.81.8"
 
-    static func getAllComments(completion: @escaping ([Comment]) -> Void) {
-        let endpoint = "\(host)/posts/all/"
+    static func getCommentsByLocation(location_id: Int, completion: @escaping ([Comment]) -> Void) {
+        let endpoint = "\(host)/api/comments/\(location_id)/"
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let data):
@@ -29,7 +29,77 @@ class NetworkManager {
             }
         }
     }
+    
+    static func getUserID(id: Int, completion: @escaping (UserID) -> Void) {
+        let endpoint = "\(host)/api/users/\(id)/"
+        AF.request(endpoint, method: .get).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                    jsonDecoder.dateDecodingStrategy = .iso8601
+                if let userResponse = try? jsonDecoder.decode(UserID.self, from: data) {
+                    completion(userResponse)
+                } else {
+                    print("Failed to decode getAllPosts")
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func login(email: String, password: String, completion: @escaping (LoginSession) -> Void) {
+        let endpoint = "\(host)/api/users/logout/"
+        
+        let params: Parameters = [
+            "email": email,
+            "password": password
+        ]
+        
+        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let userResponse = try? jsonDecoder.decode(LoginSession.self, from: data) {
+                    completion(userResponse)
+                }
+                else {
+                    print("Failed to decode createPost")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 
+    static func registerUser(name: String, username: String, email: String, password: String, completion: @escaping (RegisterUser) -> Void) {
+        let endpoint = "\(host)/api/users/"
+
+        let params: Parameters = [
+            "name": name,
+            "username": username,
+            "email": email,
+            "password": password
+        ]
+        
+        AF.request(endpoint, method: .post, parameters: params).validate().responseData {response in
+            switch response.result {
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let userResponse = try? jsonDecoder.decode(RegisterUser.self, from: data) {
+                    completion(userResponse)
+                }
+                else {
+                    print("Failed to decode createPost")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
 
     static func createComment(title: String, body: String, poster: String, completion: @escaping (Comment) -> Void) {
         let endpoint = "\(host)/posts/"
@@ -64,7 +134,6 @@ class NetworkManager {
     static func deletePost(id: String, poster: String, completion: @escaping (Comment) -> Void) {
 
     }
-    
     // Extra Credit
 
     static func getPostersPosts(poster: String, completion: Any) {

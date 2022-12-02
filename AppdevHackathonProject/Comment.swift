@@ -9,10 +9,13 @@ import Foundation
 
 struct Comment: Codable {
     let id: String
-    var title: String
     var body: String
     let poster: String
     var timeStamp: String
+    let number: Int
+    let user_id: Int
+    let location_id: Int
+    
 }
 
 struct CommentResponse: Codable {
