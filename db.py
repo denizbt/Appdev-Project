@@ -29,13 +29,6 @@ association_table = db.Table(
     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
 )
 
-# busyness_table = db.Table(
-#     "busyness",
-#     db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
-#     db.Column("location_id", db.Integer, db.ForeignKey("locations.id"))
-# )
-
-
 class User(db.Model):
     """
     User model
@@ -48,13 +41,14 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password_digest = db.Column(db.String, nullable=False)
     comments = db.relationship("Comment", cascade="delete")
     positions = db.relationship("Position", cascade="delete")
     favorites = db.relationship(
         "Location", secondary=association_table, back_populates="fav_users")
-    profile_pic = db.relationship("Asset")  # check if this works!
+    profile_pic = db.relationship("Asset")
 
     # session information
     session_token = db.Column(db.String, nullable=False, unique=True)
@@ -66,6 +60,7 @@ class User(db.Model):
         Initializes User object
         """
         self.name = kwargs.get("name")
+        self.username = kwargs.get("username")
         self.email = kwargs.get("email")
         self.password_digest = bcrypt.hashpw(kwargs.get(
             "password").encode("utf8"), bcrypt.gensalt(rounds=13))
@@ -111,8 +106,9 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "username": self.username,
             "email": self.email,
-            "favorites": [f.simple_serialize() for f in self.favorites],
+            "favorites": [f.id for f in self.favorites],
             "session_token": self.session_token,
             "session_expiration": str(self.session_expiration),
             "update_token": self.update_token
@@ -125,40 +121,15 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "username": self.username,
             "email": self.email
         }
-
-
-class Busyness(db.Model):
-    """
-    Busyness model
-
-    Has a many-to-one relationship with Location 
-    """
-    __tablename__ = "busynesses"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    level = db.Column(db.Integer, nullable=False)
-    creation_time = db.Column(db.DateTime, nullable=False)
-    location_id = db.Column(db.Integer, db.ForeignKey(
-        "locations.id"), nullable=False)
-    expired = db.Column(db.Boolean, nullable=False)
-
-    def __init__(self, **kwargs):
-        """
-        Initializes Busyness object
-        """
-        self.level = kwargs.get("level")
-        self.creation_time = datetime.datetime.now()
-        self.location_id = kwargs.get("location_id")
-        self.expired = False
-
 
 class Location(db.Model):
     """
     Location model (i.e. Morrison Dining, Uris Library)
 
     Has a one-to-many relationship with Comment
-    Has a one-to-many relationship with Busyness
     Has a many-to-many relationship with User (favorites)
     """
     __tablename__ = "locations"
@@ -166,16 +137,10 @@ class Location(db.Model):
     name = db.Column(db.String, nullable=False)
     comments = db.relationship("Comment", cascade="delete")
     address = db.Column(db.String, nullable=False)
-
-    # Latitude and Longitude as float maybe?
-    latitude = db.Column(db.Integer, nullable=False)
-    longitude = db.Column(db.Integer, nullable=False)
-
-    # Busy level attempt
-    busyness = db.relationship("Busyness", cascade="delete")
-    busy_level = db.Column(db.Integer, nullable=False)
-    # Ends attempt
-
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    busyness = db.Column(db.Float, nullable=False)
+  
     fav_users = db.relationship(
         "User", secondary=association_table, back_populates="favorites")
 
@@ -189,9 +154,7 @@ class Location(db.Model):
         region = geolocator.geocode(self.address)
         self.latitude = region.latitude
         self.longitude = region.longitude
-
-        # Added field
-        self.busy_level = 0
+        self.busyness = 0
 
     def serialize(self):
         """
@@ -203,8 +166,8 @@ class Location(db.Model):
             "address": self.address,
             "latitude": self.latitude,
             "longitude": self.longitude,
-            "comments": [c.simple_serialize() for c in self.comments],
-            "fav_users": [f.simple_serialize() for f in self.fav_users]
+            "busyness": self.busyness,
+            "comments": [c.simple_serialize() for c in self.comments]
         }
 
     def simple_serialize(self):
@@ -214,7 +177,8 @@ class Location(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "address": self.address
+            "address": self.address,
+            "busyness": self.busyness
         }
 
 
@@ -228,13 +192,12 @@ class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String)
-    number = db.Column(db.Integer)
+    number = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     location_id = db.Column(db.Integer, db.ForeignKey(
         "locations.id"), nullable=False)
     timestamp = db.Column(db.String)
-    expired = db.Column(db.Boolean)  # remove completely and let frontend deal?
-
+   
     # keeping track of expiration date
     session_expiration = db.Column(db.DateTime, nullable=False)
 
@@ -247,11 +210,8 @@ class Comment(db.Model):
         self.user_id = kwargs.get("user_id")
         self.location_id = kwargs.get("location_id")
 
-        # Change Comment Session Expiration time?
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
-
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=2)
         self.timestamp = datetime.datetime.now()
-        self.expired = False
 
     def serialize(self):
         """
@@ -260,11 +220,11 @@ class Comment(db.Model):
         return {
             "id": self.id,
             "text": self.text,
+            "number": self.number,
             "user_id":  User.query.filter_by(id=self.user_id).first().id,
             "location_id": Location.query.filter_by(id=self.location_id).first().id,
-            "time_stamp": str(self.timestamp),
-            "expiration": str(self.session_expiration),
-            "expired": bool(self.session_expiration >= datetime.datetime.now())
+            "timestamp": str(self.timestamp),
+            "expiration": self.session_expiration < datetime.datetime.now()
         }
 
     def simple_serialize(self):
@@ -274,6 +234,7 @@ class Comment(db.Model):
         return {
             "id": self.id,
             "text": self.text,
+            "number": self.number,
             "timestamp": str(self.timestamp)
         }
 
@@ -307,16 +268,6 @@ class Position(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "timestamp": str(self.timestamp)
-        }
-
-    def simple_serialize(self):
-        """
-        Simply serializes Position object
-        """
-        return {
             "latitude": self.latitude,
             "longitude": self.longitude,
             "timestamp": str(self.timestamp)
@@ -414,6 +365,6 @@ class Asset(db.Model):
         return {
             "user_id": self.user_id,
             "url": f"{self.base_url}/{self.salt}.{self.extension}",
-            "bucket name": S3_BUCKET_NAME,
+            "bucketname": S3_BUCKET_NAME,
             "timestamp": str(self.timestamp)
         }
