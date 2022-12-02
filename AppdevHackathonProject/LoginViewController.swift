@@ -40,6 +40,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
                 
         view.backgroundColor = maroon
+        emailTextField.becomeFirstResponder()
+        
         
         welcome.text = "Welcome!"
         welcome.font = .boldSystemFont(ofSize: 32)
