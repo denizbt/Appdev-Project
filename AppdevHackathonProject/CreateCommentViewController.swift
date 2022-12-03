@@ -13,12 +13,14 @@ class CreateCommentViewController: UIViewController {
 
     let headerLabel = UILabel()
     let textTextView = UITextView()
-    let dropDown = DropDown()
-    let dropButton = UIButton()
+    let titleTextView = UITextView()
+    let userIdTextField = UITextField()
     let saveButton = UIButton()
-    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
+    let dropButton = UIButton()
+    let dropDown = DropDown()
     var latitude: Double?
     var longitude: Double?
+    let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
 
     var location:LocationById?
     var id: Int?
@@ -41,25 +43,24 @@ class CreateCommentViewController: UIViewController {
 
         headerLabel.text = "Add Comment"
         headerLabel.font = .boldSystemFont(ofSize: 20)
+        headerLabel.textColor = .white
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.font = .systemFont(ofSize: 20)
-        headerLabel.textColor = .white
         view.addSubview(headerLabel)
         
-        textTextView.text = "Insert Comment"
+        textTextView.text = "Insert Body"
         textTextView.translatesAutoresizingMaskIntoConstraints = false
         textTextView.clipsToBounds = true
         textTextView.layer.cornerRadius = 5
         textTextView.backgroundColor = .white
         textTextView.font = .systemFont(ofSize: 15)
-        dropDown.show();
         view.addSubview(textTextView)
         
         dropDown.anchorView = dropButton
         dropDown.dataSource = ["1","2","3","4","5"]
         dropDown.backgroundColor = .white
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            dropButton.setTitle(item + " / 5", for: .normal)
+            dropButton.setTitle(item + "/5", for: .normal)
         }
         view.addSubview(dropDown)
 
@@ -70,11 +71,11 @@ class CreateCommentViewController: UIViewController {
         dropButton.layer.cornerRadius = 15
         dropButton.addTarget(self, action: #selector(showList), for: .touchUpInside)
         view.addSubview(dropButton)
-        
+
         saveButton.setTitle("Post", for: .normal)
         saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.setTitleColor(maroon, for: .normal)
         saveButton.backgroundColor = .white
+        saveButton.setTitleColor(maroon, for: .normal)
         saveButton.layer.cornerRadius = 15
         saveButton.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
         view.addSubview(saveButton)
@@ -100,27 +101,12 @@ class CreateCommentViewController: UIViewController {
             
         }
         
-//        LocationManager.shared.getUserLocation { location in
-//            new_location?.locationManager(location.manager, didUpdateLocations: [location])
-//            //var latitude = location.latitude
-//            //var longitude = location.longitude
-//        }
-        
-        
         LocationManager.shared.getUserLocation { location in
             self.latitude = location.coordinate.latitude
             self.longitude = location.coordinate.longitude
         }
         
         let text = textTextView.text!
-        //let user_id = id?.user_id
-        
-        //TODO: Uncomment
-//        if let unwrappedUserId = user_id {
-//            delegate?.createComment(user_id: unwrappedUserId, number: 0,text: text, latitude: latitude, longitude: longitude)
-//        }
-
-        navigationController?.popViewController(animated: true)
         
         
         if let new_id = id {
@@ -161,7 +147,7 @@ class CreateCommentViewController: UIViewController {
         NSLayoutConstraint.activate([
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: widthMultiplier)
+            saveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
         ])
     }
 

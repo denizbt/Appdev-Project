@@ -53,12 +53,13 @@ class NetworkManager {
         AF.request(endpoint, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let data):
+                print(String(data: data, encoding: .utf8))
                 let jsonDecoder = JSONDecoder()
                 jsonDecoder.dateDecodingStrategy = .iso8601
                 if let userResponse = try? jsonDecoder.decode(LocationById.self, from: data) {
                     completion(userResponse)
                 } else {
-                    print("Failed to decode getUserInfo")
+                    print("Failed to decode getLocationById")
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -179,8 +180,8 @@ class NetworkManager {
             "text": text!,
             "user_id": user_id,
             "number": number,
-            "latitude": latitude,
-            "longitude": longitude
+            "latitude": 42.45538808894801,
+            "longitude": -76.47925119890485
         ]
         
         AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in

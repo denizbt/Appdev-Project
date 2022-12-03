@@ -83,11 +83,13 @@ class PostTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
-        let timestamp = dateFormatter.date(from: commentObject.timestamp)!
+//        print(commentObject.timestamp)
+//        print( dateFormatter.date(from: commentObject.timestamp))
+        let timestamp = dateFormatter.date(from: commentObject.timestamp)
 
         let coolDateFormatter = DateFormatter()
         coolDateFormatter.dateFormat = "MMM d, h:mm a"
-        let coolDateString = coolDateFormatter.string(from: timestamp)
+        let coolDateString = coolDateFormatter.string(from: timestamp ?? Date())
         timestampLabel.text = "\(coolDateString)"
     }
     
