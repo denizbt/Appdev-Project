@@ -215,12 +215,12 @@
 				FFC5E4B72935D13500BC5AA5 /* CreateCommentViewController.swift */,
 				FF2F575B293848EB00B0B9A6 /* LocationManager.swift */,
 				FF2F576529393AD800B0B9A6 /* ProfileViewController.swift */,
+				529A39262939B33300336301 /* ImagePickerManager.swift */,
 				529A391E2939954300336301 /* FavoritesCollectionViewCell.swift */,
 				529A392229399A9D00336301 /* RecentCommentTableViewCell.swift */,
 				FF4D7173292C44B1003BF000 /* Assets.xcassets */,
 				FF4D7175292C44B1003BF000 /* LaunchScreen.storyboard */,
 				FF4D7178292C44B1003BF000 /* Info.plist */,
-				529A39262939B33300336301 /* ImagePickerManager.swift */,
 			);
 			path = AppdevHackathonProject;
 			sourceTree = "<group>";
