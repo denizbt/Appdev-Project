@@ -129,6 +129,9 @@ class ProfileViewController: UIViewController {
     @objc func editProfile() {
         ImagePickerManager().pickImage(self){ image in
             self.profileImage.image = image
+            NetworkManager.uploadImage(user_id: self.new_user!.id, image_data: image.pngData()!) { response in
+                
+            }
         }
     }
 
