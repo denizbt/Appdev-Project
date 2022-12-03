@@ -24,13 +24,18 @@ class ProfileViewController: UIViewController {
     var comments: [Comment] = []
     let spacing: CGFloat = 10
     let atView = UILabel()
+    let logoutButton = UIButton()
     
     var new_user: UserID?
+    var login: LoginSession
     
-    init(new_user: UserID) {
+    init(new_user: UserID, login: LoginSession) {
         self.new_user = new_user
+        self.login = login
+
         super.init(nibName: nil, bundle: nil)
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -79,27 +84,25 @@ class ProfileViewController: UIViewController {
         view.addSubview(profileImage)
         
         editProfileButton.setTitle("Edit Profile Image", for: .normal)
-        editProfileButton.backgroundColor = .systemRed
+        editProfileButton.backgroundColor = maroon
         editProfileButton.layer.cornerRadius = 10
         editProfileButton.clipsToBounds = true
         editProfileButton.addTarget(self, action: #selector(editProfile), for: .touchUpInside)
         editProfileButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(editProfileButton)
+        
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.backgroundColor = maroon
+        logoutButton.layer.cornerRadius = 10
+        logoutButton.clipsToBounds = true
+        logoutButton.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logoutButton)
 
         let favoritesLayout =  UICollectionViewFlowLayout()
         favoritesLayout.minimumLineSpacing = spacing
         favoritesLayout.minimumInteritemSpacing = spacing
         favoritesLayout.scrollDirection = .horizontal
-        
-        favoritesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: favoritesLayout)
-        favoritesCollectionView.backgroundColor = maroon
-        favoritesCollectionView.clipsToBounds = true
-        favoritesCollectionView.layer.cornerRadius = 15
-        favoritesCollectionView.register(FavoritesCollectionViewCell.self, forCellWithReuseIdentifier: favoriteReuseIdentifier)
-        favoritesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        favoritesCollectionView.dataSource = self
-        favoritesCollectionView.delegate = self
-        view.addSubview(favoritesCollectionView)
         
         commentsTableView.translatesAutoresizingMaskIntoConstraints = false
         commentsTableView.backgroundColor = maroon
@@ -109,12 +112,6 @@ class ProfileViewController: UIViewController {
         commentsTableView.delegate = self
         commentsTableView.register(RecentCommentTableViewCell.self, forCellReuseIdentifier: commentsReuseIdentifier)
         view.addSubview(commentsTableView)
-        
-        favoriteLabel.text = "Favorites"
-        favoriteLabel.font = .boldSystemFont(ofSize: 20)
-        favoriteLabel.textColor = .black
-        favoriteLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(favoriteLabel)
         
         commentLabel.text = "Your Recent Comments"
         commentLabel.font = .boldSystemFont(ofSize: 20)
@@ -147,8 +144,17 @@ class ProfileViewController: UIViewController {
             
             NetworkManager.uploadImage(user_id: self.new_user!.id, image_data: strBase64) { response in
             }
+        }
+    }
+    
+    @objc func logoutAction() {
+                
+        NetworkManager.logout(session_token: login.session_token) {response in
             
         }
+        
+        navigationController?.pushViewController(LoginViewController(), animated: true)
+
     }
 
     func setUpConstraints() {
@@ -178,28 +184,16 @@ class ProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            editProfileButton.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 4),
+            editProfileButton.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 20),
             editProfileButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             editProfileButton.heightAnchor.constraint(equalToConstant: 24),
             editProfileButton.widthAnchor.constraint(equalToConstant: 150)
         ])
         
         let collectionViewPadding = CGFloat(18)
-        NSLayoutConstraint.activate([
-            favoriteLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 50),
-            favoriteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            favoriteLabel.heightAnchor.constraint(equalToConstant: 24),
-        ])
         
         NSLayoutConstraint.activate([
-            favoritesCollectionView.topAnchor.constraint(equalTo: favoriteLabel.bottomAnchor),
-            favoritesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: collectionViewPadding),
-            favoritesCollectionView.heightAnchor.constraint(equalToConstant: 150),
-            favoritesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -collectionViewPadding)
-        ])
-        
-        NSLayoutConstraint.activate([
-            commentLabel.topAnchor.constraint(equalTo: favoritesCollectionView.bottomAnchor, constant: 50),
+            commentLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 25),
             commentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             commentLabel.heightAnchor.constraint(equalToConstant: 24),
         ])
@@ -207,9 +201,16 @@ class ProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
             commentsTableView.topAnchor.constraint(equalTo: commentLabel.bottomAnchor),
             commentsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: collectionViewPadding),
-            commentsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collectionViewPadding),
             commentsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -collectionViewPadding),
-            commentsTableView.heightAnchor.constraint(equalToConstant: 300),
+            commentsTableView.heightAnchor.constraint(equalToConstant: 200),
+        ])
+        
+        NSLayoutConstraint.activate([
+            logoutButton.topAnchor.constraint(equalTo: commentsTableView.bottomAnchor, constant: 50),
+            logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collectionViewPadding),
+            logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoutButton.widthAnchor.constraint(equalToConstant: 100),
+            logoutButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
 }

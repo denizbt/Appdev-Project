@@ -233,7 +233,7 @@ class ViewController: UIViewController {
     
     @objc func pushProfile() {
         if let unwrappedUser = user {
-            navigationController?.pushViewController(ProfileViewController(new_user: unwrappedUser), animated: true)
+            navigationController?.pushViewController(ProfileViewController(new_user: unwrappedUser, login: login), animated: true)
         }
     }
   
