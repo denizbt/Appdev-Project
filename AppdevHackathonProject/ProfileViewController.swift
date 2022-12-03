@@ -125,7 +125,14 @@ class ProfileViewController: UIViewController {
         setUpConstraints()
         
         NetworkManager.getImage(user_id: self.new_user!.id) { otherResponse in
-            let image = UIImage(named: otherResponse.url)
+            let url = URL(string: otherResponse.url)
+            if let data = try? Data(contentsOf: url!)
+            {
+                let image: UIImage = UIImage(data: data)!
+                self.profileImage.image = image
+            }
+            
+            
         }
         
        

@@ -169,10 +169,10 @@ class NetworkManager {
     
     
     static func uploadImage(user_id: Int, image_data: String, completion: @escaping (UploadImage) -> Void) {
-        let endpoint = "\(host)/api/users/logout/"
+        let endpoint = "\(host)/api/users/upload/\(user_id)/"
         
         let params: Parameters = [
-            "image_data": image_data
+            "image_data": "data:image/png;base64,\(image_data)"
         ]
         
         AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
