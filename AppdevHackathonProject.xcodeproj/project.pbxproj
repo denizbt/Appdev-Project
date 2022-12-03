@@ -40,6 +40,7 @@
 		FF4D71A929358BC2003BF000 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D71A829358BC2003BF000 /* SignUpViewController.swift */; };
 		FFBA9584293ACEE1004B76BB /* AddFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA9583293ACEE1004B76BB /* AddFavorite.swift */; };
 		FFBA9586293AD213004B76BB /* UpdateBusyness.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA9585293AD213004B76BB /* UpdateBusyness.swift */; };
+		FFBA9588293AE5B8004B76BB /* GetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA9587293AE5B8004B76BB /* GetImage.swift */; };
 		FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B12935C91300BC5AA5 /* Comment.swift */; };
 		FFC5E4B42935CAD800BC5AA5 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */; };
 		FFC5E4B62935CFBD00BC5AA5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */; };
@@ -107,6 +108,7 @@
 		FF4D71A829358BC2003BF000 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FFBA9583293ACEE1004B76BB /* AddFavorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavorite.swift; sourceTree = "<group>"; };
 		FFBA9585293AD213004B76BB /* UpdateBusyness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBusyness.swift; sourceTree = "<group>"; };
+		FFBA9587293AE5B8004B76BB /* GetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImage.swift; sourceTree = "<group>"; };
 		FFC5E4B12935C91300BC5AA5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				529A39242939A36300336301 /* Favorite.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
 				FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */,
+				FFBA9587293AE5B8004B76BB /* GetImage.swift */,
 				FFBA9585293AD213004B76BB /* UpdateBusyness.swift */,
 				FFBA9583293ACEE1004B76BB /* AddFavorite.swift */,
 				FF2F5773293A8A5A00B0B9A6 /* UploadImage.swift */,
@@ -506,6 +509,7 @@
 				FF4D719B292C4653003BF000 /* Places.swift in Sources */,
 				FFBA9586293AD213004B76BB /* UpdateBusyness.swift in Sources */,
 				529A392329399A9D00336301 /* RecentCommentTableViewCell.swift in Sources */,
+				FFBA9588293AE5B8004B76BB /* GetImage.swift in Sources */,
 				FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */,
 				FF4D71A1292C51B3003BF000 /* FilterCollectionViewCell.swift in Sources */,
 				FFC5E4B42935CAD800BC5AA5 /* PostTableViewCell.swift in Sources */,

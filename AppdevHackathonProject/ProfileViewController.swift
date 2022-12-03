@@ -78,7 +78,6 @@ class ProfileViewController: UIViewController {
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImage)
         
-//        editProfileButton.setBackgroundImage(UIImage(named: "comment"), for: .normal)
         editProfileButton.setTitle("Edit Profile Image", for: .normal)
         editProfileButton.backgroundColor = .systemRed
         editProfileButton.layer.cornerRadius = 10
@@ -124,14 +123,34 @@ class ProfileViewController: UIViewController {
         view.addSubview(commentLabel)
         
         setUpConstraints()
+        
+        NetworkManager.getImage(user_id: self.new_user!.id) { otherResponse in
+            let url = URL(string: otherResponse.url)
+            if let data = try? Data(contentsOf: url!)
+            {
+                let image: UIImage = UIImage(data: data)!
+                self.profileImage.image = image
+            }
+            
+            
+        }
+        
+       
+        
+        profileImage.image = UIImage()
+        
     }
+
     
     @objc func editProfile() {
         ImagePickerManager().pickImage(self){ image in
             self.profileImage.image = image
-            NetworkManager.uploadImage(user_id: self.new_user!.id, image_data: image.pngData()!) { response in
-                
+            let strBase64 = image.pngData()!.base64EncodedString(options: .lineLength64Characters)
+            
+            NetworkManager.uploadImage(user_id: self.new_user!.id, image_data: strBase64) { response in
             }
+            
+            
         }
     }
 

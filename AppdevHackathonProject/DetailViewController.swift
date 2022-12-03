@@ -212,6 +212,11 @@ class DetailViewController: UIViewController {
         
         createDummyData()
 
+        NetworkManager.updateBusyness(location_id: location.id) { response in
+            print(response.busyness)
+            self.crowdTextView.text = String(response.busyness)
+        }
+        
         setupConstraints()
     }
     
@@ -284,6 +289,10 @@ class DetailViewController: UIViewController {
             crowdTextView.leadingAnchor.constraint(equalTo: crowdDegreeLabel.trailingAnchor, constant: 10),
             crowdTextView.heightAnchor.constraint(equalToConstant: 40),
             crowdTextView.widthAnchor.constraint(equalToConstant: 100),
+            crowdTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 255),
+            crowdTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            crowdTextView.heightAnchor.constraint(equalToConstant: 50),
+            crowdTextView.widthAnchor.constraint(equalToConstant: 150),
         ])
         
         NSLayoutConstraint.activate([
@@ -369,6 +378,7 @@ class DetailViewController: UIViewController {
             self.commentTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
+        
     }
 }
 
@@ -390,16 +400,5 @@ extension DetailViewController: UITableViewDataSource {
     }
 }
 
-//extension DetailViewController: CreateCommentDelegate {
-//
-//    func createComment(location_id: Int, user_id: Int, number: Int, text: String, latitude: Double, longitude: Double) {
-//
-//        //TODO: #1 Create Post
-//        NetworkManager.createComment(location_id: location_id, user_id: user_id, number: number, text: text, latitude: latitude, longitude: longitude){ comment in
-//            self.shownCommentData = self.shownCommentData
-//            self.commentTableView.reloadData()
-//        }
-//    }
-//}
 
 
