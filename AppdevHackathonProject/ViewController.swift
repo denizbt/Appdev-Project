@@ -197,7 +197,7 @@ class ViewController: UIViewController {
         view2.backgroundColor = .white
         self.view.addSubview(view2)
         
-        afterSchoolLabel.text = "CUAfterSchool"
+        afterSchoolLabel.text = "Spaced Out"
         afterSchoolLabel.font = .systemFont(ofSize: 32)
         afterSchoolLabel.textAlignment = .center
         afterSchoolLabel.textColor = .white
