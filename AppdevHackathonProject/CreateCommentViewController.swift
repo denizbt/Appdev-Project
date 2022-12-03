@@ -97,25 +97,28 @@ class CreateCommentViewController: UIViewController {
         else{
             let rating = ratingTitle.prefix(1)
             //TODO: send rating to backend
+            let new_rating: Int? = Int(rating)
+            
             print(rating)
             
-        }
-        
-        LocationManager.shared.getUserLocation { location in
-            self.latitude = location.coordinate.latitude
-            self.longitude = location.coordinate.longitude
-        }
-        
-        let text = textTextView.text!
-        
-        
-        if let new_id = id {
-            if let location_id = location?.id {
-                NetworkManager.createComment(location_id: location_id ,user_id: new_id, number: 0,text: text, latitude: latitude ?? 0, longitude: longitude ?? 0) { response in
-                }
+            LocationManager.shared.getUserLocation { location in
+                self.latitude = location.coordinate.latitude
+                self.longitude = location.coordinate.longitude
             }
             
-            navigationController?.popViewController(animated: true)
+            let text = textTextView.text!
+            
+            
+            if let new_id = id {
+                if let location_id = location?.id {
+                    NetworkManager.createComment(location_id: location_id ,user_id: new_id, number: new_rating!, text: text, latitude: latitude ?? 0, longitude: longitude ?? 0) { response in
+                        
+                    }
+                }
+                
+                self.navigationController?.popViewController(animated: true)
+            }
+            
         }
     }
     
