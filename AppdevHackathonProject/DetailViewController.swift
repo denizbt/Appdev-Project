@@ -40,6 +40,7 @@ class DetailViewController: UIViewController {
         self.delegate = delegate
         self.location = location
         self.login = login
+
         super.init(nibName: nil, bundle: nil)
     }
 
