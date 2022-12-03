@@ -112,7 +112,7 @@ class CreateCommentViewController: UIViewController {
             
             if let new_id = id {
                 if let location_id = location?.id {
-                    NetworkManager.createComment(location_id: location_id ,user_id: new_id, number: new_rating!, text: text, latitude: latitude!, longitude: longitude!) { response in
+                    NetworkManager.createComment(location_id: location_id ,user_id: new_id, number: new_rating!, text: text, latitude: latitude ?? 0 , longitude: longitude ?? 0) { response in
                         
                     }
                 }
