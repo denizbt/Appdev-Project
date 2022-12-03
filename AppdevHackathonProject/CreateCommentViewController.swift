@@ -12,9 +12,7 @@ import DropDown
 class CreateCommentViewController: UIViewController {
 
     let headerLabel = UILabel()
-    let textTextView = UITextView()
-    let titleTextView = UITextView()
-    let userIdTextField = UITextField()
+    let textTextView = UITextField()
     let saveButton = UIButton()
     let dropButton = UIButton()
     let dropDown = DropDown()
@@ -48,7 +46,8 @@ class CreateCommentViewController: UIViewController {
         headerLabel.font = .systemFont(ofSize: 20)
         view.addSubview(headerLabel)
         
-        textTextView.text = "Insert Body"
+        textTextView.placeholder = "Insert Comment"
+        textTextView.textAlignment = .center
         textTextView.translatesAutoresizingMaskIntoConstraints = false
         textTextView.clipsToBounds = true
         textTextView.layer.cornerRadius = 5
