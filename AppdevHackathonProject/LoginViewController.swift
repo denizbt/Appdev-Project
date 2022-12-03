@@ -43,6 +43,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.setHidesBackButton(true, animated: true)
                 
         view.backgroundColor = maroon
         emailTextField.becomeFirstResponder()

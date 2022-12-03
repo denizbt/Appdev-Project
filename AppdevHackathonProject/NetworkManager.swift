@@ -142,15 +142,14 @@ class NetworkManager {
     }
     
     //TODO: PASS SOMETHING THROUGH HEADER/ NO PARAMS
-    static func logout(name: String, username: String, email: String, password: String, completion: @escaping (LogoutSession) -> Void) {
+    static func logout(session_token: String, completion: @escaping (LogoutSession) -> Void) {
         let endpoint = "\(host)/api/users/logout/"
         
-        let params: Parameters = [
-            "email": email,
-            "password": password
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer " + session_token,
         ]
         
-        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
+        AF.request(endpoint, method: .post, headers: headers).validate().responseData {response in
             switch response.result {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
