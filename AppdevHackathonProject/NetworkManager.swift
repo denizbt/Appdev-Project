@@ -148,7 +148,7 @@ class NetworkManager {
         }
     }
     
-    static func uploadImage(user_id: Int, image_data: String, completion: @escaping (UploadImage) -> Void) {
+    static func uploadImage(user_id: Int, image_data: Data, completion: @escaping (UploadImage) -> Void) {
         let endpoint = "\(host)/api/users/upload/\(user_id)/"
         
         let params: Parameters = [
@@ -201,7 +201,31 @@ class NetworkManager {
         }
     }
     
-    static func addFavorite(user_id: Int, number: Int, text: String, completion: @escaping (CreateComment) -> Void) {
+    static func addFavorite(location_id: Int, user_id: Int, completion: @escaping (AddFavorite) -> Void) {
+        let endpoint = "\(host)/api/comments/\(location_id)"
+        
+        let params: Parameters = [
+            "user_id": user_id,
+        ]
+        
+        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
+            switch response.result{
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let userResponse = try? jsonDecoder.decode(AddFavorite.self, from: data) {
+                    completion(userResponse)
+                }
+                else {
+                    print("Failed to decode createComment")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func addPosition(user_id: Int, number: Int, text: String, completion: @escaping (CreateComment) -> Void) {
         let endpoint = "\(host)/api/comments/1/"
         
         let params: Parameters = [
@@ -215,6 +239,30 @@ class NetworkManager {
             case .success(let data):
                 let jsonDecoder = JSONDecoder()
                 if let userResponse = try? jsonDecoder.decode(CreateComment.self, from: data) {
+                    completion(userResponse)
+                }
+                else {
+                    print("Failed to decode createComment")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func updateBusyness(location_id: Int, completion: @escaping (UpdateBusyness) -> Void) {
+        let endpoint = "\(host) /api/locations/busyness/\(location_id)/"
+        
+        let params: Parameters = [
+            "location_id": location_id,
+        ]
+        
+        AF.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default).validate().responseData {response in
+            switch response.result{
+            case .success(let data):
+                let jsonDecoder = JSONDecoder()
+                if let userResponse = try? jsonDecoder.decode(UpdateBusyness.self, from: data) {
                     completion(userResponse)
                 }
                 else {

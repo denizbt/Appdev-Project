@@ -38,6 +38,8 @@
 		FF4D71A3292C51E0003BF000 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D71A2292C51E0003BF000 /* Filter.swift */; };
 		FF4D71A52932D30E003BF000 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D71A42932D30E003BF000 /* LoginViewController.swift */; };
 		FF4D71A929358BC2003BF000 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D71A829358BC2003BF000 /* SignUpViewController.swift */; };
+		FFBA9584293ACEE1004B76BB /* AddFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA9583293ACEE1004B76BB /* AddFavorite.swift */; };
+		FFBA9586293AD213004B76BB /* UpdateBusyness.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA9585293AD213004B76BB /* UpdateBusyness.swift */; };
 		FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B12935C91300BC5AA5 /* Comment.swift */; };
 		FFC5E4B42935CAD800BC5AA5 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */; };
 		FFC5E4B62935CFBD00BC5AA5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */; };
@@ -103,6 +105,8 @@
 		FF4D71A2292C51E0003BF000 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		FF4D71A42932D30E003BF000 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FF4D71A829358BC2003BF000 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		FFBA9583293ACEE1004B76BB /* AddFavorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFavorite.swift; sourceTree = "<group>"; };
+		FFBA9585293AD213004B76BB /* UpdateBusyness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBusyness.swift; sourceTree = "<group>"; };
 		FFC5E4B12935C91300BC5AA5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 				529A39242939A36300336301 /* Favorite.swift */,
 				FFC5E4B32935CAD800BC5AA5 /* PostTableViewCell.swift */,
 				FFC5E4B52935CFBD00BC5AA5 /* NetworkManager.swift */,
+				FFBA9585293AD213004B76BB /* UpdateBusyness.swift */,
+				FFBA9583293ACEE1004B76BB /* AddFavorite.swift */,
 				FF2F5773293A8A5A00B0B9A6 /* UploadImage.swift */,
 				FF2F5771293A889000B0B9A6 /* LogoutSession.swift */,
 				FF2F576F293A861D00B0B9A6 /* LocationById.swift */,
@@ -475,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF4D71A52932D30E003BF000 /* LoginViewController.swift in Sources */,
+				FFBA9584293ACEE1004B76BB /* AddFavorite.swift in Sources */,
 				529BAAEB2939C53700034AF8 /* RegisterUser.swift in Sources */,
 				FF4D719D292C4C89003BF000 /* PlacesCollectionViewCell.swift in Sources */,
 				FF4D716F292C44B0003BF000 /* ViewController.swift in Sources */,
@@ -497,6 +504,7 @@
 				529A39252939A36300336301 /* Favorite.swift in Sources */,
 				FF2F5772293A889000B0B9A6 /* LogoutSession.swift in Sources */,
 				FF4D719B292C4653003BF000 /* Places.swift in Sources */,
+				FFBA9586293AD213004B76BB /* UpdateBusyness.swift in Sources */,
 				529A392329399A9D00336301 /* RecentCommentTableViewCell.swift in Sources */,
 				FFC5E4B22935C91300BC5AA5 /* Comment.swift in Sources */,
 				FF4D71A1292C51B3003BF000 /* FilterCollectionViewCell.swift in Sources */,
