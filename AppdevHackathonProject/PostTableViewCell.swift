@@ -82,7 +82,7 @@ class PostTableViewCell: UITableViewCell {
         posterLabel.text = String(commentObject.user_id)
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
 //        print(commentObject.timestamp)
 //        print( dateFormatter.date(from: commentObject.timestamp))

@@ -25,11 +25,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         //let latLong: [CLLocationDegrees]
 
+//        let latLong = [CLLocation]
+        
         let location = locations.last! as CLLocation
         
-       let latitude = location.coordinate.latitude
-       let longitude = location.coordinate.longitude
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
         
+//        latlong = [latitude, longitude]
+//
+//        return latlong
         
     }
 }

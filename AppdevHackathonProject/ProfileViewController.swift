@@ -16,7 +16,6 @@ class ProfileViewController: UIViewController {
     
     let favoriteLabel = UILabel()
     let commentLabel = UILabel()
-    var favoritesCollectionView: UICollectionView!
     var commentsTableView = UITableView()
     let favoriteReuseIdentifier: String = "favoriteReuseIdentifier"
     let commentsReuseIdentifier: String = "commentReuseIdentifier"
@@ -104,21 +103,6 @@ class ProfileViewController: UIViewController {
         favoritesLayout.minimumInteritemSpacing = spacing
         favoritesLayout.scrollDirection = .horizontal
         
-        commentsTableView.translatesAutoresizingMaskIntoConstraints = false
-        commentsTableView.backgroundColor = maroon
-        commentsTableView.clipsToBounds = true
-        commentsTableView.layer.cornerRadius = 15
-        commentsTableView.dataSource = self
-        commentsTableView.delegate = self
-        commentsTableView.register(RecentCommentTableViewCell.self, forCellReuseIdentifier: commentsReuseIdentifier)
-        view.addSubview(commentsTableView)
-        
-        commentLabel.text = "Your Recent Comments"
-        commentLabel.font = .boldSystemFont(ofSize: 20)
-        commentLabel.textColor = .black
-        commentLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(commentLabel)
-        
         setUpConstraints()
         
         NetworkManager.getImage(user_id: self.new_user!.id) { otherResponse in
@@ -129,8 +113,6 @@ class ProfileViewController: UIViewController {
                 self.profileImage.image = image
             }
         }
-        
-       
         
         profileImage.image = UIImage()
         
@@ -192,21 +174,8 @@ class ProfileViewController: UIViewController {
         
         let collectionViewPadding = CGFloat(18)
         
+    
         NSLayoutConstraint.activate([
-            commentLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 25),
-            commentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            commentLabel.heightAnchor.constraint(equalToConstant: 24),
-        ])
-        
-        NSLayoutConstraint.activate([
-            commentsTableView.topAnchor.constraint(equalTo: commentLabel.bottomAnchor),
-            commentsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: collectionViewPadding),
-            commentsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -collectionViewPadding),
-            commentsTableView.heightAnchor.constraint(equalToConstant: 200),
-        ])
-        
-        NSLayoutConstraint.activate([
-            logoutButton.topAnchor.constraint(equalTo: commentsTableView.bottomAnchor, constant: 50),
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -collectionViewPadding),
             logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoutButton.widthAnchor.constraint(equalToConstant: 100),
@@ -215,51 +184,3 @@ class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favorites.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let favoriteCell = favoritesCollectionView.dequeueReusableCell(withReuseIdentifier: favoriteReuseIdentifier, for: indexPath) as! FavoritesCollectionViewCell
-        favoriteCell.configure(favorite: favorites[indexPath.row])
-        return favoriteCell
-    }
-}
-
-extension ProfileViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count
-    }
-    
-    //get appropiate song from the list
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = commentsTableView.dequeueReusableCell(withIdentifier: commentsReuseIdentifier, for: indexPath) as? RecentCommentTableViewCell{
-            cell.configure(commentObject: comments[indexPath.row])
-            return cell
-        }
-        else{
-            return UITableViewCell();
-        }
-    }
-}
-
-extension ProfileViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout UICollectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 140, height: 31)
-    }
-}
-
-extension ProfileViewController: UICollectionViewDelegate {
-    //no need to present details yet
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-}
-
-extension ProfileViewController: UITableViewDelegate {
-    //no need to present details yet
-    func tableView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-}

@@ -63,7 +63,7 @@ class RecentCommentTableViewCell: UITableViewCell {
         commentLabel.text = commentObject.text
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone(abbreviation: "EST")
         let timestamp = dateFormatter.date(from: commentObject.timestamp)!
 
