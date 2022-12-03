@@ -11,12 +11,11 @@ class PlacesCollectionViewCell: UICollectionViewCell {
     var placesImageView = UIImageView()
     var placesName = UILabel()
     var placesCategory = UILabel()
-    var placesCrowd = UILabel()
     
     //design
     let textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
     let maroon = UIColor(red: 197/255, green: 61/255, blue: 61/255, alpha: 1.0)
- 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.layer.cornerRadius = 15
@@ -36,11 +35,6 @@ class PlacesCollectionViewCell: UICollectionViewCell {
         placesCategory.textColor = .white
         placesCategory.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(placesCategory)
-        
-        placesCrowd.font = .systemFont(ofSize: 16, weight: .medium)
-        placesCrowd.textColor = .white
-        placesCrowd.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(placesCrowd)
  
         setupConstraints()
     }
@@ -62,18 +56,12 @@ class PlacesCollectionViewCell: UICollectionViewCell {
             placesCategory.topAnchor.constraint(equalTo: placesName.bottomAnchor, constant: 5),
             placesCategory.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13)
         ])
-        
-        NSLayoutConstraint.activate([
-            placesCrowd.topAnchor.constraint(equalTo: placesCategory.bottomAnchor),
-            placesCrowd.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13)
-        ])
     }
- 
+    
     func configure(places: Places) {
         placesImageView.image = UIImage(named: places.imageName)
         placesName.text = places.name
         placesCategory.text = places.category
-        placesCrowd.text = String(places.crowded)
     }
  
     required init?(coder: NSCoder) {
