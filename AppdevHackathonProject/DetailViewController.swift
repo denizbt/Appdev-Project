@@ -14,6 +14,7 @@ class DetailViewController: UIViewController {
     let nameTextView = UILabel()
     let categoryTextView = UILabel()
     let crowdTextView = UILabel()
+    let crowdDegreeLabel = UILabel()
     let mon = UILabel()
     let tue = UILabel()
     let wed = UILabel()
@@ -161,8 +162,33 @@ class DetailViewController: UIViewController {
         commentTableView.register(PostTableViewCell.self, forCellReuseIdentifier: commentReuseIdentifier)
         view.addSubview(commentTableView)
         
-        crowdTextView.text = String(places.crowded)
-        crowdTextView.font = .boldSystemFont(ofSize: 32)
+        //TODO: replace places.crowded with crowded from backend
+        crowdDegreeLabel.font = .boldSystemFont(ofSize: 20)
+        crowdDegreeLabel.backgroundColor = .white
+        var crowdedColor = UIColor(red: 247/255, green: 10/255, blue: 10/255, alpha: 1.0)
+        var crowdedLabel = "Extremely Busy"
+        if places.crowded < 1.5{
+            crowdedColor = UIColor(red: 13/255, green: 189/255, blue: 42/255, alpha: 1.0)
+            crowdedLabel = "Not Busy"
+        }
+        else if places.crowded < 3{
+            crowdedColor = UIColor(red: 237/255, green: 201/255, blue: 21/255, alpha: 1.0)
+            crowdedLabel = "Slightly Busy"
+        }
+        else if places.crowded < 4.5{
+            crowdedColor = UIColor(red: 247/255, green: 117/255, blue: 10/255, alpha: 1.0)
+            crowdedLabel = "Busy"
+        }
+        crowdDegreeLabel.textColor = crowdedColor
+        crowdDegreeLabel.text = crowdedLabel
+        crowdDegreeLabel.textAlignment = .center
+        crowdDegreeLabel.clipsToBounds = true
+        crowdDegreeLabel.layer.cornerRadius = 25
+        crowdDegreeLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(crowdDegreeLabel)
+        
+        crowdTextView.text = String(places.crowded) + "/5.0"
+        crowdTextView.font = .boldSystemFont(ofSize: 18)
         crowdTextView.backgroundColor = maroon
         crowdTextView.textColor = .white
         crowdTextView.textAlignment = .center
@@ -247,10 +273,17 @@ class DetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            crowdTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 255),
-            crowdTextView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            crowdTextView.heightAnchor.constraint(equalToConstant: 50),
-            crowdTextView.widthAnchor.constraint(equalToConstant: 50),
+            crowdDegreeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 255),
+            crowdDegreeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            crowdDegreeLabel.heightAnchor.constraint(equalToConstant: 50),
+            crowdDegreeLabel.widthAnchor.constraint(equalToConstant: 150),
+        ])
+        
+        NSLayoutConstraint.activate([
+            crowdTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 265),
+            crowdTextView.leadingAnchor.constraint(equalTo: crowdDegreeLabel.trailingAnchor, constant: 10),
+            crowdTextView.heightAnchor.constraint(equalToConstant: 40),
+            crowdTextView.widthAnchor.constraint(equalToConstant: 100),
         ])
         
         NSLayoutConstraint.activate([

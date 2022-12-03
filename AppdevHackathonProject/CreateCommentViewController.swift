@@ -56,10 +56,10 @@ class CreateCommentViewController: UIViewController {
         view.addSubview(textTextView)
         
         dropDown.anchorView = dropButton
-        dropDown.dataSource = ["1","2","3","4","5"]
+        dropDown.dataSource = ["1 - Not too busy","2","3","4","5 - Very busy"]
         dropDown.backgroundColor = .white
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            dropButton.setTitle(item + "/5", for: .normal)
+            dropButton.setTitle(item.prefix(1) + "/5", for: .normal)
         }
         view.addSubview(dropDown)
 
