@@ -74,7 +74,7 @@ class ProfileViewController: UIViewController {
         profileImage.image = UIImage(named:"uris") //TODO: update
         profileImage.sizeToFit()
         profileImage.clipsToBounds = true
-        profileImage.layer.cornerRadius = 41.5
+        profileImage.layer.cornerRadius = 70
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImage)
         
@@ -131,8 +131,6 @@ class ProfileViewController: UIViewController {
                 let image: UIImage = UIImage(data: data)!
                 self.profileImage.image = image
             }
-            
-            
         }
         
        
@@ -149,7 +147,6 @@ class ProfileViewController: UIViewController {
             
             NetworkManager.uploadImage(user_id: self.new_user!.id, image_data: strBase64) { response in
             }
-            
             
         }
     }
@@ -175,9 +172,9 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 58),
-            profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 273),
-            profileImage.heightAnchor.constraint(equalToConstant: 83),
-            profileImage.widthAnchor.constraint(equalToConstant: 83)
+            profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 220),
+            profileImage.heightAnchor.constraint(equalToConstant: 140),
+            profileImage.widthAnchor.constraint(equalToConstant: 140)
         ])
         
         NSLayoutConstraint.activate([

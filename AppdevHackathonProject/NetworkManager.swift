@@ -31,7 +31,7 @@ class NetworkManager {
     }
     
     static func getImage(user_id: Int, completion: @escaping (GetImage) -> Void) {
-        let endpoint = "\(host)/api/comments/\(user_id)/"
+        let endpoint = "\(host)/api/users/images/\(user_id)/"
         AF.request(endpoint, method: .get, encoding: JSONEncoding.default).validate().responseData { response in
             switch response.result {
             case .success(let data):

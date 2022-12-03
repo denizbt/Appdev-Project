@@ -17,9 +17,10 @@ class PostTableViewCell: UITableViewCell {
     let timestampLabel = UILabel()
     
     let stackView = UIStackView()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         selectionStyle = .none
         setupViews()
         setupConstraints()
@@ -92,7 +93,7 @@ class PostTableViewCell: UITableViewCell {
         let coolDateString = coolDateFormatter.string(from: timestamp ?? Date())
         timestampLabel.text = "\(coolDateString)"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
