@@ -3,7 +3,7 @@
 **Spaced Out** : Find your space on campus.
 
 
-**Purpose**: Display real-time busyness for various locations on Cornell's campus including libraries, cafes, and dining halls, by allowing Users to add text comments and busyness ratings to each location.
+**Purpose**: Display real-time traffic of all students within a certain area of various locations on Cornell's campus including libraries, cafes, and dining halls, by allowing users to add text comments and update how busy each location is (or busyness rating).
 
 **Features**
 
