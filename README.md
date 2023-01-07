@@ -1,4 +1,4 @@
-# Appdev-Project
+# Spaced Out Application
 
 **Spaced Out** : Find your space on campus.
 
